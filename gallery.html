@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Галерея — На ТОПчане | Персидский Мир</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/imagefav.svg" />
+
+  <!-- SEO -->
+  <meta name="description" content="Галерея На ТОПчане: свежие фото прямо из альбомов ВКонтакте. Девушки, Парни, Животные, Мистика, Исторические, Фоны, Музыка, Природа, Мульт, Еда, Военные." />
+  <meta name="theme-color" content="#F5EFE6" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#F8F5F0] text-gray-900 font-sans">
+
+<!-- Шапка (как на главной) -->
+<header class="border-b border-gray-200 bg-white/90 sticky top-0 z-50 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+    <div class="flex items-center gap-3">
+      <img src="images/logo.png" alt="На ТОПчане" class="h-8">
+      <span class="font-semibold text-lg">На ТОПчане</span>
+    </div>
+    <nav class="hidden md:flex gap-6 text-sm font-medium">
+      <a href="index.html" class="hover:text-blue-600">Главная</a>
+      <a href="news.html" class="hover:text-blue-600">Новости</a>
+      <a href="ads.html" class="hover:text-blue-600">Реклама</a>
+      <a href="videos.html" class="hover:text-blue-600">Видео</a>
+      <a href="gallery.html" class="border-b-2 border-blue-600 text-blue-600">Галерея</a>
+      <a href="bio.html" class="hover:text-blue-600">Биографии</a>
+      <a href="music.html" class="hover:text-blue-600">Музыка</a>
+      <a href="fun.html" class="hover:text-blue-600">Развлечения</a>
+      <a href="products.html" class="hover:text-blue-600">Продукция</a>
+      <a href="about.html" class="hover:text-blue-600">О нас</a>
+      <a href="contacts.html" class="hover:text-blue-600">Контакты</a>
+    </nav>
+    <button id="menu-btn" class="md:hidden p-2 border rounded">☰</button>
+  </div>
+  <div id="menu" class="hidden md:hidden bg-white border-t border-gray-200">
+    <nav class="flex flex-col p-4 gap-2 text-sm font-medium">
+      <a href="index.html">Главная</a>
+      <a href="news.html">Новости</a>
+      <a href="ads.html">Реклама</a>
+      <a href="videos.html">Видео</a>
+      <a href="gallery.html" class="font-semibold">Галерея</a>
+      <a href="biographies.html">Биографии</a>
+      <a href="music.html">Музыка</a>
+      <a href="fun.html">Развлечения</a>
+      <a href="products.html">Продукция</a>
+      <a href="about.html">О нас</a>
+      <a href="contacts.html">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.getElementById('menu-btn').addEventListener('click', () => {
+    document.getElementById('menu').classList.toggle('hidden');
+  });
+</script>
+
+<!-- Контент -->
+<section class="max-w-7xl mx-auto p-4 pb-24">
+  <h1 class="flex items-center text-3xl font-bold mb-6">
+    <img src="images/image-sv.svg" alt="" class="h-8 w-8 mr-3">
+    Обложки 
+  </h1>
+
+  <!-- Панель категорий + More -->
+  <div class="flex flex-wrap items-center gap-3 mb-4">
+    <div id="cat-bar" class="flex gap-3 overflow-x-auto pb-2">
+      <!-- КНОПКИ КАТЕГОРИЙ (привязка к альбомам ВК по имени) -->
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ДЕВУШКИ">ДЕВУШКИ</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ПАРНИ">ПАРНИ</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ЖИВОТНЫЕ">ЖИВОТНЫЕ</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="МИСТИКА">МИСТИКА</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ИСТОРИЧЕСКИЕ">ИСТОРИЧЕСКИЕ</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ФОНЫ">ФОНЫ</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="МУЗЫКА">МУЗЫКА</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ПРИРОДА">ПРИРОДА</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="МУЛЬТ">МУЛЬТ</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ЕДА">ЕДА</button>
+      <button class="cat-btn px-4 py-2 rounded bg-white hover:bg-gray-100" data-title="ВОЕННЫЕ">ВОЕННЫЕ</button>
+    </div>
+
+    <!-- More: при наведении выпадашка -->
+<!-- More: при наведении выпадашка (фикс ховера) -->
+<div class="relative group before:absolute before:content-[''] before:left-0 before:top-full before:w-full before:h-2">
+  <button class="px-4 py-2 rounded bg-white hover:bg-gray-100 font-medium">
+    БОЛЬШЕ КАТЕГОРИЙ ▾
+  </button>
+
+  <!-- Меню без зазора: top-full -->
+  <div class="absolute left-0 top-full hidden group-hover:block bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden min-w-[260px] z-50">
+    <a target="_blank" rel="noopener" href="https://vk.com/hd4kfull"
+       class="block px-4 py-3 hover:bg-gray-50">ОБОИ НА РАБОЧИЙ СТОЛ</a>
+    <a target="_blank" rel="noopener" href="https://vk.com/hdtelefon"
+       class="block px-4 py-3 hover:bg-gray-50">ОБОИ НА ТЕЛЕФОН</a>
+  </div>
+</div>
+
+
+  <!-- Лоадер -->
+  <div id="loader" class="hidden text-center py-8 text-gray-500">Загрузка…</div>
+
+  <!-- Сетка фото -->
+  <div id="photos" class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
+</section>
+
+<!-- Модалка фото со слайдером -->
+<div id="lightbox" class="hidden fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center">
+  <button id="lb-prev" class="absolute left-4 md:left-8 text-white text-3xl md:text-5xl select-none">‹</button>
+  <div class="relative max-w-6xl w-full mx-4">
+    <button id="lb-close" class="absolute -top-12 right-0 text-white text-3xl md:text-4xl">&times;</button>
+    <img id="lb-img" src="" alt="" class="w-full rounded-lg shadow-2xl select-none">
+  </div>
+  <button id="lb-next" class="absolute right-4 md:right-8 text-white text-3xl md:text-5xl select-none">›</button>
+</div>
+
+<!-- Подвал (как на главной) -->
+<footer class="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white z-40">
+  <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-gray-600 flex flex-col md:flex-row justify-between items-center gap-2">
+    <p>© 2025 На ТОПчане. Все права защищены.</p>
+    <div class="flex flex-wrap gap-3">
+      <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
+      <button id="support-btn" class="hover:underline">Поддержка</button>
+      <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
+      <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
+    </div>
+  </div>
+</footer>
+
+<!-- Универсальная модалка футера -->
+<div id="modal-overlay" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center">
+  <div class="bg-white text-gray-800 max-w-lg w-full mx-4 p-6 rounded-lg relative shadow-lg">
+    <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">&times;</button>
+    <h3 id="modal-title" class="text-xl font-semibold mb-4"></h3>
+    <div id="modal-content" class="text-sm leading-relaxed space-y-3 max-h-72 overflow-y-auto"></div>
+  </div>
+</div>
+
+<script>
+/* ====== VK API CONFIG ====== */
+/* Твой сервисный ключ (как прислал): */
+const VK_TOKEN = '7672b9597672b9597672b9595e754ae337776727672b9591eea75c30dccf29774aa439e';
+const VK_API_V = '5.199';
+
+/* Владелец альбомов из ссылок: album-227671500_XXXXXXXX → owner_id = -227671500 */
+const OWNER_ID = -227671500;
+
+/* Мапа: КАТЕГОРИЯ → ID альбома */
+const CATEGORY_ALBUMS = {
+  'МИСТИКА': 308031297,
+  'ДЕВУШКИ': 307890041,
+  'МУЗЫКА': 308086424,
+  'ФОНЫ': 308086367,
+  'ПАРНИ': 307890084,
+  'ЕДА': 307981661,
+  'ИСТОРИЧЕСКИЕ': 307894856,
+  'ПРИРОДА': 307890110,
+  'ВОЕННЫЕ': 308085599,
+  'МУЛЬТ': 307985978,
+  'ЖИВОТНЫЕ': 308086218
+};
+
+/* ====== UTILS ====== */
+const el = id => document.getElementById(id);
+const loader = el('loader');
+const photosWrap = el('photos');
+function normalizeTitle(t=''){ return t.trim().toUpperCase(); }
+function bestSize(sizes){
+  const order = ['w','z','y','x','m','s'];
+  const map = Object.fromEntries((sizes||[]).map(s=>[s.type, s.url || s.src]));
+  for(const k of order) if(map[k]) return map[k];
+  return sizes?.[sizes.length-1]?.url || '';
+}
+
+/* ====== VK JSONP (обход CORS) — всегда с токеном ====== */
+(function ensureToken(){
+  if (!VK_TOKEN || VK_TOKEN.length < 30) {
+    const box = photosWrap || document.body;
+    box.innerHTML = '<p class="text-red-600">VK_TOKEN пустой/некорректный. Вставь рабочий сервисный ключ.</p>';
+    throw new Error('VK_TOKEN missing');
+  }
+})();
+function vkJSONP(method, params = {}) {
+  return new Promise((resolve, reject) => {
+    const cb = 'vk_cb_' + Math.random().toString(36).slice(2);
+    const qs = new URLSearchParams({ ...params, access_token: VK_TOKEN, v: VK_API_V, callback: cb }).toString();
+
+    const s = document.createElement('script');
+    s.src = `https://api.vk.com/method/${method}?${qs}`;
+    s.async = true;
+
+    window[cb] = (data) => {
+      delete window[cb]; s.remove();
+      if (data?.error) reject(new Error(`${data.error.error_msg} (${data.error.error_code})`));
+      else resolve(data?.response);
+    };
+    s.onerror = () => { delete window[cb]; s.remove(); reject(new Error('VK JSONP network error')); };
+
+    document.body.appendChild(s);
+  });
+}
+async function vk(method, params){ return vkJSONP(method, params); }
+
+/* ====== STATE ====== */
+let galleryUrls = [];
+let galleryIndex = 0;
+
+/* ====== INIT ====== */
+async function init(){
+  // Клики по категориям → грузим нужный альбом
+  document.querySelectorAll('.cat-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = normalizeTitle(btn.dataset.title || btn.textContent);
+      const albumId = CATEGORY_ALBUMS[key];
+
+      // подсветка активной
+      document.querySelectorAll('.cat-btn').forEach(b=>{
+        b.classList.remove('bg-blue-100','text-blue-700'); b.classList.add('bg-white');
+      });
+      btn.classList.add('bg-blue-100','text-blue-700');
+
+      if (albumId) loadAlbum(albumId);
+      else photosWrap.innerHTML = `<p class="text-gray-600">Для категории «${btn.textContent}» не указан альбом.</p>`;
+    });
+  });
+
+  // автозапуск — первая кнопка
+  const firstBtn = document.querySelector('.cat-btn');
+  if (firstBtn) firstBtn.click();
+}
+
+/* ====== ЗАГРУЗКА ФОТО КОНКРЕТНОГО АЛЬБОМА ====== */
+async function loadAlbum(albumId){
+  loader.classList.remove('hidden');
+  photosWrap.innerHTML = '';
+  try{
+    const r = await vk('photos.get', {
+      owner_id: OWNER_ID,
+      album_id: albumId,
+      rev: 1,
+      photo_sizes: 1,
+      count: 200
+    });
+
+    const items = r?.items || [];
+    if (!items.length){
+      photosWrap.innerHTML = `<p class="text-gray-600">В этом альбоме пока нет фото.</p>`;
+      return;
+    }
+
+    // Подготовка данных
+    galleryUrls = [];
+    galleryPIDs = [];
+
+    photosWrap.innerHTML = items.map((ph, i) => {
+      const thumb = bestSize(ph.sizes);
+      const pid = `${OWNER_ID}_${albumId}_${ph.id}`; // глобальный ключ счётчика
+      const liked = getLiked(pid);                    // локальный лайк
+
+      galleryUrls.push(thumb);
+      galleryPIDs.push(pid);
+
+      const alt = (ph.text || 'Фото').replace(/"/g,'&quot;');
+
+      return `
+        <div class="group relative cursor-pointer rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition"
+             onclick="openLightbox(${i})">
+          <img src="${thumb}" alt="${alt}" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition"></div>
+
+          <!-- Оверлей: сердце + ГЛОБАЛЬНЫЕ просмотры -->
+          <div class="absolute bottom-2 left-2 flex items-center gap-2">
+            <button class="like-btn w-7 h-7 rounded-full bg-white/90 hover:bg-white text-red-500 text-xs leading-none flex items-center justify-center shadow"
+                    data-pid="${pid}" aria-label="Нравится">
+              <span class="heart ${liked ? 'opacity-100' : 'opacity-40'}">♥</span>
+            </button>
+            <div class="flex items-center gap-1 px-2 h-7 rounded-full bg-black/40 text-white text-[11px] leading-none select-none">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <span class="view-count" data-pid="${pid}">0</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Навесить лайки и подтянуть ГЛОБАЛЬНЫЕ просмотры
+initLikesUI(photosWrap);
+await hydrateCounts();
+
+
+  }catch(e){
+    console.error(e);
+    photosWrap.innerHTML = `<p class="text-red-600">Ошибка загрузки: ${e.message}</p>`;
+  }finally{
+    loader.classList.add('hidden');
+  }
+}
+
+
+// === LIGHTBOX: функции ===
+function openLightbox(index){
+  galleryIndex = index;
+  el('lb-img').src = galleryUrls[galleryIndex];
+  el('lightbox').classList.remove('hidden');
+  bumpViewForIndex(galleryIndex); // инкремент просмотров
+}
+function closeLightbox(){
+  el('lightbox').classList.add('hidden');
+  el('lb-img').src = '';
+}
+function nextPhoto(){
+  if(!galleryUrls.length) return;
+  galleryIndex = (galleryIndex + 1) % galleryUrls.length;
+  el('lb-img').src = galleryUrls[galleryIndex];
+  bumpViewForIndex(galleryIndex);
+}
+function prevPhoto(){
+  if(!galleryUrls.length) return;
+  galleryIndex = (galleryIndex - 1 + galleryUrls.length) % galleryUrls.length;
+  el('lb-img').src = galleryUrls[galleryIndex];
+  bumpViewForIndex(galleryIndex);
+}
+
+// === LIGHTBOX: безопасная привязка хэндлеров (перепривязываем на всякий случай)
+(function bindLightboxControls(){
+  const closeBtn = el('lb-close');
+  const nextBtn  = el('lb-next');
+  const prevBtn  = el('lb-prev');
+  const box      = el('lightbox');
+
+  // если элементы отсутствуют — не падаем
+  if (closeBtn){
+    closeBtn.onclick = null;
+    closeBtn.style.zIndex = '10000';
+    closeBtn.style.pointerEvents = 'auto';
+    closeBtn.addEventListener('click', closeLightbox);
+  }
+  if (nextBtn){
+    nextBtn.onclick = null;
+    nextBtn.style.zIndex = '10000';
+    nextBtn.style.pointerEvents = 'auto';
+    nextBtn.addEventListener('click', nextPhoto);
+  }
+  if (prevBtn){
+    prevBtn.onclick = null;
+    prevBtn.style.zIndex = '10000';
+    prevBtn.style.pointerEvents = 'auto';
+    prevBtn.addEventListener('click', prevPhoto);
+  }
+  if (box){
+    box.addEventListener('click', (e)=>{ if(e.target.id === 'lightbox') closeLightbox(); });
+  }
+
+  // клавиши
+  document.addEventListener('keydown', (e)=>{
+    const overlay = el('lightbox');
+    if (!overlay || overlay.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextPhoto();
+    if (e.key === 'ArrowLeft')  prevPhoto();
+  });
+})();
+
+
+/* ====== START ====== */
+init();
+
+/* ====== GLOBAL COUNTERS with fallback ====== */
+const COUNTER_NS = 'natopchane_vk_gallery_v1';
+let USE_LOCAL_VIEWS = false;
+
+function lsGet(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch{ return d; } }
+function lsSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
+
+function keyViews(pid){ return `phv:${pid}`; }
+function keyLike(pid){ return `phl:${pid}`; }
+
+async function countGet(pid){
+  if (USE_LOCAL_VIEWS) return lsGet(keyViews(pid), 0);
+  try{
+    const r = await fetch(`https://api.countapi.xyz/get/${COUNTER_NS}/${encodeURIComponent(pid)}`);
+    if(!r.ok) throw new Error('get failed');
+    const j = await r.json();
+    return j?.value ?? 0;
+  }catch(e){
+    USE_LOCAL_VIEWS = true; // переключаемся на локальные
+    return lsGet(keyViews(pid), 0);
+  }
+}
+async function countHit(pid){
+  if (USE_LOCAL_VIEWS){
+    const v = lsGet(keyViews(pid), 0) + 1;
+    lsSet(keyViews(pid), v);
+    return v;
+  }
+  try{
+    const r = await fetch(`https://api.countapi.xyz/hit/${COUNTER_NS}/${encodeURIComponent(pid)}`);
+    if(!r.ok) throw new Error('hit failed');
+    const j = await r.json();
+    return j?.value ?? 0;
+  }catch(e){
+    // fallback на локальные
+    USE_LOCAL_VIEWS = true;
+    const v = lsGet(keyViews(pid), 0) + 1;
+    lsSet(keyViews(pid), v);
+    return v;
+  }
+}
+
+let galleryPIDs = []; // PID в том же порядке
+
+async function bumpViewForIndex(i){
+  const pid = galleryPIDs[i];
+  if(!pid) return;
+  const v = await countHit(pid);
+  const label = document.querySelector(`.view-count[data-pid="${pid}"]`);
+  if (label) label.textContent = v;
+}
+
+async function hydrateCounts(){
+  const jobs = galleryPIDs.map(async pid=>{
+    const v = await countGet(pid);
+    const label = document.querySelector(`.view-count[data-pid="${pid}"]`);
+    if (label) label.textContent = v;
+  });
+  await Promise.allSettled(jobs);
+}
+
+/* ====== LIKES (локально) ====== */
+function getLiked(pid){ return !!lsGet(keyLike(pid), false); }
+function toggleLiked(pid){ const nv = !getLiked(pid); lsSet(keyLike(pid), nv); return nv; }
+function initLikesUI(container){
+  container.querySelectorAll('.like-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const pid = btn.dataset.pid;
+      const liked = toggleLiked(pid);
+      const heart = btn.querySelector('.heart');
+      if (heart){
+        heart.classList.toggle('opacity-40', !liked);
+        heart.classList.toggle('opacity-100', liked);
+      }
+    });
+  });
+}
+
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
+  <style>
+    .list-item { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:8px 0; }
+    .pill { background:#cce5ff; padding:2px 6px; border-radius:9999px; font-size:0.75rem; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Вход -->
+  <div id="view-login" class="max-w-sm mx-auto mt-20">
+    <h2 class="text-xl font-bold mb-4">Вход в админку</h2>
+    <form id="login-form" class="space-y-4">
+      <input type="email" name="login" placeholder="Email" class="w-full border p-2" required>
+      <input type="password" name="password" placeholder="Пароль" class="w-full border p-2" required>
+      <button class="w-full bg-blue-500 text-white p-2">Войти</button>
+      <div id="login-err" class="text-red-500 hidden">Ошибка входа</div>
+    </form>
+  </div>
+
+  <!-- Панель -->
+  <div id="view-dash" class="hidden max-w-5xl mx-auto p-4">
+    <div class="flex justify-between mb-6">
+      <div id="who" class="font-medium"></div>
+      <button id="logout" class="bg-gray-300 px-3 py-1 rounded">Выйти</button>
+    </div>
+
+    <!-- NEWS -->
+    <section>
+      <h2 class="text-lg font-bold mb-2">Новости</h2>
+      <form id="news-form" class="space-y-2 mb-4">
+        <input type="hidden" name="id">
+        <input type="text" name="title" placeholder="Заголовок" class="w-full border p-2">
+        <input type="text" name="cover" placeholder="Обложка (URL)" class="w-full border p-2">
+        <select name="status" class="w-full border p-2">
+          <option value="published">Опубликовано</option>
+          <option value="draft">Черновик</option>
+        </select>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" name="pinned">
+          <span>Закрепить</span>
+        </label>
+        <div id="news-editor" class="bg-white border"></div>
+        <div class="flex space-x-2">
+          <button class="bg-blue-500 text-white px-3 py-1">Сохранить</button>
+          <button type="button" id="news-new" class="bg-gray-300 px-3 py-1">Новая</button>
+          <button type="button" id="news-cancel" class="bg-gray-300 px-3 py-1">Отмена</button>
+          <button type="button" id="news-delete" class="bg-red-500 text-white px-3 py-1">Удалить</button>
+        </div>
+      </form>
+      <input id="news-q" type="text" placeholder="Поиск..." class="w-full border p-2 mb-2">
+      <ul id="news-list"></ul>
+    </section>
+
+    <!-- ADS -->
+    <section class="mt-10">
+      <h2 class="text-lg font-bold mb-2">Реклама</h2>
+      <form id="ads-form" class="space-y-2 mb-4">
+        <input type="hidden" name="id">
+        <input type="text" name="title" placeholder="Заголовок" class="w-full border p-2">
+        <input type="text" name="cover" placeholder="Обложка (URL)" class="w-full border p-2">
+        <textarea name="desc" placeholder="Описание" class="w-full border p-2"></textarea>
+        <div class="flex space-x-2">
+          <button class="bg-blue-500 text-white px-3 py-1">Сохранить</button>
+          <button type="button" id="ads-new" class="bg-gray-300 px-3 py-1">Новая</button>
+          <button type="button" id="ads-cancel" class="bg-gray-300 px-3 py-1">Отмена</button>
+          <button type="button" id="ads-delete" class="bg-red-500 text-white px-3 py-1">Удалить</button>
+        </div>
+      </form>
+      <ul id="ads-list"></ul>
+    </section>
+
+    <!-- BIOS -->
+    <section class="mt-10">
+      <h2 class="text-lg font-bold mb-2">Биографии</h2>
+      <form id="bios-form" class="space-y-2 mb-4">
+        <input type="hidden" name="id">
+        <input type="text" name="title" placeholder="Имя" class="w-full border p-2">
+        <input type="text" name="cover" placeholder="Фото (URL)" class="w-full border p-2">
+        <textarea name="desc" placeholder="Описание" class="w-full border p-2"></textarea>
+        <div class="flex space-x-2">
+          <button class="bg-blue-500 text-white px-3 py-1">Сохранить</button>
+          <button type="button" id="bios-new" class="bg-gray-300 px-3 py-1">Новая</button>
+          <button type="button" id="bios-cancel" class="bg-gray-300 px-3 py-1">Отмена</button>
+          <button type="button" id="bios-delete" class="bg-red-500 text-white px-3 py-1">Удалить</button>
+        </div>
+      </form>
+      <ul id="bios-list"></ul>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+  <script type="module">
+    import { firebaseConfig } from './firebase-config.js';
+    import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, collection, query, orderBy, limit, getDocs, doc, getDoc, setDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const who       = document.getElementById('who');
+    const viewLogin = document.getElementById('view-login');
+    const viewDash  = document.getElementById('view-dash');
+    const loginForm = document.getElementById('login-form');
+    const errEl     = document.getElementById('login-err');
+    const logoutBtn = document.getElementById('logout');
+
+onAuthStateChanged(auth, (user)=>{
+  if (user) {
+    who.textContent = 'Вошли как: ' + (user.email || '');
+    viewLogin.classList.add('hidden');
+    viewDash.classList.remove('hidden');
+    boot();
+  } else {
+    who.textContent = '';
+    viewDash.classList.add('hidden');
+    viewLogin.classList.remove('hidden');
+  }
+});
+
+
+    loginForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      errEl.classList.add('hidden');
+      const f = new FormData(loginForm);
+      const email = (f.get('login')||'').trim();
+      const pass  = (f.get('password')||'').trim();
+      try { await signInWithEmailAndPassword(auth, email, pass); }
+      catch(err){ console.error(err); errEl.classList.remove('hidden'); }
+    });
+
+    logoutBtn.addEventListener('click', async ()=>{ await signOut(auth); });
+
+    function makeQuill(sel){
+      return new Quill(sel, { theme: 'snow' });
+    }
+    function htmlGet(q){ return q.root.innerHTML; }
+    function htmlSet(q, html){ q.root.innerHTML = html || ''; }
+    function nowISO(){ return new Date().toISOString(); }
+
+    async function boot(){
+      const qNews = makeQuill('#news-editor');
+      const newsForm = $('#news-form'), newsList = $('#news-list'), newsQ = $('#news-q');
+
+      async function loadNewsList(){
+        const snap = await getDocs(query(collection(db,'news'), orderBy('createdAt','desc'), limit(200)));
+        newsList.innerHTML = snap.empty ? '<div class="text-sm text-gray-500 px-1">Пока пусто</div>' : '';
+        snap.forEach(d=>{
+          const n={id:d.id, ...d.data()};
+          newsList.insertAdjacentHTML('beforeend',`
+            <li class="list-item ${n.pinned?'ring-2 ring-blue-200':''}">
+              <div class="min-w-0">
+                <div class="font-medium truncate">${n.title||'Без названия'}</div>
+                <div class="text-xs text-gray-500 flex flex-wrap gap-1 mt-1">
+                  ${n.pinned?'<span class="pill">закреп</span>':''}
+                  <span class="inline-block rounded-full bg-gray-100 px-2 py-0.5">${n.status||''}</span>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button data-edit="${n.id}">Редакт.</button>
+                <button data-del="${n.id}" class="text-red-600">Удалить</button>
+              </div>
+            </li>`);
+        });
+      }
+      newsQ.oninput=()=>{ const q=(newsQ.value||'').toLowerCase();
+        Array.from(newsList.children).forEach(li=>{
+          const t=li.querySelector('.font-medium')?.textContent?.toLowerCase()||'';
+          li.style.display = t.includes(q)?'':'none';
+        });
+      };
+      newsList.onclick=async e=>{
+        const idEdit=e.target.dataset.edit, idDel=e.target.dataset.del;
+        if(idEdit){
+          const d=await getDoc(doc(db,'news',idEdit)); if(!d.exists()) return;
+          const n=d.data(); newsForm.id.value=idEdit;
+          newsForm.title.value=n.title||''; newsForm.cover.value=n.cover||'';
+          newsForm.status.value=n.status||'published'; newsForm.pinned.checked=!!n.pinned;
+          htmlSet(qNews, n.html||''); return;
+        }
+        if(idDel){ await deleteDoc(doc(db,'news',idDel)); await loadNewsList(); }
+      };
+      newsForm.onsubmit=async e=>{
+        e.preventDefault();
+        const d=Object.fromEntries(new FormData(newsForm).entries());
+        const isEdit=!!d.id; const id=d.id || ('n_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
+        const prev=isEdit ? (await getDoc(doc(db,'news',id))).data() : null;
+        const base={
+          title:(d.title||'').trim(), html: htmlGet(qNews), cover:(d.cover||'').trim(),
+          pinned: !!d.pinned, status: d.status || 'published',
+          createdAt: isEdit ? (prev?.createdAt || nowISO()) : nowISO(),
+          createdAtTS: serverTimestamp(), updatedAt: nowISO(), updatedAtTS: serverTimestamp(),
+          likes: prev?.likes ?? 0, views: prev?.views ?? 0
+        };
+        await setDoc(doc(db,'news',id), base, {merge:true});
+        await loadNewsList();
+      };
+      await loadNewsList();
+      // === ADS ===
+const adsForm = document.getElementById('ads-form');
+const adsList = document.getElementById('ads-list');
+
+async function loadAdsList(){
+  const snap = await getDocs(query(collection(db,'ads'), orderBy('createdAt','desc'), limit(200)));
+  adsList.innerHTML = snap.empty ? '<div class="text-sm text-gray-500 px-1">Пока пусто</div>' : '';
+  snap.forEach(d=>{
+    const a = { id:d.id, ...d.data() };
+    adsList.insertAdjacentHTML('beforeend', `
+      <li class="list-item">
+        <div class="min-w-0">
+          <div class="font-medium truncate">${a.title || 'Без названия'}</div>
+          <div class="text-xs text-gray-500 flex gap-2 mt-1">
+            <span class="inline-block rounded-full bg-gray-100 px-2 py-0.5">${a.status || 'published'}</span>
+            <span>${(a.createdAt||'').toString().slice(0,10)}</span>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button data-edit="${a.id}">Редакт.</button>
+          <button data-del="${a.id}" class="text-red-600">Удалить</button>
+        </div>
+      </li>`);
+  });
+}
+
+adsList.onclick = async (e)=>{
+  const idEdit = e.target.dataset.edit, idDel = e.target.dataset.del;
+  if(idEdit){
+    const d = await getDoc(doc(db,'ads', idEdit)); if(!d.exists()) return;
+    const a = d.data();
+    adsForm.id.value   = idEdit;
+    adsForm.title.value= a.title || '';
+    adsForm.cover.value= a.cover || '';
+    adsForm.desc.value = a.desc  || '';
+    return;
+  }
+  if(idDel){
+    await deleteDoc(doc(db,'ads', idDel));
+    await loadAdsList();
+  }
+};
+
+adsForm.onsubmit = async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(adsForm);
+  const d  = Object.fromEntries(fd.entries());
+  const isEdit = !!d.id;
+  const id = d.id || ('a_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
+  const prev = isEdit ? (await getDoc(doc(db,'ads',id))).data() : null;
+
+  const base = {
+    title: (d.title||'').trim(),
+    cover: (d.cover||'').trim(),
+    desc : (d.desc ||'').trim(),
+    status: 'published',
+    createdAt: isEdit ? (prev?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+    createdAtTS: serverTimestamp(),
+    updatedAt: new Date().toISOString(),
+    updatedAtTS: serverTimestamp(),
+    likes: prev?.likes ?? 0,
+    views: prev?.views ?? 0
+  };
+  await setDoc(doc(db,'ads', id), base, { merge:true });
+  adsForm.reset(); adsForm.id.value='';
+  await loadAdsList();
+};
+
+document.getElementById('ads-new').onclick    = ()=>{ adsForm.reset(); adsForm.id.value=''; };
+document.getElementById('ads-cancel').onclick = ()=>{ adsForm.reset(); adsForm.id.value=''; };
+document.getElementById('ads-delete').onclick = async ()=>{
+  const id = adsForm.id.value; if(!id) return;
+  await deleteDoc(doc(db,'ads', id));
+  adsForm.reset(); adsForm.id.value='';
+  await loadAdsList();
+};
+
+await loadAdsList();
+// === BIOGRAPHIES ===
+const biosForm = document.getElementById('bios-form');
+const biosList = document.getElementById('bios-list');
+
+async function loadBiosList(){
+  const snap = await getDocs(query(collection(db,'biographies'), orderBy('createdAt','desc'), limit(200)));
+  biosList.innerHTML = snap.empty ? '<div class="text-sm text-gray-500 px-1">Пока пусто</div>' : '';
+  snap.forEach(d=>{
+    const b = { id:d.id, ...d.data() };
+    biosList.insertAdjacentHTML('beforeend', `
+      <li class="list-item">
+        <div class="min-w-0">
+          <div class="font-medium truncate">${b.title || 'Без названия'}</div>
+          <div class="text-xs text-gray-500 flex gap-2 mt-1">
+            <span class="inline-block rounded-full bg-gray-100 px-2 py-0.5">${b.status || 'published'}</span>
+            <span>${(b.createdAt||'').toString().slice(0,10)}</span>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button data-edit="${b.id}">Редакт.</button>
+          <button data-del="${b.id}" class="text-red-600">Удалить</button>
+        </div>
+      </li>`);
+  });
+}
+
+biosList.onclick = async (e)=>{
+  const idEdit = e.target.dataset.edit, idDel = e.target.dataset.del;
+  if(idEdit){
+    const d = await getDoc(doc(db,'biographies', idEdit)); if(!d.exists()) return;
+    const b = d.data();
+    biosForm.id.value    = idEdit;
+    biosForm.title.value = b.title || '';
+    biosForm.cover.value = b.cover || '';
+    biosForm.desc.value  = b.desc  || '';
+    return;
+  }
+  if(idDel){
+    await deleteDoc(doc(db,'biographies', idDel));
+    await loadBiosList();
+  }
+};
+
+biosForm.onsubmit = async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(biosForm);
+  const d  = Object.fromEntries(fd.entries());
+  const isEdit = !!d.id;
+  const id = d.id || ('b_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
+  const prev = isEdit ? (await getDoc(doc(db,'biographies',id))).data() : null;
+
+  const base = {
+    title: (d.title||'').trim(),
+    cover: (d.cover||'').trim(),
+    desc : (d.desc ||'').trim(),
+    status: 'published',
+    createdAt: isEdit ? (prev?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+    createdAtTS: serverTimestamp(),
+    updatedAt: new Date().toISOString(),
+    updatedAtTS: serverTimestamp(),
+    likes: prev?.likes ?? 0,
+    views: prev?.views ?? 0
+  };
+  await setDoc(doc(db,'biographies', id), base, { merge:true });
+  biosForm.reset(); biosForm.id.value='';
+  await loadBiosList();
+};
+
+document.getElementById('bios-new').onclick    = ()=>{ biosForm.reset(); biosForm.id.value=''; };
+document.getElementById('bios-cancel').onclick = ()=>{ biosForm.reset(); biosForm.id.value=''; };
+document.getElementById('bios-delete').onclick = async ()=>{
+  const id = biosForm.id.value; if(!id) return;
+  await deleteDoc(doc(db,'biographies', id));
+  biosForm.reset(); biosForm.id.value='';
+  await loadBiosList();
+};
+
+// <<< ЭТУ СТРОКУ ТОЖЕ ДОБАВЬ СРАЗУ ПОСЛЕ await loadAdsList();
+await loadBiosList();
+
+    }
+
+    function $(sel){ return document.querySelector(sel); }
+  </script>
+</body>
+</html>

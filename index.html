@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- Кодировка -->
+  <meta charset="UTF-8" />
+
+
+
+  <!-- Мобильная адаптация -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Jura:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Neucha&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet">
+
+
+  <!-- SEO -->
+  <title>На ТОПчане — Персидский Мир</title>
+  <meta name="description" content="Новости, культура, музыка и жизнь Персии — всё в одном месте. Персидский Мир на ТОПчане." />
+
+  <!-- Open Graph для соцсетей -->
+  <meta property="og:title" content="На ТОПчане — Персидский Мир" />
+  <meta property="og:description" content="Новости, культура, музыка и жизнь Персии — всё в одном месте." />
+  <meta property="og:image" content="images/preview.jpg" />
+  <meta property="og:type" content="website" />
+
+  <!-- Иконка вкладки -->
+  <link rel="icon" type="image/svg+xml" href="images/icon.svg" />
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Дополнительные стили -->
+  <style>
+    html { scroll-behavior: smooth; }
+    a { transition: color 0.2s ease, opacity 0.2s ease; }
+    a:hover { opacity: 0.7; }
+    header nav a { font-weight: 500; }
+    header nav a.active { border-bottom: 2px solid currentColor; }
+    .mobile-nav { display: none; }
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .mobile-nav { display: block; }
+    }
+    .btn { padding: 10px 14px; border-radius: 10px; border: 1px solid #e5e7eb; }
+    .btn-primary { background:#2563eb; color:#fff; border-color:#2563eb; }
+    .btn-ghost { background:#fff; }
+    .input { width:100%; border:1px solid #e5e7eb; border-radius:10px; padding:10px 12px; }
+  </style>
+<link rel="stylesheet" href="/css/style.css?v=2">  
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+  <!-- ШАПКА -->
+  <header class="border-b border-gray-200">
+    <div class="w-full px-2 flex justify-between items-center h-16">
+
+<a href="index.html" class="flex items-center gap-2 tracking-tight brand-logo">
+  <img src="images/logo.png" alt="Persian World Logo" class="h-8 w-8 object-contain">
+  <span class="brand-text">На ТОПчане</span>
+</a>
+
+
+      <!-- Десктоп меню -->
+<nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+        <a href="index.html" class="active">Главная</a>
+        <a href="news.html">Новости</a>
+        <a href="ads.html">Реклама</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="biographies.html">Биографии</a>
+        <a href="music.html">Музыка</a>
+        <a href="fun.html" onclick="checkLogin(event)">Развлечения</a>
+        <a href="products.html">Продукция</a>
+        <a href="about.html">О&nbsp;нас</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+
+      <!-- Auth (desktop) — справа -->
+      <div class="hidden md:flex items-center gap-3 navbar-account">
+        <div id="auth-guest" class="flex items-center gap-2">
+          <button id="open-login" class="btn btn-ghost">Вход</button>
+          <button id="open-register" class="btn btn-primary">Регистрация</button>
+        </div>
+
+        <div id="auth-user" class="hidden items-center gap-3 dropdown">
+          <div class="auth-chip" id="auth-chip">
+            <div class="auth-chip__avatar" id="auth-avatar">U</div>
+            <span id="auth-email" class="auth-chip__email"></span>
+            <svg id="auth-caret" width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M6 8l4 4 4-4" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="dropdown-menu" id="auth-menu">
+            <button id="goto-profile">Профиль</button>
+            <button id="logout">Выйти</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Мобильный бургер -->
+      <div class="mobile-nav md:hidden">
+        <button id="menu-btn" class="p-2 text-gray-700 text-2xl">☰</button>
+      </div>
+
+
+    <!-- Мобильное меню -->
+    <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
+      <a href="index.html" class="active">Главная</a>
+      <a href="news.html">Новости</a>
+      <a href="ads.html">Реклама</a>
+      <a href="videos.html">Видео</a>
+      <a href="gallery.html">Галерея</a>
+      <a href="biographies.html">Биографии</a>
+      <a href="music.html">Музыка</a>
+      <a href="entertainment.html" id="nav-entertainment-m">Развлечения</a>
+      <a href="products.html">Продукция</a>
+      <a href="about.html">О нас</a>
+      <a href="contact.html">Контакты</a>
+
+      <hr class="border-gray-300">
+      <div id="auth-guest-m" class="flex gap-3">
+        <button id="open-login-m" class="flex-1 btn btn-ghost">Вход</button>
+        <button id="open-register-m" class="flex-1 btn btn-primary">Регистрация</button>
+      </div>
+      <div id="auth-user-m" class="hidden mt-1 flex items-center justify-between">
+        <span id="auth-email-m" class="text-sm text-gray-600 truncate max-w-[60%]"></span>
+        <button id="logout-m" class="btn btn-ghost">Выйти</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main class="max-w-7xl mx-auto p-4">
+<section class="text-center py-16">
+  <h1 class="welcome-title">Добро пожаловать в Персидский Мир</h1>
+  <p class="welcome-sub">
+    <span class="welcome-text letter-shine">
+      Откройте для себя новости, культуру, музыку и всё, что связано с величественной Персией.
+    </span>
+  </p>
+</section>
+
+
+
+
+
+    <!-- Карточки -->
+    <section class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition">
+        <img src="images/sample1.jpg" alt="" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="font-semibold text-lg mb-2">Заголовок новости</h2>
+          <p class="text-sm text-gray-600">Краткое описание контента...</p>
+        </div>
+      </div>
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition">
+        <img src="images/sample2.jpg" alt="" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="font-semibold text-lg mb-2">Культурное событие</h2>
+        <p class="text-sm text-gray-600">Описание события...</p>
+        </div>
+      </div>
+      <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition">
+        <img src="images/sample3.jpg" alt="" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="font-semibold text-lg mb-2">Музыкальные новости</h2>
+          <p class="text-sm text-gray-600">Описание новости...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer class="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
+<p>© 2025 На ТОПчане. Все права защищены.</p>
+
+<ul class="soc-row">
+  <li><a href="https://vk.com/natopchane" target="_blank" aria-label="VK">
+    <img src="images/soc/vk.svg" alt="VK">
+  </a></li>
+  <li><a href="https://t.me/na_topchane" target="_blank" aria-label="Telegram">
+    <img src="images/soc/telegram.svg" alt="Telegram">
+  </a></li>
+  <li><a href="https://www.instagram.com/natopchane/" target="_blank" aria-label="Instagram">
+    <img src="images/soc/instagram.svg" alt="Instagram">
+  </a></li>
+  <li><a href="https://www.tiktok.com/@natopchane" target="_blank" aria-label="TikTok">
+    <img src="images/soc/tik-tok.svg" alt="TikTok">
+  </a></li>
+  <li><a href="https://www.pinterest.com/natopchane/?invite_code=67d18b04667e4a56b03fb7432127235b&sender=1144266355231499314" target="_blank" aria-label="Pinterest">
+    <img src="images/soc/pinterest.svg" alt="Pinterest">
+  </a></li>
+  <li><a href="https://rutube.ru/channel/49549724/" target="_blank" aria-label="Rutube">
+    <img src="images/soc/rutube.svg" alt="Rutube">
+  </a></li>
+  <li><a href="https://www.facebook.com/groups/natopchane/" target="_blank" aria-label="Facebook">
+    <img src="images/soc/fb.svg" alt="Facebook">
+  </a></li>
+  <li><a href="https://dzen.ru/natopchane" target="_blank" aria-label="Dzen">
+    <img src="images/soc/yandex.svg" alt="Dzen">
+  </a></li>
+  <li><a href="https://www.youtube.com/@natopchane" target="_blank" aria-label="YouTube">
+    <img src="images/soc/youtube.svg" alt="YouTube">
+  </a></li>
+  <li><a href="https://ok.ru/group/70000013841187" target="_blank" aria-label="OK">
+    <img src="images/soc/ok.svg" alt="OK">
+  </a></li>
+</ul>
+
+<div class="flex flex-wrap items-center gap-3">
+  <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
+  <button id="support-btn" class="hover:underline">Поддержка</button>
+  <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
+  <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
+  <input id="footer-search" class="footer-search" placeholder="Поиск по сайту…" title="Ищет по карточкам на главной">
+</div>
+
+  <!-- Auth Modal: Login -->
+  <div id="login-modal" class="fixed inset-0 bg-black/50 hidden z-50">
+    <div class="bg-white w-full max-w-sm mx-auto mt-24 p-6 rounded-xl shadow-xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Вход</h3>
+        <button data-close="#login-modal" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+      </div>
+      <form id="login-form" class="space-y-3">
+        <input type="email" name="email" placeholder="Email" class="input" required>
+        <input type="password" name="password" placeholder="Пароль" class="input" required>
+        <button class="w-full btn btn-primary">Войти</button>
+        <button type="button" id="login-google" class="w-full btn btn-ghost">Войти через Google</button>
+        <div id="login-err" class="text-sm text-red-600 hidden">Ошибка входа</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Auth Modal: Register -->
+  <div id="register-modal" class="fixed inset-0 bg-black/50 hidden z-50">
+    <div class="bg-white w-full max-w-sm mx-auto mt-24 p-6 rounded-xl shadow-xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Регистрация</h3>
+        <button data-close="#register-modal" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+      </div>
+      <form id="register-form" class="space-y-3">
+        <input type="email" name="email" placeholder="Email" class="input" required>
+        <input type="password" name="password" placeholder="Пароль (мин. 6 символов)" class="input" required minlength="6">
+        <input type="password" name="password2" placeholder="Повтор пароля" class="input" required minlength="6">
+        <button class="w-full btn btn-primary">Создать аккаунт</button>
+        <button type="button" id="register-google" class="w-full btn btn-ghost">Зарегистрироваться через Google</button>
+        <div id="register-err" class="text-sm text-red-600 hidden">Ошибка регистрации</div>
+        <div id="register-ok" class="text-sm text-green-600 hidden">Аккаунт создан. Вы вошли.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно (твоя существующая универсальная модалка) -->
+  <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-40">
+    <div class="bg-white max-w-lg w-full mx-4 p-6 rounded-lg relative shadow-lg">
+      <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">&times;</button>
+      <h2 id="modal-title" class="text-xl font-semibold mb-4"></h2>
+      <div id="modal-content" class="text-sm text-gray-700 space-y-3 max-h-72 overflow-y-auto leading-relaxed"></div>
+    </div>
+  </div>
+
+  <!-- Скрипты (твои существующие) -->
+  <script>
+    // Мобильное меню
+    document.getElementById('menu-btn').addEventListener('click', () => {
+      document.getElementById('menu').classList.toggle('hidden');
+    });
+
+    // Модалки (универсальная)
+    const modal = document.getElementById('modal-overlay');
+    const title = document.getElementById('modal-title');
+    const content = document.getElementById('modal-content');
+
+    document.getElementById('privacy-btn').onclick = () => {
+      title.textContent = 'Политика конфиденциальности';
+      content.innerHTML = `
+        <p>Мы уважаем вашу конфиденциальность. При использовании сайта «На ТОПчане» мы можем собирать минимальные данные: IP-адрес, cookie, email (при подписке на рассылку).</p>
+        <p>Данные используются для улучшения работы сайта, персонализации контента и статистики посещений.</p>
+        <p>Мы не передаём ваши данные третьим лицам, кроме случаев, предусмотренных законом.</p>
+        <p>Вы можете запросить удаление или изменение своих данных, написав нам на support@example.com.</p>
+        <p>Изменения политики публикуются на этой странице.</p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    document.getElementById('terms-btn').onclick = () => {
+      title.textContent = 'Пользовательское соглашение';
+      content.innerHTML = `
+        <p>Используя сайт «На ТОПчане», вы соглашаетесь с правилами:</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Не размещать незаконный или оскорбительный контент.</li>
+          <li>Не использовать сайт для рассылки спама или мошенничества.</li>
+          <li>Соблюдать авторские права на публикуемый материал.</li>
+          <li>Администрация может изменять условия без предварительного уведомления.</li>
+        </ul>
+        <p>При несогласии с условиями прекратите использование сайта.</p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    document.getElementById('support-btn').onclick = () => {
+      title.textContent = 'Поддержка';
+      content.innerHTML = `
+        <p>По любым вопросам и предложениям вы можете написать нам:</p>
+        <p class="flex items-center gap-2">
+          <img src="images/telegram.svg" alt="Telegram" class="w-5 h-5">
+          <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Написать в Telegram</a>
+        </p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    document.getElementById('cooperation-btn').onclick = () => {
+      title.textContent = 'Сотрудничество и реклама';
+      content.innerHTML = `
+        <p>По вопросам рекламы и совместных проектов свяжитесь с нами:</p>
+        <p class="flex items-center gap-2">
+          <img src="images/telegram.svg" alt="Telegram" class="w-5 h-5">
+          <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Telegram</a>
+        </p>
+        <p class="flex items-center gap-2">
+          <img src="images/gmail.svg" alt="Gmail" class="w-5 h-5">
+          <a href="mailto:natopchane@gmail.com" class="text-red-600 hover:underline">natopchane@gmail.com</a>
+        </p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    // Закрытие модалки (универсальной)
+    document.getElementById('modal-close').onclick = () => modal.classList.add('hidden');
+    modal.onclick = e => { if (e.target === modal) modal.classList.add('hidden'); };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.add('hidden'); });
+  </script>
+
+  <!-- Firebase Auth (email + Google) -->
+  <script type="module">
+    import { firebaseConfig } from './firebase-config.js';
+    import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+      getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+      createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    // Init
+    const app  = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // helpers
+    const $  = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+    const show = el => el?.classList.remove('hidden');
+    const hide = el => el?.classList.add('hidden');
+
+    // UI refs
+    const guestDesk = $('#auth-guest');
+    const userDesk  = $('#auth-user');
+    const emailDesk = $('#auth-email');
+
+    const guestMob  = $('#auth-guest-m');
+    const userMob   = $('#auth-user-m');
+    const emailMob  = $('#auth-email-m');
+
+    const loginModal    = $('#login-modal');
+    const registerModal = $('#register-modal');
+
+    const openLoginBtns    = [$('#open-login'), $('#open-login-m')].filter(Boolean);
+    const openRegisterBtns = [$('#open-register'), $('#open-register-m')].filter(Boolean);
+
+    // open/close modals
+    openLoginBtns.forEach(b => b.addEventListener('click', ()=> show(loginModal)));
+    openRegisterBtns.forEach(b => b.addEventListener('click', ()=> show(registerModal)));
+    $$('[data-close]').forEach(btn=>{
+      btn.addEventListener('click', ()=> hide($(btn.getAttribute('data-close'))));
+    });
+    [loginModal, registerModal].forEach(m=> m.addEventListener('click', e=>{ if(e.target===m) hide(m); }));
+
+    // state
+    onAuthStateChanged(auth, (user)=>{
+      if (user) {
+        hide(guestDesk); show(userDesk);
+        hide(guestMob);  show(userMob);
+        if (emailDesk) emailDesk.textContent = user.email || '';
+        if (emailMob)  emailMob.textContent  = user.email || '';
+      } else {
+        show(guestDesk); hide(userDesk);
+        show(guestMob);  hide(userMob);
+      }
+    });
+
+    // login email/password
+    const loginForm = $('#login-form');
+    loginForm?.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      $('#login-err')?.classList.add('hidden');
+      const f = new FormData(loginForm);
+      const email = (f.get('email')||'').trim();
+      const pass  = (f.get('password')||'').trim();
+      try{
+        await signInWithEmailAndPassword(auth, email, pass);
+        loginForm.reset(); hide(loginModal);
+      }catch(err){
+        console.error(err);
+        const msg = mapAuthError(err);
+        const el = $('#login-err'); if(el){ el.textContent = msg; el.classList.remove('hidden'); }
+      }
+    });
+
+    // login with Google
+    $('#login-google')?.addEventListener('click', async ()=>{
+      try { await signInWithPopup(auth, provider); hide(loginModal); }
+      catch(err){ console.error(err); const el=$('#login-err'); if(el){ el.textContent = mapAuthError(err); el.classList.remove('hidden'); } }
+    });
+
+    // register email/password
+    const registerForm = $('#register-form');
+    registerForm?.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      $('#register-err')?.classList.add('hidden');
+      $('#register-ok')?.classList.add('hidden');
+      const f = new FormData(registerForm);
+      const email = (f.get('email')||'').trim();
+      const p1    = (f.get('password')||'').trim();
+      const p2    = (f.get('password2')||'').trim();
+      if (p1 !== p2){
+        const el = $('#register-err'); if(el){ el.textContent = 'Пароли не совпадают'; el.classList.remove('hidden'); }
+        return;
+      }
+      try{
+        await createUserWithEmailAndPassword(auth, email, p1);
+        const ok = $('#register-ok'); if(ok) ok.classList.remove('hidden');
+        setTimeout(()=>{ registerForm.reset(); hide(registerModal); }, 800);
+      }catch(err){
+        console.error(err);
+        const el = $('#register-err'); if(el){ el.textContent = mapAuthError(err); el.classList.remove('hidden'); }
+      }
+    });
+
+    // register with Google
+    $('#register-google')?.addEventListener('click', async ()=>{
+      try { await signInWithPopup(auth, provider); hide(registerModal); }
+      catch(err){ console.error(err); const el=$('#register-err'); if(el){ el.textContent = mapAuthError(err); el.classList.remove('hidden'); } }
+    });
+
+    // logout
+    $('#logout')?.addEventListener('click', async ()=>{ try{ await signOut(auth); }catch(e){} });
+    $('#logout-m')?.addEventListener('click', async ()=>{ try{ await signOut(auth); }catch(e){} });
+
+    // gate: "Развлечения" требует входа
+    const entDesk = $('#nav-entertainment');
+    const entMob  = $('#nav-entertainment-m');
+    [entDesk, entMob].forEach(link=>{
+      link?.addEventListener('click', (e)=>{
+        const user = auth.currentUser;
+        if (!user){
+          e.preventDefault();
+          show(loginModal);
+        }
+      });
+    });
+
+    function mapAuthError(e){
+      const code = (e?.code||'').toString();
+      switch(code){
+        case 'auth/invalid-email': return 'Неверный формат email';
+        case 'auth/user-not-found':
+        case 'auth/wrong-password': return 'Неверный email или пароль';
+        case 'auth/email-already-in-use': return 'Email уже зарегистрирован';
+        case 'auth/weak-password': return 'Слабый пароль (минимум 6 символов)';
+        case 'auth/popup-closed-by-user': return 'Окно входа было закрыто';
+        case 'auth/popup-blocked': return 'Браузер заблокировал всплывающее окно';
+        case 'auth/too-many-requests': return 'Слишком много попыток, попробуйте позже';
+        default: return 'Ошибка: ' + code;
+      }
+    }
+    // --- dropdown в шапке ---
+const chip   = document.getElementById('auth-chip');
+const menu   = document.getElementById('auth-menu');
+const emailEl= document.getElementById('auth-email');
+const avatar = document.getElementById('auth-avatar');
+
+function firstLetter(mail){ return (mail?.trim?.()[0] || 'U').toUpperCase(); }
+
+onAuthStateChanged(auth, (user)=>{
+  // (остальная логика уже есть выше)
+  if (user) {
+    if (emailEl) emailEl.textContent = user.email || '';
+    if (avatar)  avatar.textContent  = firstLetter(user.email || '');
+  }
+});
+
+chip?.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  menu?.classList.toggle('show');
+});
+document.addEventListener('click', ()=> menu?.classList.remove('show'));
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') menu?.classList.remove('show'); });
+
+// пример перехода в профиль (сейчас заглушка)
+document.getElementById('goto-profile')?.addEventListener('click', ()=>{
+  menu?.classList.remove('show');
+  // window.location.href = '/profile.html';
+});
+
+  </script>
+  <script>
+function checkLogin(e) {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    e.preventDefault();
+    document.getElementById('open-login').click();
+  }
+}
+</script>
+<script>
+(function(){
+  const input = document.getElementById('footer-search');
+  if(!input) return;
+
+  function filterCards(){
+    const q=(input.value||'').toLowerCase();
+    // фильтруем основные секции главной, если они есть на странице
+    const ids=['quote-card','recipe-card','popular'];
+    ids.forEach(id=>{
+      const el=document.getElementById(id); if(!el) return;
+      if(id==='popular'){
+        el.querySelectorAll('a,article,div').forEach(node=>{
+          const txt=(node.textContent||'').toLowerCase();
+          node.style.display = txt.includes(q)?'':'none';
+        });
+      }else{
+        const txt=(el.textContent||'').toLowerCase();
+        el.style.display = txt.includes(q)?'':'none';
+      }
+    });
+  }
+  input.addEventListener('input', filterCards);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Продукция — На ТОПчане</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Все продукты проекта «На ТОПчане»: стикеры, шаблоны, пресеты, мерч и цифровые материалы. Красиво оформлено, удобно скачать или купить."/>
+  <link rel="canonical" href="products.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Продукция — На ТОПчане"/>
+  <meta property="og:description" content="Стикеры, шаблоны, пресеты, мерч и цифровые материалы проекта «На ТОПчане»."/>
+  <meta property="og:url" content="products.html"/>
+  <meta property="og:image" content="images/og/products.jpg"/>
+  <meta name="theme-color" content="#0ea5e9"/>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/logo.png"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Стили страницы -->
+  <style>
+    html{background:#fafafa}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.06);transition:transform .15s,box-shadow .15s}
+    .card:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(0,0,0,.08)}
+    .grid-cards{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:18px}
+    @media(min-width:768px){.grid-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(min-width:1180px){.grid-cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;font-weight:700}
+    .btn-ghost{background:#fff}
+    .btn-primary{background:#0ea5e9;border-color:#0ea5e9;color:#fff}
+    .btn-primary:hover{filter:brightness(.95)}
+    .btn-outline{background:#fff;border-color:#cbd5e1}
+    .btn-outline:hover{background:#f8fafc}
+    .btn-lg{padding:12px 16px;border-radius:14px}
+    .badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;border:1px solid #c7d2fe;background:#eef2ff;color:#3730a3;font-size:12px}
+    .price{font-weight:700}
+    .pill{border:1px solid #e5e7eb;border-radius:999px;padding:.4rem .8rem;font-size:13px;cursor:pointer;background:#fff;transition:background .2s, color .2s, border-color .2s}
+    .pill:hover{border-color:#94a3b8}
+    .pill[aria-pressed="true"]{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
+    nav a{color:#374151}
+    nav a.active{color:#111827;font-weight:700}
+    .xfade{transition:opacity .4s ease}
+
+    /* Интерстициальная реклама */
+    #ad-overlay {backdrop-filter: blur(2px)}
+    .ad-box{background:#0b1220 url('images/bg/noise.png') repeat; color:#e5e7eb}
+    .ad-progress{height:8px;border-radius:999px;background:#1f2937;overflow:hidden}
+    .ad-bar{height:100%;width:0%;}
+    /* Фикс размера модалки и картинки */
+#modal-overlay > div{width:min(900px,96vw);max-height:90vh;overflow:auto}
+#m-img{max-height:45vh;object-fit:contain}
+/* Красивое выравнивание модалки */
+#modal-overlay > div {
+  width: min(900px, 96vw);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 16px;
+}
+
+#m-img {
+  max-height: 45vh;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+#modal-overlay .p-6 {
+  padding: 20px;
+}
+
+#modal-overlay h2 {
+  margin-top: 0;
+}
+
+#modal-overlay #m-desc {
+  margin-top: 10px;
+}
+
+#modal-overlay #m-actions {
+  margin-top: 20px;
+}
+
+#modal-overlay .btn {
+  width: 100%;
+}
+
+  </style>
+
+  <!-- JSON-LD ItemList -->
+  <script id="ld-products" type="application/ld+json">{}</script>
+</head>
+<body class="text-gray-900">
+
+  <!-- ШАПКА -->
+  <header class="border-b border-gray-200">
+    <div class="w-full px-2 flex justify-between items-center h-16">
+      <a href="index.html" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
+        <img src="images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
+        На ТОПчане
+      </a>
+
+      <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+        <a href="index.html">Главная</a>
+        <a href="news.html">Новости</a>
+        <a href="ads.html">Реклама</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="biographies.html">Биографии</a>
+        <a href="music.html">Музыка</a>
+        <a href="fun.html">Развлечения</a>
+        <a href="products.html" class="active">Продукция</a>
+        <a href="about.html">О&nbsp;нас</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+
+      <div class="mobile-nav md:hidden">
+        <button id="menu-btn" class="p-2 text-gray-700 text-2xl">☰</button>
+      </div>
+    </div>
+
+    <!-- Мобильное меню -->
+    <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
+      <a href="index.html">Главная</a>
+      <a href="news.html">Новости</a>
+      <a href="ads.html">Реклама</a>
+      <a href="gallery.html">Галерея</a>
+      <a href="biographies.html">Биографии</a>
+      <a href="music.html">Музыка</a>
+      <a href="fun.html">Развлечения</a>
+      <a href="products.html" class="active">Продукция</a>
+      <a href="about.html">О нас</a>
+      <a href="contacts.html">Контакты</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex items-center gap-3">
+      <img src="images/products.svg" alt="" class="w-6 h-6">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">НАШИ ПРОДУКТЫ</h1>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
+    <!-- Фильтры -->
+    <section class="flex flex-wrap items-center gap-3">
+      <button class="pill" data-cat="all" aria-pressed="true">Все</button>
+      <button class="pill" data-cat="stickers">Стикеры</button>
+      <button class="pill" data-cat="templates">Шаблоны</button>
+      <button class="pill" data-cat="presets">Пресеты</button>
+      <button class="pill" data-cat="fonts">Шрифты</button>
+      <button class="pill" data-cat="music">Музыка</button>
+      <div class="ml-auto flex items-center gap-2">
+        <input id="q" class="border rounded-xl px-3 py-1.5 text-sm w-56" placeholder="Поиск по названию…">
+        <select id="sort" class="border rounded-xl px-3 py-1.5 text-sm">
+          <option value="new">Сначала новые</option>
+          <option value="popular">Популярные</option>
+          <option value="cheap">Сначала дешевле</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Сетка товаров -->
+    <section>
+      <div id="grid" class="grid-cards"></div>
+      <div id="empty" class="hidden text-sm text-gray-500">Ничего не найдено.</div>
+    </section>
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer class="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p>© 2025 На ТОПчане. Все права защищены.</p>
+
+      <ul class="soc-row flex items-center gap-2">
+        <li><a href="https://vk.com/natopchane" target="_blank" aria-label="VK"><img src="images/soc/vk.svg" alt="VK" class="w-5 h-5"></a></li>
+        <li><a href="https://t.me/na_topchane" target="_blank" aria-label="Telegram"><img src="images/soc/telegram.svg" alt="Telegram" class="w-5 h-5"></a></li>
+        <li><a href="https://www.instagram.com/natopchane/" target="_blank" aria-label="Instagram"><img src="images/soc/instagram.svg" alt="Instagram" class="w-5 h-5"></a></li>
+        <li><a href="https://www.tiktok.com/@natopchane" target="_blank" aria-label="TikTok"><img src="images/soc/tik-tok.svg" alt="TikTok" class="w-5 h-5"></a></li>
+        <li><a href="https://www.pinterest.com/natopchane/?invite_code=67d18b04667e4a56b03fb7432127235b&sender=1144266355231499314" target="_blank" aria-label="Pinterest"><img src="images/soc/pinterest.svg" alt="Pinterest" class="w-5 h-5"></a></li>
+        <li><a href="https://rutube.ru/channel/49549724/" target="_blank" aria-label="Rutube"><img src="images/soc/rutube.svg" alt="Rutube" class="w-5 h-5"></a></li>
+        <li><a href="https://www.facebook.com/groups/natopchane/" target="_blank" aria-label="Facebook"><img src="images/soc/fb.svg" alt="Facebook" class="w-5 h-5"></a></li>
+        <li><a href="https://dzen.ru/natopchane" target="_blank" aria-label="Dzen"><img src="images/soc/yandex.svg" alt="Dzen" class="w-5 h-5"></a></li>
+        <li><a href="https://www.youtube.com/@natopchane" target="_blank" aria-label="YouTube"><img src="images/soc/youtube.svg" alt="YouTube" class="w-5 h-5"></a></li>
+        <li><a href="https://ok.ru/group/70000013841187" target="_blank" aria-label="OK"><img src="images/soc/ok.svg" alt="OK" class="w-5 h-5"></a></li>
+      </ul>
+
+      <div class="flex items-center gap-3">
+        <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
+        <button id="support-btn" class="hover:underline">Поддержка</button>
+        <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
+        <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
+        <input id="footer-search" class="border border-gray-300 rounded-lg px-2 py-1 text-[12px] w-[170px]" placeholder="Поиск по сайту…">
+      </div>
+    </div>
+  </footer>
+
+<!-- МОДАЛКА ПРОДУКТА -->
+<div id="modal-overlay" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+  <div class="bg-white p-0 relative shadow-lg modal-shell">
+    <button id="modal-close" class="sticky top-3 float-right mr-3 text-gray-500 hover:text-gray-700 text-2xl leading-none" aria-label="Закрыть">&times;</button>
+    <div class="clear-both p-6">
+      <img id="m-img" class="modal-img rounded-xl mb-4 hidden xfade" alt="">
+      <h2 id="m-title" class="text-2xl font-bold mb-2"></h2>
+      <div id="m-meta" class="text-xs text-gray-500 mb-3"></div>
+      <div id="m-desc" class="prose text-gray-800 text-sm leading-relaxed space-y-4"></div>
+      <div id="m-actions" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+      <div class="mt-5 flex flex-wrap gap-2">
+        <a id="m-primary" class="btn btn-outline" target="_blank" rel="noopener">Скачать / Купить</a>
+        <button id="m-close" class="btn">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- ИНТЕРСТИЦИАЛЬНАЯ РЕКЛАМА -->
+  <div id="ad-overlay" class="hidden fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-4">
+    <div class="ad-box w-full max-w-[680px] rounded-2xl shadow-2xl border border-slate-700">
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-xl font-extrabold tracking-tight">Реклама • На ТОПчане</h3>
+          <button id="ad-close" class="text-slate-300 hover:text-white text-2xl leading-none">&times;</button>
+        </div>
+        <!-- Место для баннера -->
+        <div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-900 aspect-[16/9] flex items-center justify-center text-slate-400 text-sm">
+          Ваш баннер / видео
+        </div>
+        <div class="mt-4 text-sm text-slate-300">
+          Переход откроется через <b id="ad-secs">5</b> сек.
+        </div>
+        <div class="ad-progress mt-2">
+          <div id="ad-bar" class="ad-bar bg-sky-500"></div>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <a id="ad-skip" class="btn btn-primary btn-lg cursor-pointer">Пропустить &rarr;</a>
+          <a id="ad-open" class="btn btn-outline btn-lg cursor-not-allowed opacity-60 pointer-events-none">Открыть ссылку</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA + SCRIPTS -->
+  <script>
+    // Мобильное меню
+    document.getElementById('menu-btn')?.addEventListener('click',()=>document.getElementById('menu').classList.toggle('hidden'));
+
+    // Данные
+    const PRODUCTS = [
+      {
+        id:'tajik-girl-stickers',
+        cat:'stickers',
+        title:'Стикеры «Характер Таджички»',
+        desc:'Набор Telegram-стикеров в стиле персидского Востока. PNG/WEBP, прозрачный фон.',
+        cover:'images/stickers/tajstick (1).jpg',
+        gallery:[
+          'images/stickers/tajstick (1).jpg',
+          'images/stickers/tajstick (1).png',
+          'images/stickers/tajstick (2).png',
+          'images/stickers/tajstick (3).png',
+          'images/stickers/tajstick (4).png',
+          'images/stickers/tajstick (5).png',
+          'images/stickers/tajstick (6).png'
+        ],
+        price:0, currency:'RUB', popularity:98, created:'2025-01-20',
+        href:'https://t.me/addstickers/Tajik_girls_Stickers',
+        status:'ready',
+        links:{
+          archive:'https://disk.yandex.ru/d/VSMCsq_Htmsxfg',
+          pack:'https://t.me/addstickers/Tajik_girls_Stickers',
+          channel:'https://t.me/na_topchane',
+          prod:'https://t.me/levakandprod'
+        },
+        meta:{
+          producer:'LEVAKAND Pictures',
+          support:'НА ТОПЧАНЕ',
+          artist:'Sibastian TeeJay (Instagram @sibastian_teejay)',
+          year:'2025',
+          country:'Таджикистан'
+        },
+        rights:'Все права защищены © 2025 LEVAKAND Pictures. Коммерческое использование и распространение без согласия правообладателя запрещены.',
+        longDesc:`Данный набор стикеров создан в уникальном таджикском стиле, отражающем культуру, традиции и эмоции. Подходит для использования в Telegram, социальных сетях и других мессенджерах. Все изображения имеют прозрачный фон и оптимизированы для быстрой загрузки.`
+      },
+      { id:'persian-social-templates', cat:'templates', title:'Шаблоны сторис Persia',
+        desc:'10 минималистичных шаблонов для Instagram Stories. PSD/PNG.',
+        cover:'images/products/templates-stories.jpg',
+        price:299, currency:'RUB', popularity:74, created:'2025-01-12', href:'#', status:'soon'
+      },
+      { id:'oriental-luts', cat:'presets', title:'Cinematic LUTs «Oriental»',
+        desc:'5 LUT-профилей для видео. Форматы .cube / .3dl.',
+        cover:'images/products/luts.jpg',
+        price:0, currency:'RUB', popularity:81, created:'2024-12-30', href:'#', status:'ready'
+      },
+      { id:'jura-font-pack', cat:'fonts', title:'Jura Persian Accents',
+        desc:'Набор декоративных титульных шрифтов под восточную стилистику (личное пользование).',
+        cover:'images/products/fonts.jpg',
+        price:0, currency:'RUB', popularity:63, created:'2024-12-15', href:'#', status:'ready'
+      },
+      { id:'santoor-pack', cat:'music', title:'Santoor Pack — лупы и one-shots',
+        desc:'20 сэмплов сантура, 90–110 BPM, WAV 24-bit.',
+        cover:'images/products/santoor.jpg',
+        price:0, currency:'RUB', popularity:69, created:'2025-01-02', href:'#', status:'ready'
+      }
+    ];
+
+    // Утилиты
+    const grid=document.getElementById('grid'), empty=document.getElementById('empty');
+    const qInput=document.getElementById('q'), sortSel=document.getElementById('sort');
+    const pills=[...document.querySelectorAll('.pill')];
+    let filterCat='all', q='', sort='new';
+
+    const timers = new Set(); // таймеры карточек
+    let modalTimer = null;
+
+    function fmtPrice(p,c){ return p===0?'Бесплатно': new Intl.NumberFormat('ru-RU',{style:'currency',currency:c||'RUB'}).format(p); }
+    function esc(s){return String(s).replace(/[&<>"]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+
+    function card(p){
+      const galAttr = p.gallery ? `data-gal="${p.gallery.map(esc).join('|')}"` : '';
+      return `
+      <article class="card overflow-hidden" data-id="${p.id}">
+        ${p.cover?`<img loading="lazy" src="${p.cover}" alt="" class="w-full aspect-square object-cover border-b xfade ${p.gallery?'js-gal':''}" ${galAttr}>`:''}
+        <div class="p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold text-lg">${p.title}</h3>
+            ${p.status==='soon'?'<span class="badge">Скоро</span>':''}
+          </div>
+          <p class="text-sm text-gray-800">${p.desc}</p>
+          <div class="flex items-center justify-between">
+            <div class="price">${fmtPrice(p.price,p.currency)}</div>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-ghost" data-more="${p.id}">Подробнее</button>
+              ${p.status==='ready'
+                ? `<a class="btn" href="${p.href}" ${p.href.startsWith('http')?'target="_blank" rel="noopener"':''}>Перейти</a>`
+                : `<button class="btn" disabled>Недоступно</button>`}
+            </div>
+          </div>
+        </div>
+      </article>`;
+    }
+
+    function apply(){
+      timers.forEach(t=>clearInterval(t)); timers.clear();
+
+      let list = PRODUCTS.slice();
+      if(filterCat!=='all') list = list.filter(x=>x.cat===filterCat);
+      if(q) list = list.filter(x=> x.title.toLowerCase().includes(q) || x.desc.toLowerCase().includes(q));
+      if(sort==='new') list.sort((a,b)=> new Date(b.created)-new Date(a.created));
+      if(sort==='popular') list.sort((a,b)=> (b.popularity||0)-(a.popularity||0));
+      if(sort==='cheap') list.sort((a,b)=> (a.price||0)-(b.price||0));
+
+      grid.innerHTML = list.map(card).join('');
+      empty.classList.toggle('hidden', list.length>0);
+
+      document.querySelectorAll('[data-more]').forEach(btn=>{
+        btn.onclick = ()=>{
+          const p = PRODUCTS.find(x=>x.id===btn.dataset.more);
+          openModal(p);
+        };
+      });
+
+      // Слайд на карточках
+      document.querySelectorAll('img.js-gal').forEach(img=>{
+        const arr = (img.dataset.gal||'').split('|').filter(Boolean);
+        if(arr.length<=1) return;
+        let i=0; img.src = arr[0];
+        const tick = ()=>{ i=(i+1)%arr.length; img.style.opacity=0; setTimeout(()=>{ img.src=arr[i]; img.style.opacity=1; },180); };
+        const id = setInterval(tick, 2000);
+        timers.add(id);
+        img.addEventListener('mouseenter', ()=>clearInterval(id));
+      });
+
+      // JSON-LD
+      const ld = {
+        "@context":"https://schema.org",
+        "@type":"ItemList",
+        "itemListElement": list.map((p,i)=>({
+          "@type":"Product",
+          "position": i+1,
+          "name": p.title,
+          "description": p.desc,
+          "image": p.cover? new URL(p.cover, location.href).href : undefined,
+          "url": new URL(p.href.startsWith('http')?p.href:('products.html#'+p.id), location.href).href,
+          "offers": {
+            "@type":"Offer",
+            "price": String(p.price),
+            "priceCurrency": p.currency||"RUB",
+            "availability": p.status==='ready' ? "http://schema.org/InStock" : "http://schema.org/PreOrder"
+          }
+        }))
+      };
+      document.getElementById('ld-products').textContent = JSON.stringify(ld);
+    }
+
+    // Фильтры
+    pills.forEach(b=> b.addEventListener('click', ()=>{
+      pills.forEach(x=>x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      filterCat = b.dataset.cat;
+      apply();
+    }));
+    qInput.addEventListener('input', ()=>{ q=(qInput.value||'').toLowerCase(); apply(); });
+    sortSel.addEventListener('change', ()=>{ sort=sortSel.value; apply(); });
+
+    // Модалка
+    const overlay=document.getElementById('modal-overlay');
+    const mImg=document.getElementById('m-img'), mTitle=document.getElementById('m-title'),
+          mMeta=document.getElementById('m-meta'), mDesc=document.getElementById('m-desc'),
+          mPrimary=document.getElementById('m-primary'), mActions=document.getElementById('m-actions');
+
+    const closeModal = ()=>{
+      overlay.classList.add('hidden');
+      if(modalTimer){ clearInterval(modalTimer); modalTimer=null; }
+      mImg.classList.add('hidden'); mImg.removeAttribute('src');
+      mActions.innerHTML = '';
+    };
+    document.getElementById('modal-close').onclick = closeModal;
+    document.getElementById('m-close').onclick = closeModal;
+    overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+
+    function actionBtn(label, url, tone='primary'){
+      const cls = tone==='primary' ? 'btn btn-primary btn-lg w-full' : 'btn btn-outline btn-lg w-full';
+      return `<a href="${url}" class="${cls}" data-ad="${encodeURIComponent(url)}">${label}</a>`;
+    }
+
+    function openModal(p){
+      const closeModal = ()=>{
+  overlay.classList.add('hidden');
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
+  if(modalTimer){ clearInterval(modalTimer); modalTimer=null; }
+  mImg.classList.add('hidden'); mImg.removeAttribute('src');
+  mActions.innerHTML = '';
+};
+
+      // СТИКЕРЫ: всегда одна обложка stick.jpg
+      if(p.id==='tajik-girl-stickers'){
+        const stickCover = 'images/stickers/stick.jpg';
+        mImg.src = stickCover; mImg.classList.remove('hidden');
+        
+      } else if(p.cover){ mImg.src=p.cover; mImg.classList.remove('hidden'); }
+      else { mImg.classList.add('hidden'); mImg.src=''; }
+
+      mTitle.textContent = p.title;
+      mMeta.textContent  = `${fmtPrice(p.price,p.currency)} • Категория: ${p.cat}`;
+
+      if(p.id==='tajik-girl-stickers'){
+        mDesc.innerHTML = `
+          <p>${p.longDesc||p.desc}</p>
+          <div class="grid sm:grid-cols-2 gap-3 text-[13px]">
+            <div class="space-y-1">
+              <div><b>Производство:</b> ${p.meta.producer}</div>
+              <div><b>Поддержка:</b> ${p.meta.support}</div>
+              <div><b>Художник:</b> ${p.meta.artist}</div>
+              <div><b>Год:</b> ${p.meta.year}</div>
+              <div><b>Страна:</b> ${p.meta.country}</div>
+            </div>
+            <div class="space-y-1 text-slate-600">
+              <div>Ссылки откроются после короткой рекламы.</div>
+            </div>
+          </div>
+          <p class="text-[12px] text-gray-500 mt-2">${p.rights}</p>
+        `;
+        // Крупные CTA-кнопки с прелоадером
+        mActions.innerHTML =
+          actionBtn('Скачать архив (Я.Диск)', p.links.archive, 'primary') +
+          actionBtn('Открыть набор в Telegram', p.links.pack, 'outline') +
+          actionBtn('Канал «На ТОПчане»', p.links.channel, 'outline') +
+          actionBtn('LEVAKAND Pictures', p.links.prod, 'outline');
+
+        // Перехват на рекламу
+        mActions.querySelectorAll('a[data-ad]').forEach(a=>{
+          a.addEventListener('click', (e)=>{
+            e.preventDefault();
+            showAdGate(decodeURIComponent(a.dataset.ad), a.textContent.trim());
+          });
+        });
+      } else {
+        mDesc.innerHTML = `<p>${p.desc}</p>`;
+        mActions.innerHTML = '';
+      }
+
+      if(p.status==='ready'){
+        mPrimary.href = p.href;
+        mPrimary.textContent = p.href.startsWith('http') ? 'Перейти' : 'Скачать / Открыть';
+        mPrimary.setAttribute('target', p.href.startsWith('http')?'_blank':'');
+        mPrimary.setAttribute('rel', p.href.startsWith('http')?'noopener':'');
+        mPrimary.classList.remove('opacity-50');
+      }else{
+        mPrimary.removeAttribute('href');
+        mPrimary.textContent='Скоро';
+        mPrimary.classList.add('opacity-50');
+      }
+      overlay.classList.remove('hidden');
+      
+    }
+
+    // Поиск в подвале
+    document.getElementById('footer-search')?.addEventListener('input', (e)=>{ q=(e.target.value||'').toLowerCase(); apply(); });
+
+    // --- РЕКЛАМНЫЙ ПРЕЛОАДЕР ---
+    const adOvl = document.getElementById('ad-overlay');
+    const adClose = document.getElementById('ad-close');
+    const adSkip = document.getElementById('ad-skip');
+    const adOpen = document.getElementById('ad-open');
+    const adSecs = document.getElementById('ad-secs');
+    const adBar = document.getElementById('ad-bar');
+    let adTimer=null, adLeft=5, adUrl='';
+
+    function showAdGate(url,label){
+      adUrl = url; adLeft = 5;
+      adSecs.textContent = adLeft;
+      adBar.style.width = '0%';
+      adOpen.classList.add('pointer-events-none','opacity-60','btn-outline');
+      adOpen.classList.remove('btn-primary');
+      adOpen.textContent = label;
+      adOvl.classList.remove('hidden');
+
+      const started = Date.now();
+      adTimer = setInterval(()=>{
+        const elapsed = (Date.now()-started)/1000;
+        const left = Math.max(0, 5 - Math.floor(elapsed));
+        adSecs.textContent = left;
+        adBar.style.width = Math.min(100, (elapsed/5)*100)+'%';
+        if(elapsed>=5){
+          clearInterval(adTimer);
+          adOpen.classList.remove('pointer-events-none','opacity-60','btn-outline');
+          adOpen.classList.add('btn-primary');
+        }
+      }, 200);
+    }
+
+    function closeAd(){
+      adOvl.classList.add('hidden');
+      if(adTimer){ clearInterval(adTimer); adTimer=null; }
+    }
+
+    adClose.addEventListener('click', closeAd);
+    adSkip.addEventListener('click', ()=>{
+      closeAd(); window.open(adUrl, '_blank', 'noopener');
+    });
+    adOpen.addEventListener('click', ()=>{
+      if(adOpen.classList.contains('pointer-events-none')) return;
+      closeAd(); window.open(adUrl, '_blank', 'noopener');
+    });
+
+    // Старт
+    apply();
+  </script>
+</body>
+</html>

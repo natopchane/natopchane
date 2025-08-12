@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Биографии — На ТОПчане</title>
+
+<!-- SEO PACK v1 — START -->
+<!-- Базовые мета -->
+<meta name="description" content="Биографии персидских поэтов и мыслителей: годы жизни, жанр, ключевые цитаты, редкие факты и красивые карточки с флагами.">
+<meta name="keywords" content="биографии, персидские поэты, поэт, философ, мистика, Иран, Руми, Хафиз, Саади, Омар Хайям, цитаты">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="author" content="На ТОПчане">
+<meta name="publisher" content="На ТОПчане">
+
+<!-- Canonical (делаем абсолютным на лету) -->
+<link id="canonical" rel="canonical" href="/biographies.html">
+<!-- Great Vibes font -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="На ТОПчане">
+<meta property="og:title" content="Биографии персидских поэтов — На ТОПчане">
+<meta property="og:description" content="Лучшие биографии: годы жизни, жанр/направление, мини-цитаты. Красивые стеклянные карточки с флагами и анимацией.">
+<meta property="og:url" content="">
+<meta property="og:image" content="/images/og/biographies-cover.jpg">
+<meta property="og:image:alt" content="Биографии персидских поэтов — подборка карточек">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="fa_IR">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Биографии персидских поэтов — На ТОПчане">
+<meta name="twitter:description" content="Годы жизни, жанры, мини-цитаты и флаги. Красивые карточки с анимацией.">
+<meta name="twitter:image" content="/images/og/biographies-cover.jpg">
+<meta name="twitter:image:alt" content="Биографии персидских поэтов — подборка карточек">
+
+<!-- Альтернативные языки (если есть зеркала) -->
+<link rel="alternate" href="/biographies.html" hreflang="ru">
+<link rel="alternate" href="/biographies.html" hreflang="x-default">
+
+<!-- Performance: preconnect к CDN, где есть CSS/JS/изображения -->
+<link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+
+<!-- JSON-LD: WebSite + SearchAction (для умных сниппетов) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "На ТОПчане",
+  "url": "",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "/biographies.html?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- JSON-LD: CollectionPage c динамическим ItemList людей (соберём позже JS-ом) -->
+<script id="ld-people" type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Биографии персидских поэтов","url":"","hasPart":[]}</script>
+
+<!-- Автозаполнение абсолютных URL и генерация Person из карточек -->
+<script>
+(function(){
+  const abs = (path)=>{
+    try{
+      const u = new URL(path, window.location.origin);
+      return u.href;
+    }catch{ return path; }
+  };
+
+  // Обновляем canonical, og:url, WebSite.url, CollectionPage.url
+  const can = document.querySelector('#canonical');
+  if (can) can.href = abs('/biographies.html');
+
+  const setMeta = (name, val, attr='content', prop=false)=>{
+    const sel = prop ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+    const el = document.querySelector(sel);
+    if (el) el.setAttribute(attr, val);
+  };
+
+  const curURL = window.location.href.split('#')[0];
+  setMeta('og:url', curURL, 'content', true);
+
+  // WebSite.url
+  try{
+    const ws = document.querySelector('script[type="application/ld+json"]:not(#ld-people)');
+    if (ws) {
+      const data = JSON.parse(ws.textContent.trim());
+      if (data['@type']==='WebSite'){ data.url = curURL; ws.textContent = JSON.stringify(data); }
+    }
+  }catch{}
+
+  // CollectionPage + ItemList из карточек (.card)
+  try{
+    const ld = document.getElementById('ld-people');
+    const data = JSON.parse(ld.textContent.trim());
+    data.url = curURL;
+    const items = [];
+    document.querySelectorAll('.card').forEach((card, idx)=>{
+      const name = card.querySelector('h3 span')?.textContent?.trim() || 'Без названия';
+      const img  = card.querySelector('.card-cover')?.getAttribute('src') || '';
+      const meta = card.querySelector('.card-meta')?.textContent || '';
+      // Пытаемся вытащить годы и жанр из текста
+      const yearsMatch = meta.match(/(\d{3,4}|—|…)\s*[\u2013-]\s*(\d{3,4}|…)/);
+      const birthDate = yearsMatch ? yearsMatch[1] : undefined;
+      const deathDate = yearsMatch ? yearsMatch[2] : undefined;
+      const role = meta.replace(yearsMatch?.[0]||'', '').replace(/[•·.\-–—\s]{1,}/g,' ').trim();
+
+      const person = {
+        "@type":"Person",
+        "name": name
+      };
+      if (img) person.image = abs(img);
+      if (birthDate && /^\d{3,4}$/.test(birthDate)) person.birthDate = birthDate;
+      if (deathDate && /^\d{3,4}|…$/.test(deathDate)) person.deathDate = deathDate.replace('…','');
+      if (role) person.occupation = role;
+
+      items.push({
+        "@type":"ListItem",
+        "position": idx+1,
+        "item": person
+      });
+    });
+    data.hasPart = items;
+    ld.textContent = JSON.stringify(data);
+  }catch(e){ /* тихо */ }
+})();
+</script>
+<!-- SEO PACK v1 — END -->
+
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/poet%20ico.svg"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Общие стили -->
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    main{padding-bottom:72px}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    .btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #e5e7eb;border-radius:12px;padding:8px 12px;font-weight:600}
+    .btn-ghost{background:#fff}
+    .btn-like[aria-pressed="true"]{border-color:#fb7185;background:#fff1f2}
+    .wrap{max-width:820px;margin:0 auto}
+    .article-modal{max-width:880px;width:100%}
+    .article-scroll{max-height:80vh;overflow:auto}
+    .article-cover{width:100%;height:340px;object-fit:cover;border-bottom:1px solid #e5e7eb;border-top-left-radius:16px;border-top-right-radius:16px}
+    .hero{padding-top:12px;padding-bottom:12px}
+    .hero h1{font-size:18px;line-height:1.2;font-weight:700;letter-spacing:.2px}
+    .hero .logo{height:28px;width:auto}
+    @media (min-width:768px){
+      .hero{padding-top:16px;padding-bottom:16px}
+      .hero h1{font-size:20px}
+      .hero .logo{height:32px}
+    }
+    footer .soc-row{display:flex;align-items:center;gap:10px}
+    footer .soc-row img{width:20px;height:20px;display:block}
+    @media (max-width:768px){
+      footer .soc-row img{width:18px;height:18px}
+    }
+
+    /* 16:9 превью в карточках */
+    .card-cover{
+      width:100%;
+      aspect-ratio:16/9;
+      height:auto !important;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* --- BIO CARDS: enriched meta, quote, reveal --- */
+    .card{position:relative}
+    .card-meta{
+      display:flex;align-items:center;gap:10px;
+      font-size:12px;color:#6b7280;margin:6px 0 2px
+    }
+    .card-meta .dot{width:4px;height:4px;border-radius:50%;background:#d1d5db}
+    .card-flag{width:16px;height:16px;object-fit:cover;border-radius:3px;flex:0 0 16px}
+    .card-quote{
+      margin-top:6px;padding:10px 12px;border:1px solid #eef2f7;border-radius:10px;
+      font-size:13px;line-height:1.5;color:#374151;background:#fafbfc
+    }
+    .card-quote:before{content:"“";margin-right:4px;color:#9ca3af}
+    .card-quote:after{content:"”";margin-left:2px;color:#9ca3af}
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .35s ease}
+    .reveal.show{opacity:1;transform:none}
+  </style>
+</head>
+<body class="text-gray-900">
+
+  <!-- ШАПКА -->
+  <header class="border-b border-gray-200 bg-white">
+    <div class="w-full px-2 flex justify-between items-center h-16">
+      <a href="index.html" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
+        <img src="images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
+        На ТОПчане
+      </a>
+
+      <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+        <a href="index.html">Главная</a>
+        <a href="news.html">Новости</a>
+        <a href="ads.html">Реклама</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="biographies.html" class="font-bold border-b-2 border-current">Биографии</a>
+        <a href="music.html">Музыка</a>
+        <a href="entertainment.html">Развлечения</a>
+        <a href="products.html">Продукция</a>
+        <a href="about.html">О нас</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+
+      <button id="menu-btn" class="md:hidden p-2 text-gray-700 text-2xl" aria-label="Меню">☰</button>
+    </div>
+
+    <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
+      <a href="index.html">Главная</a>
+      <a href="news.html">Новости</a>
+      <a href="ads.html">Реклама</a>
+      <a href="gallery.html">Галерея</a>
+      <a href="biographies.html" class="font-bold">Биографии</a>
+      <a href="music.html">Музыка</a>
+      <a href="entertainment.html">Развлечения</a>
+      <a href="products.html">Продукция</a>
+      <a href="about.html">О нас</a>
+      <a href="contacts.html">Контакты</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+<section class="bg-white border-b">
+  <div class="max-w-7xl mx-auto px-2 hero flex items-center gap-3">
+    <img src="images/poet%20logo.svg" alt="На ТОПчане" class="logo">
+    <h1>Биографии Поэтов</h1>
+  </div>
+</section>
+
+
+  <!-- КОНТЕНТ -->
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <div id="bios-feed" class="wrap space-y-6"></div>
+    <div id="bios-empty" class="hidden text-sm text-gray-500 text-center">Пока пусто</div>
+    <div id="bios-err" class="hidden text-sm text-red-600 mt-2 text-center"></div>
+    <div class="flex justify-center my-6">
+      <button id="bios-more" class="btn btn-ghost">Показать ещё</button>
+    </div>
+  </main>
+
+  <!-- ПОДВАЛ -->
+  <footer class="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p>© 2025 На ТОПчане. Все права защищены.</p>
+
+      <ul class="soc-row">
+        <li><a href="https://vk.com/natopchane" target="_blank" aria-label="VK"><img src="images/soc/vk.svg" alt="VK"></a></li>
+        <li><a href="https://t.me/na_topchane" target="_blank" aria-label="Telegram"><img src="images/soc/telegram.svg" alt="Telegram"></a></li>
+        <li><a href="https://www.instagram.com/natopchane/" target="_blank" aria-label="Instagram"><img src="images/soc/instagram.svg" alt="Instagram"></a></li>
+        <li><a href="https://www.tiktok.com/@natopchane" target="_blank" aria-label="TikTok"><img src="images/soc/tik-tok.svg" alt="TikTok"></a></li>
+        <li><a href="https://www.pinterest.com/natopchane/?invite_code=67d18b04667e4a56b03fb7432127235b&sender=1144266355231499314" target="_blank" aria-label="Pinterest"><img src="images/soc/pinterest.svg" alt="Pinterest"></a></li>
+        <li><a href="https://rutube.ru/channel/49549724/" target="_blank" aria-label="Rutube"><img src="images/soc/rutube.svg" alt="Rutube"></a></li>
+        <li><a href="https://www.facebook.com/groups/natopchane/" target="_blank" aria-label="Facebook"><img src="images/soc/fb.svg" alt="Facebook"></a></li>
+        <li><a href="https://dzen.ru/natopchane" target="_blank" aria-label="Dzen"><img src="images/soc/yandex.svg" alt="Dzen"></a></li>
+        <li><a href="https://www.youtube.com/@natopchane" target="_blank" aria-label="YouTube"><img src="images/soc/youtube.svg" alt="YouTube"></a></li>
+        <li><a href="https://ok.ru/group/70000013841187" target="_blank" aria-label="OK"><img src="images/soc/ok.svg" alt="OK"></a></li>
+      </ul>
+
+      <div class="flex flex-wrap gap-3">
+        <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
+        <button id="support-btn" class="hover:underline">Поддержка</button>
+        <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
+        <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- МОДАЛКА -->
+  <div id="modal-overlay" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+    <div id="modal-box" class="bg-white article-modal w-full max-w-[880px] p-0 rounded-2xl relative shadow-lg">
+      <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none" aria-label="Закрыть">&times;</button>
+      <div class="article-scroll">
+        <img id="article-cover" class="article-cover hidden" alt="">
+        <div class="p-6">
+          <h2 id="modal-title" class="text-2xl font-bold mb-1"></h2>
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div id="modal-meta" class="text-xs text-gray-500"></div>
+            <div class="ml-auto flex items-center gap-2 text-xs">
+              <button id="share-copy" class="btn btn-ghost py-1 px-2">Скопировать ссылку</button>
+              <a id="share-tg" class="btn btn-ghost py-1 px-2" target="_blank" rel="noopener">TG</a>
+              <a id="share-vk" class="btn btn-ghost py-1 px-2" target="_blank" rel="noopener">VK</a>
+            </div>
+          </div>
+          <div id="modal-content" class="prose text-gray-800"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIREBASE + ЛОГИКА -->
+  <script type="module">
+    import { firebaseConfig } from './firebase-config.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
+    import {
+      getFirestore, collection, getDocs, query, orderBy, limit, startAfter,
+      doc, updateDoc, increment
+    } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    // DOM
+    const $ = (s,r=document)=>r.querySelector(s);
+    const feedEl = $('#bios-feed'), emptyEl = $('#bios-empty'), errEl = $('#bios-err'), moreBtn = $('#bios-more');
+
+    // Меню
+    $('#menu-btn')?.addEventListener('click',()=>$('#menu').classList.toggle('hidden'));
+
+    // Модалка
+    const overlay = $('#modal-overlay');
+    const mTitle = $('#modal-title');
+    const mMeta  = $('#modal-meta');
+    const mContent = $('#modal-content');
+    const mCover = $('#article-cover');
+    const aShareTG = $('#share-tg');
+    const aShareVK = $('#share-vk');
+    const btnShareCopy = $('#share-copy');
+
+    $('#modal-close').onclick = ()=> overlay.classList.add('hidden');
+    overlay.onclick = (e)=>{ if(e.target===overlay) overlay.classList.add('hidden'); };
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') overlay.classList.add('hidden'); });
+
+    // Пейджинг
+    const pageSize = 12;
+    let lastDoc = null;
+    let cache = [];
+    let currentIndex = -1;
+
+    // Утилиты
+    const esc = s => (s||'').toString().replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    const cut = (t,max=260)=>{t=(t||'').toString().replace(/\s+/g,' ').trim();return t.length<=max?esc(t):esc(t.slice(0,max))+'…';}
+    const liked = id => { try{return localStorage.getItem('biographies_like_'+id)==='1'}catch{return false} };
+    const markLiked = id => { try{localStorage.setItem('biographies_like_'+id,'1')}catch{} };
+
+    // Карточка (обогащённая)
+    const card = (b)=>{
+      const years = (b.birthYear || b.birth) || (b.deathYear || b.death)
+        ? `${b.birthYear||b.birth||'—'}–${b.deathYear||b.death||'…'}` : '';
+      const role  = (b.role||b.genre||b.tag||'').toString().trim();
+      const flag  = (b.flag||'').toString().trim();
+
+      const flagEl = flag
+        ? (flag.startsWith('http') || flag.startsWith('images/') || flag.startsWith('./')
+            ? `<img class="card-flag" src="${esc(flag)}" alt="">`
+            : `<span class="text-base" aria-hidden="true">${esc(flag)}</span>`)
+        : '';
+
+      return `
+      <article class="card reveal overflow-hidden" data-id="${b.id}">
+        ${b.cover?`<img loading="lazy" src="${esc(b.cover)}" class="card-cover border-b" alt="">`:''}
+        <div class="p-5">
+          <div class="card-meta">
+            ${flagEl}
+            ${years?`<span>${esc(years)}</span>`:''}
+            ${(years && role)?`<span class="dot"></span>`:''}
+            ${role?`<span>${esc(role)}</span>`:''}
+          </div>
+
+          <h3 class="font-bold text-lg leading-tight">${esc(b.title||'Без названия')}</h3>
+
+          ${b.desc?`<p class="text-sm text-gray-800">${cut(b.desc, 220)}</p>`:''}
+          ${b.quote?`<div class="card-quote">${esc(b.quote)}</div>`:''}
+
+          <div class="flex items-center justify-between mt-3">
+            <button class="btn btn-ghost read-more" data-open="${b.id}">Подробнее</button>
+            <div class="flex items-center gap-4 text-xs text-gray-600">
+              <button class="btn btn-ghost btn-like" data-like="${b.id}" aria-pressed="${liked(b.id)}">❤️ <span class="like-count">${b.likes||0}</span></button>
+              <span class="inline-flex items-center gap-1">👁 <span class="view-count">${b.views||0}</span></span>
+            </div>
+          </div>
+        </div>
+      </article>`;
+    };
+
+    function render(list = cache){
+      feedEl.innerHTML = list.map(card).join('');
+      // плавное появление карточек
+      const io = new IntersectionObserver((ents)=>{
+        ents.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+        });
+      },{threshold:0.1});
+      feedEl.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+    }
+
+    async function loadMore(){
+      moreBtn.disabled = true;
+      try{
+        let q = query(collection(db,'biographies'), orderBy('createdAt','desc'), limit(pageSize));
+        if(lastDoc) q = query(collection(db,'biographies'), orderBy('createdAt','desc'), startAfter(lastDoc), limit(pageSize));
+        const snap = await getDocs(q);
+        if(!snap.empty){
+          lastDoc = snap.docs[snap.docs.length-1];
+          const arr = snap.docs
+            .map(d => ({ id: d.id, ...d.data() }))
+            .filter(b => (b.status||'published')==='published' && !b.__deleted);
+          cache = cache.concat(arr);
+          render();
+          emptyEl.classList.add('hidden');
+          moreBtn.classList.toggle('hidden', snap.size < pageSize);
+        }else{
+          if(!cache.length) emptyEl.classList.remove('hidden');
+          moreBtn.classList.add('hidden');
+        }
+      }catch(e){
+        console.error(e);
+        errEl.textContent='Ошибка загрузки биографий. Проверь firebase-config.js и права Firestore.';
+        errEl.classList.remove('hidden');
+      }finally{
+        moreBtn.disabled = false;
+      }
+    }
+
+    // Делегирование: открыть и лайк
+    document.addEventListener('click', async (e)=>{
+      const openBtn = e.target.closest('[data-open]');
+      if(openBtn){ openBio(openBtn.dataset.open); return; }
+
+      const likeBtn = e.target.closest('[data-like]');
+      if(likeBtn){
+        const id = likeBtn.dataset.like;
+        if(liked(id)) return;
+        try{
+          await updateDoc(doc(db,'biographies',id), { likes: increment(1) });
+          likeBtn.setAttribute('aria-pressed','true');
+          const span = likeBtn.querySelector('.like-count');
+          span.textContent = String((+span.textContent||0)+1);
+          markLiked(id);
+        }catch(err){ console.warn('like++ fail', err?.code||err?.message||err); }
+      }
+    });
+
+    function openBio(id){
+      const idx = cache.findIndex(x=>x.id===id);
+      if(idx<0) return;
+      currentIndex = idx;
+
+      const b = cache[idx] || {};
+      mTitle.textContent = b.title || 'Без названия';
+      mMeta.textContent  = (b.createdAt || '').toString().slice(0,10);
+      mContent.innerHTML = esc(b.desc || '');
+      if(b.cover){ mCover.src = b.cover; mCover.classList.remove('hidden'); } else { mCover.classList.add('hidden'); mCover.src=''; }
+
+      const url = location.origin + location.pathname + '#bio=' + encodeURIComponent(id);
+      if (aShareTG) aShareTG.href = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(b.title||'');
+      if (aShareVK) aShareVK.href = 'https://vk.com/share.php?url=' + encodeURIComponent(url);
+      if (btnShareCopy) btnShareCopy.onclick = async ()=>{ try{ await navigator.clipboard.writeText(url); btnShareCopy.textContent='Скопировано'; setTimeout(()=>btnShareCopy.textContent='Скопировать ссылку',1500);}catch{} };
+
+      overlay.classList.remove('hidden');
+
+      updateDoc(doc(db,'biographies', id), { views: increment(1) })
+        .catch(err => console.warn('views++ fail', err?.code || err?.message || err));
+    }
+
+    // Хэш-открытие #bio=ID
+    function openFromHash(){
+      const m = location.hash.match(/bio=([^&]+)/);
+      if(m){ const id = decodeURIComponent(m[1]); const t = setInterval(()=>{
+          if(cache.length){ clearInterval(t); openBio(id); }
+        },100); setTimeout(()=>clearInterval(t), 5000);
+      }
+    }
+
+    // Инит
+    moreBtn.onclick = loadMore;
+    await loadMore();
+    openFromHash();
+
+    // Инфо-окна в подвале
+    function openInfo(title, html){
+      mTitle.textContent = title;
+      mMeta.textContent = '';
+      mCover.classList.add('hidden'); mCover.src='';
+      mContent.innerHTML = html;
+      overlay.classList.remove('hidden');
+    }
+    $('#terms-btn').onclick = ()=> openInfo('Пользовательское соглашение', `<p>Используя сайт «На ТОПчане», вы соглашаетесь с правилами.</p>`);
+    $('#support-btn').onclick = ()=> openInfo('Поддержка', `<p>Пишите нам в <a class="text-blue-600 hover:underline" target="_blank" href="https://t.me/levakand_pro">Telegram</a>.</p>`);
+    $('#cooperation-btn').onclick = ()=> openInfo('Сотрудничество', `<p>Проекты и реклама: <a class="text-red-600 hover:underline" href="mailto:natopchane@gmail.com">natopchane@gmail.com</a></p>`);
+    $('#privacy-btn').onclick = ()=> openInfo('Политика конфиденциальности', `<p>Мы уважаем вашу конфиденциальность. Данные используются минимально и по назначению.</p>`);
+  </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Музыка — На ТОПчане | Персидский Мир</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/musicico.svg" />
+
+  <!-- SEO -->
+  <meta name="description" content="Музыкальные клипы и аудио На ТОПчане: свежие видео с YouTube, компактные треки и таджикский рэп." />
+  <meta name="theme-color" content="#0b0b0b" />
+
+  <!-- OG -->
+  <meta property="og:title" content="Музыка — На ТОПчане" />
+  <meta property="og:description" content="Клипы, треки и таджикский рэп. Больше — в нашем Telegram." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/preview-music.jpg" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+
+<!-- Шапка (белый логотип) -->
+<header class="border-b border-white/10 bg-gray-900/95 sticky top-0 z-50 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+    <div class="flex items-center gap-3">
+      <img src="images/logo_white.png" alt="На ТОПчане" class="h-8" />
+      <span class="font-semibold text-lg">На ТОПчане</span>
+    </div>
+    <nav class="hidden md:flex gap-6 text-sm font-medium">
+      <a href="index.html" class="hover:text-blue-400 transition">Главная</a>
+      <a href="news.html" class="hover:text-blue-400 transition">Новости</a>
+      <a href="ads.html" class="hover:text-blue-400 transition">Реклама</a>
+      <a href="videos.html" class="hover:text-blue-400 transition">Видео</a>
+      <a href="gallery.html" class="hover:text-blue-400 transition">Галерея</a>
+      <a href="biographies.html" class="hover:text-blue-400 transition">Биографии</a>
+      <a href="music.html" class="border-b-2 border-blue-400 text-blue-400">Музыка</a>
+      <a href="fun.html" class="hover:text-blue-400 transition">Развлечения</a>
+      <a href="products.html" class="hover:text-blue-400 transition">Продукция</a>
+      <a href="about.html" class="hover:text-blue-400 transition">О нас</a>
+      <a href="contacts.html" class="hover:text-blue-400 transition">Контакты</a>
+    </nav>
+    <button id="menu-btn" class="md:hidden p-2 border border-white/20 rounded">☰</button>
+  </div>
+  <div id="menu" class="hidden md:hidden bg-gray-900 border-t border-white/10">
+    <nav class="flex flex-col p-4 gap-2 text-sm font-medium">
+      <a href="index.html">Главная</a>
+      <a href="news.html">Новости</a>
+      <a href="ads.html">Реклама</a>
+      <a href="videos.html">Видео</a>
+      <a href="gallery.html">Галерея</a>
+      <a href="biographies.html">Биографии</a>
+      <a href="music.html" class="text-blue-400">Музыка</a>
+      <a href="fun.html">Развлечения</a>
+      <a href="products.html">Продукция</a>
+      <a href="about.html">О нас</a>
+      <a href="contacts.html">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.getElementById('menu-btn').addEventListener('click', () => {
+    document.getElementById('menu').classList.toggle('hidden');
+  });
+</script>
+
+<!-- Секция: Музыкальные клипы (YouTube) -->
+<section class="max-w-7xl mx-auto p-4 pb-16">
+  <h1 class="flex items-center text-3xl font-bold mb-6">
+    <img src="images/music-notes.svg" alt="" class="h-8 w-8 mr-3">
+    Музыкальные клипы
+  </h1>
+  <div id="yt-loader" class="text-center py-8 text-white/70">Загрузка клипов…</div>
+  <div id="yt-grid" class="grid gap-4 md:grid-cols-4"></div>
+</section>
+
+<!-- Модалка плеера -->
+<div id="video-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+  <div class="bg-black rounded-lg overflow-hidden max-w-3xl w-full relative shadow-2xl">
+    <button id="close-modal" class="absolute top-2 right-2 text-white text-2xl">&times;</button>
+    <iframe id="video-frame" class="w-full aspect-video" src="" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- Секция: Аудио (ультракомпактный список) -->
+<section class="max-w-7xl mx-auto px-4 pb-8">
+  <h2 class="flex items-center text-2xl font-semibold mb-3">
+    <span class="inline-block w-2 h-6 bg-emerald-400 mr-3 rounded"></span>
+    Аудио
+  </h2>
+
+  <!-- Скрытый глобальный аудиоплеер -->
+  <audio id="audio-player" class="hidden"></audio>
+
+  <!-- Список треков -->
+  <ul id="audio-list" class="divide-y divide-white/10 rounded-lg border border-white/10 overflow-hidden">
+    <!-- строки рендерятся скриптом -->
+  </ul>
+
+  <!-- TG промо -->
+  <div class="mt-6">
+    <a href="https://t.me/na_topchane" target="_blank"
+       class="flex items-center gap-3 px-4 py-3 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition w-full md:w-auto">
+      <img src="images/tgm.svg" class="h-5 w-5" alt="Telegram">
+      <span class="text-sm text-white/90">Больше музыки — в нашем Telegram</span>
+    </a>
+  </div>
+</section>
+
+<!-- Разделитель -->
+<hr class="border-white/10">
+
+<!-- Секция: ТАДЖИКСКИЙ РЭП -->
+<section class="max-w-7xl mx-auto px-4 py-12">
+  <h3 class="text-2xl font-semibold mb-6">ТАДЖИКСКИЙ РЭП</h3>
+  <div id="rap-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- карточки рендерятся скриптом -->
+  </div>
+</section>
+
+<!-- Футер -->
+<!-- Футер -->
+<footer class="fixed bottom-0 left-0 w-full border-t border-white/10 bg-gray-900/95 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-white/60 flex flex-col md:flex-row justify-between items-center gap-2">
+    <p>© 2025 На ТОПчане. Все права защищены.</p>
+    <div class="flex flex-wrap gap-3">
+      <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
+      <button id="support-btn" class="hover:underline">Поддержка</button>
+      <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
+      <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
+    </div>
+  </div>
+</footer>
+
+<!-- Модалки (в конце body, но не внутри footer) -->
+<div id="terms-modal" class="hidden fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center">
+  <div class="bg-white text-black rounded-lg max-w-xl w-full relative p-6">
+    <button class="absolute top-2 right-3 text-2xl" onclick="closeModal('terms-modal')">&times;</button>
+    <h2 class="text-lg font-bold mb-4">Пользовательское соглашение</h2>
+    <p>Тут текст соглашения...</p>
+  </div>
+</div>
+
+
+<!-- Универсальная модалка для футера -->
+<div id="modal-overlay" class="hidden fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center">
+
+  <div class="bg-white text-gray-800 max-w-lg w-full mx-4 p-6 rounded-lg relative shadow-lg">
+    <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">&times;</button>
+    <h3 id="modal-title" class="text-xl font-semibold mb-4"></h3>
+    <div id="modal-content" class="text-sm leading-relaxed space-y-3 max-h-72 overflow-y-auto"></div>
+  </div>
+</div>
+
+<!-- Скрипты -->
+<script>
+  /* ====== YouTube: клипы ====== */
+  const API_KEY = "AIzaSyCNYHO2iBXdgd8Tc_sp2C1F9SqCkJ8n-68"; // твой ключ
+  const MUSIC_PLAYLIST_ID = "PLco-4nDrUoiBF84fD90ZZ7I3HWCBd8d-o";
+
+  async function loadMusicVideos() {
+    const grid = document.getElementById('yt-grid');
+    const loader = document.getElementById('yt-loader');
+    grid.innerHTML = '';
+    loader.classList.remove('hidden');
+
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${MUSIC_PLAYLIST_ID}&key=${API_KEY}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        grid.innerHTML = `<p class="text-red-400">Ошибка загрузки: ${data?.error?.message || res.status}</p>`;
+        return;
+      }
+
+      grid.innerHTML = data.items.map(({ snippet }) => {
+        const vid = snippet?.resourceId?.videoId || '';
+        const thumb = snippet?.thumbnails?.medium?.url || snippet?.thumbnails?.default?.url || '';
+        const title = (snippet?.title || '').replace(/"/g, '&quot;');
+        return `
+          <div class="cursor-pointer rounded-lg overflow-hidden bg-white/5 hover:bg-white/10 transition shadow-sm hover:shadow"
+               onclick="openModal('${vid}')">
+            <img src="${thumb}" alt="${title}" class="w-full">
+            <p class="p-3 text-sm text-white/90">${title}</p>
+          </div>
+        `;
+      }).join('');
+    } catch (e) {
+      console.error(e);
+      grid.innerHTML = `<p class="text-red-400">Сеть недоступна или CORS. Проверь ключ/домен.</p>`;
+    } finally {
+      loader.classList.add('hidden');
+    }
+  }
+
+  function openModal(videoId) {
+    document.getElementById('video-frame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    document.getElementById('video-modal').classList.remove('hidden');
+  }
+  document.getElementById('close-modal').addEventListener('click', () => {
+    document.getElementById('video-modal').classList.add('hidden');
+    document.getElementById('video-frame').src = '';
+  });
+  document.getElementById('video-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('video-modal')) document.getElementById('close-modal').click();
+  });
+
+  /* ====== Аудио: компактные строки ====== */
+  // Список треков (добавишь файл в audio/ — просто допиши сюда имя)
+  const audioTracks = [
+    "Somon Nishapuri - Alo Alo.mp3",
+    "Somon Nishapuri - Man Tojik.mp3",
+    "Somon Nishapuri - Mardumi Tojik.mp3",
+    "Somon Nishapuri - Navruzi man.mp3",
+    "Somon Nishapuri - Zadani Dili Mani.mp3",
+    "Somon Nishapuri - Zarina.mp3",
+    "На ТОПчане - Ватан.mp3",
+    "На Топчане - Гарем.mp3",
+    "На ТОПчане - Горы Героев.mp3",
+    "На ТОПчане - Душа.mp3",
+    "На Топчане - Родина.mp3",
+    "На ТОПчане - Тени Вечности.mp3",
+  ];
+
+  const audioEl = document.getElementById('audio-player');
+  let currentRow = null;
+
+  function formatName(n){ return n.replace(/\.mp3$/i,''); }
+
+  function renderAudio() {
+    const list = document.getElementById('audio-list');
+    list.innerHTML = audioTracks.map((n,i)=>`
+      <li class="flex items-center justify-between gap-3 px-3 py-2 bg-white/3 hover:bg-white/8 transition">
+        <div class="flex items-center gap-3 min-w-0">
+          <button class="play-btn h-7 w-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+                  data-src="${encodeURI('audio/' + n)}" aria-label="Play">
+            ▶
+          </button>
+          <span class="truncate">${formatName(n)}</span>
+        </div>
+        <a href="${'audio/' + encodeURI(n)}" download class="text-xs text-blue-300 hover:underline shrink-0">Скачать</a>
+      </li>
+    `).join('');
+
+    list.querySelectorAll('.play-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const src = btn.dataset.src;
+        // если нажали на ту же строку — пауза
+        if(currentRow === btn){
+          if(!audioEl.paused){ audioEl.pause(); btn.textContent='▶'; }
+          else { audioEl.play(); btn.textContent='⏸'; }
+          return;
+        }
+        // новая строка
+        if(currentRow) currentRow.textContent='▶';
+        currentRow = btn;
+        audioEl.src = src;
+        audioEl.play().catch(()=>{});
+        btn.textContent='⏸';
+      });
+    });
+
+    audioEl.addEventListener('ended', ()=>{
+      if(currentRow){ currentRow.textContent='▶'; currentRow=null; }
+    });
+    audioEl.addEventListener('pause', ()=>{
+      if(currentRow) currentRow.textContent='▶';
+    });
+  }
+
+  /* ====== Рэп: карточки с кнопкой "Послушать" ====== */
+  const rappers = [
+    { name: "LEVAKAND PRO", url: "https://www.youtube.com/@LevakandProduction" },
+    { name: "Parviz Muhammadi", url: "https://www.youtube.com/@ParvizMuhammadi" },
+    { name: "BOZZORI", url: "https://www.youtube.com/@bozzorimusic" },
+    { name: "Parveez music", url: "https://www.youtube.com/@Parveezmusic" },
+    { name: "ABADA", url: "https://www.youtube.com/@HarryRayakaAbAdA" },
+    { name: "LIL WESTJK", url: "https://www.youtube.com/@lilwest" },
+    { name: "KLIFF", url: "https://www.youtube.com/@Kliff_Centrione" },
+    { name: "MR SLIM", url: "https://www.youtube.com/@MrSlimSWS" },
+    { name: "NABOT", url: "https://www.youtube.com/@BoboiNabot" },
+    { name: "XD IGA", url: "https://www.youtube.com/@xd_iga" },
+    { name: "MC ERA", url: "https://www.youtube.com/@mcEraTJ" }
+  ];
+
+  function renderRap() {
+    const grid = document.getElementById('rap-grid');
+    grid.innerHTML = rappers.map(r => `
+      <div class="flex items-center justify-between gap-4 p-4 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition">
+        <span class="font-medium">${r.name}</span>
+        <a href="${r.url}" target="_blank"
+           class="flex items-center gap-2 px-3 py-1.5 rounded bg-blue-500 hover:bg-blue-600 text-sm">
+          <img src="images/listen.svg" class="h-4 w-4" alt="">
+          Послушать
+        </a>
+      </div>
+    `).join('');
+  }
+
+  /* ====== Модалки футера (как раньше) ====== */
+  const modal = document.getElementById('modal-overlay');
+  const mTitle = document.getElementById('modal-title');
+  const mContent = document.getElementById('modal-content');
+  document.getElementById('modal-close').onclick = () => modal.classList.add('hidden');
+  modal.onclick = e => { if (e.target === modal) modal.classList.add('hidden'); };
+
+  document.getElementById('privacy-btn').onclick = () => {
+    mTitle.textContent = 'Политика конфиденциальности';
+    mContent.innerHTML = `
+      <p>Собираем минимальные технические данные (IP, cookie) для аналитики и улучшения сервиса.</p>
+      <p>Для запросов на удаление данных: natopchane@gmail.com.</p>`;
+    modal.classList.remove('hidden');
+  };
+  document.getElementById('terms-btn').onclick = () => {
+    mTitle.textContent = 'Пользовательское соглашение';
+    mContent.innerHTML = `
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Не размещать незаконный/оскорбительный контент.</li>
+        <li>Соблюдать авторские права.</li>
+        <li>Условия могут обновляться без уведомления.</li>
+      </ul>`;
+    modal.classList.remove('hidden');
+  };
+  document.getElementById('support-btn').onclick = () => {
+    mTitle.textContent = 'Поддержка';
+    mContent.innerHTML = `
+      <p class="flex items-center gap-2">
+        <img src="images/telegram.svg" class="w-5 h-5" alt="Telegram">
+        <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Написать в Telegram</a>
+      </p>`;
+    modal.classList.remove('hidden');
+  };
+  document.getElementById('cooperation-btn').onclick = () => {
+    mTitle.textContent = 'Сотрудничество и реклама';
+    mContent.innerHTML = `
+      <p class="flex items-center gap-2">
+        <img src="images/telegram.svg" class="w-5 h-5" alt="Telegram">
+        <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Telegram</a>
+      </p>
+      <p class="flex items-center gap-2">
+        <img src="images/gmail.svg" class="w-5 h-5" alt="Gmail">
+        <a href="mailto:natopchane@gmail.com" class="text-red-600 hover:underline">natopchane@gmail.com</a>
+      </p>`;
+    modal.classList.remove('hidden');
+  };
+
+  // init
+  loadMusicVideos();
+  renderAudio();
+  renderRap();
+</script>
+
+</body>
+</html>
