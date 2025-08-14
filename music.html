@@ -1,120 +1,75 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Музыка — На ТОПчане | Персидский Мир</title>
-<link rel="stylesheet" href="/css/style.css">
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="images/musicico.svg" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
-  <!-- SEO -->
-  <meta name="description" content="Музыкальные клипы и аудио На ТОПчане: свежие видео с YouTube, компактные треки и таджикский рэп." />
-  <meta name="theme-color" content="#0b0b0b" />
-
-  <!-- OG -->
-  <meta property="og:title" content="Музыка — На ТОПчане" />
-  <meta property="og:description" content="Клипы, треки и таджикский рэп. Больше — в нашем Telegram." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/preview-music.jpg" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-.ad-left, .ad-right {
-    position: fixed;
-    top: 100px;
-    z-index: 9999;
-}
-.ad-left {
-    left: 10px;
-}
-.ad-right {
-    right: 10px;
-}
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Музыка — На ТОПчане | Персидский Мир</title>
+<link rel="icon" type="image/svg+xml" href="images/musicico.svg">
+<link rel="stylesheet" href="css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet"/>
+<meta name="description" content="Музыкальные клипы и аудио На ТОПчане: свежие видео с YouTube, компактные треки и таджикский рэп."/>
+<meta name="theme-color" content="#0b0b0b"/>
+<meta property="og:title" content="Музыка — На ТОПчане"/>
+<meta property="og:description" content="Клипы, треки и таджикский рэп. Больше — в нашем Telegram."/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="images/preview-music.jpg"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .ad-left, .ad-right { position: fixed; top: 100px; z-index: 9999; }
+  .ad-left { left: 10px; }
+  .ad-right { right: 10px; }
+  header nav a { color: white; font-weight: 500; padding-bottom: 2px; transition: border-color .2s; }
+  header nav a.active { border-bottom: 2px solid #0ea5e9; }
+  .logo-text { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1.25rem; }
 </style>
-
 </head>
 <body class="bg-gray-900 text-white font-sans">
-
-<!-- ====== HEADER (как на главной, белое меню) ====== -->
+<!-- ====== HEADER ====== -->
 <header class="border-b border-gray-800 bg-gray-900">
-  <style>
-    header nav a {
-      color: white;
-      font-weight: 500;
-      padding-bottom: 2px;
-      transition: border-color 0.2s;
-    }
-    header nav a.active {
-      border-bottom: 2px solid #0ea5e9; /* цвет активной страницы Музыка */
-    }
-    .logo-text {
-  font-family: 'Playfair Display', serif;
-  font-weight: 600;
-  font-size: 1.25rem;
-}
-
-  </style>
-
   <div class="w-full px-2 flex justify-between items-center h-16">
-<a href="/" class="flex items-center gap-2 logo-text">
-  <img src="/images/logo_white.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
-  На ТОПчане
-</a>
-
-
-    <!-- Десктоп-меню -->
+    <a href="index.html" class="flex items-center gap-2 logo-text">
+      <img src="images/logo_white.png" alt="На ТОПчане" class="h-8 w-8 object-contain"/>
+      На ТОПчане
+    </a>
     <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
-      <a href="/">Главная</a>
-      <a href="/news.html">Новости</a>
-      <a href="/ads.html">Реклама</a>
-      <a href="/videos.html">Видео</a>
-      <a href="/gallery.html">Галерея</a>
-      <a href="/biographies.html">Биографии</a>
-      <a href="/music.html" class="active">Музыка</a>
-      <a href="/entertainment.html">Развлечения</a>
-      <a href="/products.html">Продукция</a>
-      <a href="/about.html">О&nbsp;нас</a>
-      <a href="/contacts.html">Контакты</a>
+      <a href="index.html">Главная</a>
+      <a href="news.html">Новости</a>
+      <a href="ads.html">Реклама</a>
+      <a href="videos.html">Видео</a>
+      <a href="gallery.html">Галерея</a>
+      <a href="biographies.html">Биографии</a>
+      <a class="active" href="music.html">Музыка</a>
+      <a href="entertainment.html">Развлечения</a>
+      <a href="products.html">Продукция</a>
+      <a href="about.html">О нас</a>
+      <a href="contacts.html">Контакты</a>
     </nav>
-
-    <!-- Бургер -->
-    <button id="menu-btn" class="md:hidden p-2 text-white text-2xl" aria-label="Меню">☰</button>
+    <button id="menu-btn" aria-label="Меню" class="md:hidden p-2 text-white text-2xl">☰</button>
   </div>
-
-  <!-- Мобильное меню -->
   <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-800 md:hidden text-white">
-    <a href="/">Главная</a>
-    <a href="/news.html">Новости</a>
-    <a href="/ads.html">Реклама</a>
-    <a href="/videos.html">Видео</a>
-    <a href="/gallery.html">Галерея</a>
-    <a href="/biographies.html">Биографии</a>
-    <a href="/music.html" class="active">Музыка</a>
-    <a href="/entertainment.html">Развлечения</a>
-    <a href="/products.html">Продукция</a>
-    <a href="/about.html">О нас</a>
-    <a href="/contacts.html">Контакты</a>
+    <a href="index.html">Главная</a>
+    <a href="news.html">Новости</a>
+    <a href="ads.html">Реклама</a>
+    <a href="videos.html">Видео</a>
+    <a href="gallery.html">Галерея</a>
+    <a href="biographies.html">Биографии</a>
+    <a class="active" href="music.html">Музыка</a>
+    <a href="entertainment.html">Развлечения</a>
+    <a href="products.html">Продукция</a>
+    <a href="about.html">О нас</a>
+    <a href="contacts.html">Контакты</a>
   </div>
-
   <script>
-    document.getElementById('menu-btn')
-      ?.addEventListener('click', ()=> document.getElementById('menu')?.classList.toggle('hidden'));
+    document.getElementById('menu-btn')?.addEventListener('click',()=> {
+      document.getElementById('menu')?.classList.toggle('hidden');
+    });
   </script>
 </header>
 
-
-<script>
-  document.getElementById('menu-btn').addEventListener('click', () => {
-    document.getElementById('menu').classList.toggle('hidden');
-  });
-</script>
-
-<!-- Секция: Музыкальные клипы (YouTube) -->
+<!-- ====== YouTube Клипы ====== -->
 <section class="max-w-7xl mx-auto p-4 pb-16">
   <h1 class="flex items-center text-3xl font-bold mb-6">
-    <img src="images/music-notes.svg" alt="" class="h-8 w-8 mr-3">
+    <img src="images/music-notes.svg" class="h-8 w-8 mr-3" alt=""/>
     Музыкальные клипы
   </h1>
   <div id="yt-loader" class="text-center py-8 text-white/70">Загрузка клипов…</div>
@@ -124,49 +79,44 @@
 <!-- Модалка плеера -->
 <div id="video-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
   <div class="bg-black rounded-lg overflow-hidden max-w-3xl w-full relative shadow-2xl">
-    <button id="close-modal" class="absolute top-2 right-2 text-white text-2xl">&times;</button>
+    <button id="close-modal" class="absolute top-2 right-2 text-white text-2xl">×</button>
     <iframe id="video-frame" class="w-full aspect-video" src="" allowfullscreen></iframe>
   </div>
 </div>
 
-<!-- Секция: Аудио (ультракомпактный список) -->
+<!-- ====== Аудио ====== -->
 <section class="max-w-7xl mx-auto px-4 pb-8">
   <h2 class="flex items-center text-2xl font-semibold mb-3">
-    <span class="inline-block w-2 h-6 bg-emerald-400 mr-3 rounded"></span>
-    Аудио
+    <span class="inline-block w-2 h-6 bg-emerald-400 mr-3 rounded"></span>Аудио
   </h2>
 
-  <!-- Скрытый глобальный аудиоплеер -->
+  <!-- Глобальный аудиоплеер -->
   <audio id="audio-player" class="hidden"></audio>
 
   <!-- Список треков -->
   <ul id="audio-list" class="divide-y divide-white/10 rounded-lg border border-white/10 overflow-hidden">
-    <!-- строки рендерятся скриптом -->
+    <!-- наполняется скриптом -->
   </ul>
 
   <!-- TG промо -->
   <div class="mt-6">
     <a href="https://t.me/na_topchane" target="_blank"
        class="flex items-center gap-3 px-4 py-3 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition w-full md:w-auto">
-      <img src="images/tgm.svg" class="h-5 w-5" alt="Telegram">
+      <img src="images/tgm.svg" alt="Telegram" class="h-5 w-5"/>
       <span class="text-sm text-white/90">Больше музыки — в нашем Telegram</span>
     </a>
   </div>
 </section>
 
-<!-- Разделитель -->
-<hr class="border-white/10">
+<hr class="border-white/10"/>
 
-<!-- Секция: ТАДЖИКСКИЙ РЭП -->
+<!-- ====== ТАДЖИКСКИЙ РЭП ====== -->
 <section class="max-w-7xl mx-auto px-4 py-12">
   <h3 class="text-2xl font-semibold mb-6">ТАДЖИКСКИЙ РЭП</h3>
-  <div id="rap-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    <!-- карточки рендерятся скриптом -->
-  </div>
+  <div id="rap-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"><!-- наполняется скриптом --></div>
 </section>
 
-<!-- Футер -->
-<!-- Футер -->
+<!-- ====== Футер ====== -->
 <footer class="fixed bottom-0 left-0 w-full border-t border-white/10 bg-gray-900/95 backdrop-blur">
   <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-white/60 flex flex-col md:flex-row justify-between items-center gap-2">
     <p>© 2025 На ТОПчане. Все права защищены.</p>
@@ -179,30 +129,33 @@
   </div>
 </footer>
 
-<!-- Модалки (в конце body, но не внутри footer) -->
-<div id="terms-modal" class="hidden fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center">
-  <div class="bg-white text-black rounded-lg max-w-xl w-full relative p-6">
-    <button class="absolute top-2 right-3 text-2xl" onclick="closeModal('terms-modal')">&times;</button>
-    <h2 class="text-lg font-bold mb-4">Пользовательское соглашение</h2>
-    <p>Тут текст соглашения...</p>
-  </div>
-</div>
-
-
-<!-- Универсальная модалка для футера -->
+<!-- Универсальная модалка -->
 <div id="modal-overlay" class="hidden fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center">
-
   <div class="bg-white text-gray-800 max-w-lg w-full mx-4 p-6 rounded-lg relative shadow-lg">
-    <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">&times;</button>
+    <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">×</button>
     <h3 id="modal-title" class="text-xl font-semibold mb-4"></h3>
     <div id="modal-content" class="text-sm leading-relaxed space-y-3 max-h-72 overflow-y-auto"></div>
   </div>
 </div>
 
-<!-- Скрипты -->
+<!-- ====== Скрипты страницы ====== -->
 <script>
+  /* ====== POPUNDER (срабатывает на Play и Download) ====== */
+  function fireAd() {
+    try {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      // ваш скрипт; добавляем cache-busting для каждого события
+      s.src = '//pl27420990.profitableratecpm.com/7b/37/15/7b37150ec3b454718a466693a03c0f89.js?' + Date.now();
+      s.async = true;
+      document.body.appendChild(s);
+      // чтобы не засорять DOM
+      setTimeout(function(){ try{ s.remove(); }catch(e){} }, 15000);
+    } catch(e) { /* no-op */ }
+  }
+
   /* ====== YouTube: клипы ====== */
-  const API_KEY = "AIzaSyCNYHO2iBXdgd8Tc_sp2C1F9SqCkJ8n-68"; // твой ключ
+  const API_KEY = "AIzaSyCNYHO2iBXdgd8Tc_sp2C1F9SqCkJ8n-68";
   const MUSIC_PLAYLIST_ID = "PLco-4nDrUoiBF84fD90ZZ7I3HWCBd8d-o";
 
   async function loadMusicVideos() {
@@ -253,8 +206,7 @@
     if (e.target === document.getElementById('video-modal')) document.getElementById('close-modal').click();
   });
 
-  /* ====== Аудио: компактные строки ====== */
-  // Список треков (добавишь файл в audio/ — просто допиши сюда имя)
+  /* ====== Аудио список ====== */
   const audioTracks = [
     "Somon Nishapuri - Alo Alo.mp3",
     "Somon Nishapuri - Man Tojik.mp3",
@@ -267,7 +219,7 @@
     "На ТОПчане - Горы Героев.mp3",
     "На ТОПчане - Душа.mp3",
     "На Топчане - Родина.mp3",
-    "На ТОПчане - Тени Вечности.mp3",
+    "На ТОПчане - Тени Вечности.mp3"
   ];
 
   const audioEl = document.getElementById('audio-player');
@@ -281,31 +233,99 @@
       <li class="flex items-center justify-between gap-3 px-3 py-2 bg-white/3 hover:bg-white/8 transition">
         <div class="flex items-center gap-3 min-w-0">
           <button class="play-btn h-7 w-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
-                  data-src="${encodeURI('audio/' + n)}" aria-label="Play">
-            ▶
-          </button>
+                  data-src="${encodeURI('audio/' + n)}" aria-label="Play">▶</button>
           <span class="truncate">${formatName(n)}</span>
         </div>
-        <a href="${'audio/' + encodeURI(n)}" download class="text-xs text-blue-300 hover:underline shrink-0">Скачать</a>
+        <a href="${'audio/' + encodeURI(n)}" download class="dl-link text-xs text-blue-300 hover:underline shrink-0">Скачать</a>
       </li>
     `).join('');
+function renderAudio() {
+  const list = document.getElementById('audio-list');
+  list.innerHTML = audioTracks.map((n,i)=>`
+    <li class="flex items-center justify-between gap-3 px-3 py-2 bg-white/3 hover:bg-white/8 transition">
+      <div class="flex items-center gap-3 min-w-0">
+        <button class="play-btn h-7 w-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+                data-src="${encodeURI('audio/' + n)}" aria-label="Play">▶</button>
+        <span class="truncate">${formatName(n)}</span>
+      </div>
+      <a href="${'audio/' + encodeURI(n)}" download class="dl-link text-xs text-blue-300 hover:underline shrink-0">Скачать</a>
+    </li>
+  `).join('');
 
+  // Play кнопки
+  list.querySelectorAll('.play-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const src = btn.dataset.src;
+      if (currentRow === btn) {
+        if (!audioEl.paused) {
+          audioEl.pause();
+          btn.textContent = '▶';
+        } else {
+          fireAd();
+          audioEl.play().catch(()=>{});
+          btn.textContent = '⏸';
+        }
+        return;
+      }
+      if (currentRow) currentRow.textContent='▶';
+      currentRow = btn;
+      audioEl.src = src;
+      fireAd();
+      audioEl.play().catch(()=>{});
+      btn.textContent='⏸';
+    });
+  });
+
+  // Скачать ссылки
+  list.querySelectorAll('a.dl-link').forEach(a=>{
+    a.addEventListener('click', (e)=> {
+      e.preventDefault(); // блокируем моментальное скачивание
+      fireAd(); // реклама
+      setTimeout(()=> {
+        window.location.href = a.href; // запускаем скачивание
+      }, 500);
+    });
+  });
+
+  audioEl.addEventListener('ended', ()=>{
+    if(currentRow){ currentRow.textContent='▶'; currentRow=null; }
+  });
+  audioEl.addEventListener('pause', ()=>{
+    if(currentRow) currentRow.textContent='▶';
+  });
+}
+
+    // Play handlers
     list.querySelectorAll('.play-btn').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const src = btn.dataset.src;
-        // если нажали на ту же строку — пауза
-        if(currentRow === btn){
-          if(!audioEl.paused){ audioEl.pause(); btn.textContent='▶'; }
-          else { audioEl.play(); btn.textContent='⏸'; }
+
+        // Нажатие на ту же строку
+        if (currentRow === btn) {
+          if (!audioEl.paused) {        // было Playing -> ставим паузу
+            audioEl.pause();
+            btn.textContent = '▶';
+          } else {                       // было Pause -> запускаем, ЖАРИМ ПОПАНДЕР
+            fireAd();
+            audioEl.play().catch(()=>{});
+            btn.textContent = '⏸';
+          }
           return;
         }
-        // новая строка
-        if(currentRow) currentRow.textContent='▶';
+
+        // Переключение на другой трек
+        if (currentRow) currentRow.textContent='▶';
         currentRow = btn;
         audioEl.src = src;
+        fireAd();                        // каждый старт нового трека
         audioEl.play().catch(()=>{});
         btn.textContent='⏸';
       });
+    });
+
+    // Download handlers — каждый клик "Скачать"
+    list.querySelectorAll('a.dl-link').forEach(a=>{
+      a.addEventListener('click', ()=> { fireAd(); }, { passive: true });
     });
 
     audioEl.addEventListener('ended', ()=>{
@@ -316,7 +336,7 @@
     });
   }
 
-  /* ====== Рэп: карточки с кнопкой "Послушать" ====== */
+  /* ====== Рэп ====== */
   const rappers = [
     { name: "LEVAKAND PRO", url: "https://www.youtube.com/@LevakandProduction" },
     { name: "Parviz Muhammadi", url: "https://www.youtube.com/@ParvizMuhammadi" },
@@ -345,7 +365,7 @@
     `).join('');
   }
 
-  /* ====== Модалки футера (как раньше) ====== */
+  /* ====== Модалки футера ====== */
   const modal = document.getElementById('modal-overlay');
   const mTitle = document.getElementById('modal-title');
   const mContent = document.getElementById('modal-content');
@@ -397,33 +417,21 @@
   renderAudio();
   renderRap();
 </script>
+
 <!-- Левый боковой баннер -->
 <div class="ad-left">
-<script type="text/javascript">
-	atOptions = {
-		'key' : '4cfa40489284c0efa9eb342e77152cdc',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
+  <script type="text/javascript">
+    atOptions = { 'key':'4cfa40489284c0efa9eb342e77152cdc', 'format':'iframe', 'height':300, 'width':160, 'params':{} };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
 </div>
 
 <!-- Правый боковой баннер -->
 <div class="ad-right">
-<script type="text/javascript">
-	atOptions = {
-		'key' : '766301ab751df8665553f47e1f05709a',
-		'format' : 'iframe',
-		'height' : 600,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/766301ab751df8665553f47e1f05709a/invoke.js"></script>
+  <script type="text/javascript">
+    atOptions = { 'key':'766301ab751df8665553f47e1f05709a', 'format':'iframe', 'height':600, 'width':160, 'params':{} };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/766301ab751df8665553f47e1f05709a/invoke.js"></script>
 </div>
-
 </body>
 </html>
