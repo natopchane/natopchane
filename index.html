@@ -2,28 +2,7 @@
 
 <html lang="ru">
 <head>
-  <!-- Favicon -->
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="shortcut icon" href="/favicon.ico">
-
-<!-- Apple Touch Icon -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-<!-- Android -->
-<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-
-<!-- Manifest -->
-<link rel="manifest" href="/manifest.webmanifest">
-
-
-  <script>
-fetch('/seo.html')
-  .then(r => r.text())
-  .then(d => document.head.insertAdjacentHTML('beforeend', d));
-</script>
-
+  
   <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -34,11 +13,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com;">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="referrer" content="no-referrer-when-downgrade">
-
 <!-- Шрифты -->
 <link crossorigin="true" href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="true" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -49,16 +23,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=Neucha&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Philosopher&amp;display=swap" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<title>На ТОПчане - Персидский Мир</title>
+<title>На ТОПчане — Персидский Мир</title>
 <meta content="Новости, культура, музыка и жизнь Персии — всё в одном месте. Персидский Мир на ТОПчане." name="description"/>
 <meta content="website" property="og:type"/>
-<meta content="На ТОПчане - Персидский Мир" property="og:title"/>
+<meta content="На ТОПчане — Персидский Мир" property="og:title"/>
 <meta content="Новости, культура, музыка и жизнь Персии — всё в одном месте." property="og:description"/>
 <meta content="https://natopchane.github.io/natopchane/images/preview.jpg" property="og:image"/>
 <meta content="https://natopchane.github.io/natopchane/" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="На ТОПчане - Персидский Мир" name="twitter:title"/>
-<meta content="Новости, культура, музыка и жизнь Персии - всё в одном месте." name="twitter:description"/>
+<meta content="На ТОПчане — Персидский Мир" name="twitter:title"/>
+<meta content="Новости, культура, музыка и жизнь Персии — всё в одном месте." name="twitter:description"/>
 <meta content="https://natopchane.github.io/natopchane/images/preview.jpg" name="twitter:image"/>
 <meta content="#0ea5e9" name="theme-color"/>
 <link href="images/icon.svg" rel="icon" type="image/svg+xml">
@@ -182,9 +156,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .ad-right {
     right: 10px;
 }
-@media (max-width: 1024px) {
-    .ad-left, .ad-right { display: none; }
+@media (max-width: 768px) {
+    .ad-left, .ad-right { display: none !important; }
 }
+
 
 </style>
 </link></link></link><style>
@@ -724,5 +699,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if(bd) bd.addEventListener('click', function(){ setOpen(false); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') setOpen(false); });
 })();
-</script></body>
+</script><!-- Mobile ad block -->
+<div class="mobile-ad" id="mobileAd">
+  <button class="mobile-ad-close" id="closeMobileAd">×</button>
+  <div class="mobile-ad-content">
+    <!-- Вставь сюда код баннера -->
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '4cfa40489284c0efa9eb342e77152cdc',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
+  </div>
+</div>
+
+<style>
+@media (max-width: 768px) {
+  .mobile-ad {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 6px;
+    border-top: 2px solid #ccc;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
+    z-index: 99999;
+    max-width: 100%;
+    width: 100%;
+  }
+  .mobile-ad-close {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+  }
+  .mobile-ad iframe {
+    display: block;
+    margin: 0 auto;
+  }
+}
+</style>
+
+<script>
+document.getElementById('closeMobileAd')?.addEventListener('click', function(){
+  document.getElementById('mobileAd').style.display = 'none';
+});
+</script>
+</body>
 </html>
