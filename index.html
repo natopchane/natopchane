@@ -2,6 +2,20 @@
 
 <html lang="ru">
 <head>
+  <script>
+fetch('/seo.html')
+  .then(r => r.text())
+  .then(d => document.head.insertAdjacentHTML('beforeend', d));
+</script>
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id=GTM-NKDVG93T'+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NKDVG93T');</script>
+<!-- End Google Tag Manager -->
+
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <!-- Шрифты -->
@@ -167,6 +181,12 @@
 @media (min-width: 768px){ #menu-backdrop{ display: none !important; } }
 </style></link></head>
 <body class="bg-white text-gray-900 font-sans">
+  <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDVG93T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 <a class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 bg-white border rounded px-3 py-1 shadow" href="#home-videos">Перейти к контенту</a>
 <!-- ====== HEADER ====== -->
 <header class="border-b border-gray-200 bg-white">
