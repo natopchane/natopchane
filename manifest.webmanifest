@@ -1,12 +1,49 @@
 {
-  "name": "На ТОПчане",
+  "name": "На ТОПчане - Персидская поэзия и культура Средней Азии",
   "short_name": "ТОПчан",
-  "start_url": "/",
+  "description": "Портал о персидской поэзии, культуре и мудрости Средней Азии. Руми, Хафиз, Рудаки, Лоиқ Шералӣ, Шахнаме и суфийская философия.",
+  "lang": "ru-RU",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#0ea5e9",
+  "prefer_related_applications": false,
   "icons": [
-    { "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/images/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Биографии поэтов",
+      "short_name": "Поэты",
+      "description": "Известные персидские поэты Средней Азии",
+      "url": "/biographies.html",
+      "icons": [{ "src": "/images/poets.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Галерея",
+      "short_name": "Фото",
+      "description": "Фотографии и иллюстрации поэзии",
+      "url": "/gallery.html",
+      "icons": [{ "src": "/images/gallery.png", "sizes": "192x192", "type": "image/png" }]
+    }
   ]
 }
