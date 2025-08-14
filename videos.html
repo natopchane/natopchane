@@ -4,64 +4,125 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Видео — На ТОПчане | Персидский Мир</title>
-
-  <!-- Иконка вкладки -->
-  <link rel="icon" type="image/svg+xml" href="images/video-icon.svg">
-
-  <!-- Мета для SEO -->
-  <meta name="description" content="Смотрите новые видео На ТОПчане: Шёлковый путь, Поэзия, Музыка, Биографии, PRO TJK, Дастархан, English, Мистика. Автообновление с YouTube.">
-  <meta name="keywords" content="На ТОПчане, видео, YouTube, Шёлковый путь, Поэзия, Музыка, Биографии, Дастархан, English, Мистика, PRO TJK">
+  <link rel="icon" type="image/svg+xml" href="/images/video-icon.svg">
+  <meta name="description" content="Смотрите новые видео На ТОПчане: Шёлковый путь, Поэзия, Музыка, Биографии, PRO TJK, Дастархан, English, Мистика.">
+  <meta name="keywords" content="На ТОПчане, видео, Шёлковый путь, Поэзия, Музыка, Биографии, Дастархан, English, Мистика, PRO TJK">
   <meta name="theme-color" content="#ffffff">
-
-  <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+<style>header nav a.active{border-bottom:2px solid currentColor}</style>
+<style>
+.ad-left, .ad-right {
+    position: fixed;
+    top: 100px;
+    z-index: 9999;
+}
+.ad-left {
+    left: 10px;
+}
+.ad-right {
+    right: 10px;
+}
+</style>
+
 </head>
 <body class="bg-white text-gray-900 font-sans">
 
-<!-- Шапка -->
-<header class="border-b border-gray-200 bg-white sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-    <div class="flex items-center gap-3">
-      <img src="images/logo.png" alt="На ТОПчане" class="h-8">
-      <span class="font-semibold text-lg">На ТОПчане</span>
-    </div>
+<!-- ====== HEADER (универсальный) ====== -->
+<header class="border-b border-gray-200 bg-white">
+  <style>
+    /* Полоска под активным пунктом меню */
+    header nav a.active{
+      border-bottom: 2px solid currentColor;
+      padding-bottom: 2px;
+    }
+    /* Ровные карточки без правки card() */
+.card .p-4{display:flex;flex-direction:column}                 /* контент — флекс-колонка */
+.card .p-4>.flex.items-center.justify-between:last-child{margin-top:auto} /* кнопки вниз */
 
-    <nav class="hidden md:flex gap-6 text-sm font-medium">
-      <a href="index.html" class="hover:text-blue-600 transition">Главная</a>
-      <a href="news.html" class="hover:text-blue-600 transition">Новости</a>
-      <a href="ads.html" class="hover:text-blue-600 transition">Реклама</a>
-      <a href="videos.html" class="border-b-2 border-blue-600 text-blue-600">Видео</a>
-      <a href="gallery.html" class="hover:text-blue-600 transition">Галерея</a>
-      <a href="biographies.html" class="hover:text-blue-600 transition">Биографии</a>
-      <a href="music.html" class="hover:text-blue-600 transition">Музыка</a>
-      <a href="fun.html" class="hover:text-blue-600 transition">Развлечения</a>
-      <a href="products.html" class="hover:text-blue-600 transition">Продукция</a>
-      <a href="about.html" class="hover:text-blue-600 transition">О нас</a>
-      <a href="contacts.html" class="hover:text-blue-600 transition">Контакты</a>
+/* Усечение заголовка и описания (только внутри карточки) */
+.card h3{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.card .p-4>p{
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+  overflow:hidden;text-overflow:ellipsis;unicode-bidi:plaintext;
+}
+
+/* одинаковая «шапка» у медиа (если где-то IMG вместо квадратов) */
+.card img{display:block}
+
+  </style>
+
+  <div class="w-full px-2 flex justify-between items-center h-16">
+    <a href="/" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
+      <img src="/images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
+      На ТОПчане
+    </a>
+
+    <!-- Десктоп-меню -->
+    <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+      <a href="/">Главная</a>
+      <a href="/news.html">Новости</a>
+      <a href="/ads.html">Реклама</a>
+      <a href="/videos.html">Видео</a>
+      <a href="/gallery.html">Галерея</a>
+      <a href="/biographies.html">Биографии</a>
+      <a href="/music.html">Музыка</a>
+      <a href="/entertainment.html">Развлечения</a>
+      <a href="/products.html">Продукция</a>
+      <a href="/about.html">О&nbsp;нас</a>
+      <a href="/contacts.html">Контакты</a>
     </nav>
 
-    <button id="menu-btn" class="md:hidden p-2 border rounded">☰</button>
+    <!-- Бургер -->
+    <button id="menu-btn" class="md:hidden p-2 text-gray-700 text-2xl" aria-label="Меню">☰</button>
   </div>
 
   <!-- Мобильное меню -->
-  <div id="menu" class="hidden md:hidden bg-white border-t border-gray-200">
-    <nav class="flex flex-col p-4 gap-2 text-sm font-medium">
-      <a href="index.html">Главная</a>
-      <a href="news.html">Новости</a>
-      <a href="ads.html">Реклама</a>
-      <a href="videos.html" class="text-blue-600">Видео</a>
-      <a href="gallery.html">Галерея</a>
-      <a href="biographies.html">Биографии</a>
-      <a href="music.html">Музыка</a>
-      <a href="fun.html">Развлечения</a>
-      <a href="products.html">Продукция</a>
-      <a href="about.html">О нас</a>
-      <a href="contacts.html">Контакты</a>
-    </nav>
+  <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
+    <a href="/">Главная</a>
+    <a href="/news.html">Новости</a>
+    <a href="/ads.html">Реклама</a>
+    <a href="/videos.html">Видео</a>
+    <a href="/gallery.html">Галерея</a>
+    <a href="/biographies.html">Биографии</a>
+    <a href="/music.html">Музыка</a>
+    <a href="/entertainment.html">Развлечения</a>
+    <a href="/products.html">Продукция</a>
+    <a href="/about.html">О нас</a>
+    <a href="/contacts.html">Контакты</a>
   </div>
+
+  <script>
+    // Бургер
+    document.getElementById('menu-btn')
+      ?.addEventListener('click', ()=> document.getElementById('menu')?.classList.toggle('hidden'));
+
+    // Авто-активный пункт (десктоп + мобилка)
+    (function(){
+      const norm = p => {
+        try { p = new URL(p, location.origin).pathname; } catch(e){}
+        if (p === '/index.html' || p === '') return '/';
+        // убираем завершающий слеш кроме корня
+        return p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
+      };
+      const cur = norm(location.pathname);
+      document.querySelectorAll('header nav a, #menu a').forEach(a=>{
+        const href = norm(a.getAttribute('href') || '');
+        if (href === cur) {
+          a.classList.add('active');
+          a.setAttribute('aria-current','page');
+        } else {
+          a.classList.remove('active');
+          a.removeAttribute('aria-current');
+        }
+      });
+    })();
+  </script>
 </header>
 
-<!-- Скрипт мобильного меню -->
+
 <script>
 document.getElementById('menu-btn').addEventListener('click', () => {
   document.getElementById('menu').classList.toggle('hidden');
@@ -71,31 +132,27 @@ document.getElementById('menu-btn').addEventListener('click', () => {
 <!-- Контент -->
 <section class="max-w-7xl mx-auto p-4">
   <h1 class="flex items-center text-3xl font-bold mb-6">
-    <img src="images/hd.svg" alt="HD" class="h-8 w-8 mr-3">
-    Видео
+    <img src="/images/hd.svg" alt="HD" class="h-8 w-8 mr-3">Видео
   </h1>
 
   <!-- Категории -->
-  <div class="flex gap-4 overflow-x-auto pb-2 border-b border-gray-200 mb-6">
-    <button class="category-btn px-4 py-2 bg-blue-100 text-blue-700 rounded" data-id="PLco-4nDrUoiBaCWSyGrw8ciGvqg3g6_cz">ПОСЛЕДНИЕ</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiDlSbR-ATz2M6DW3w7DC-vb">ПОЭЗИЯ</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiBTH2oOg58KAKQ_aEhqJTT0">ДАСТАРХАН</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiAaJ6MRWOJtTLA9vbau5esq">ШЁЛКОВЫЙ ПУТЬ</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiDdBIfr9Z8vH6HJTYngo89U">БИОГРАФИИ</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiBF84fD90ZZ7I3HWCBd8d-o">МУЗЫКА</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiCj5q3S0p5Yn5hrXOGcgfRd">PRO TJK</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiCMZXvFbVSdO9hIlYdCPI7A">ENGLISH</button>
-    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-id="PLco-4nDrUoiCSe2vR3DYHnLwa1fMCCI5K">МИСТИКА</button>
+  <div class="flex gap-4 overflow-x-auto pb-2 border-b border-gray-200 mb-6" id="video-cats">
+    <button class="category-btn px-4 py-2 bg-blue-100 text-blue-700 rounded" data-cat="ПОСЛЕДНИЕ">ПОСЛЕДНИЕ</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="ПОЭЗИЯ">ПОЭЗИЯ</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="ДАСТАРХАН">ДАСТАРХАН</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="ШЁЛКОВЫЙ ПУТЬ">ШЁЛКОВЫЙ ПУТЬ</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="БИОГРАФИИ">БИОГРАФИИ</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="МУЗЫКА">МУЗЫКА</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="PRO TJK">PRO TJK</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="ENGLISH">ENGLISH</button>
+    <button class="category-btn px-4 py-2 bg-gray-100 rounded" data-cat="МИСТИКА">МИСТИКА</button>
   </div>
-
-  <!-- Лоадер -->
-  <div id="loader" class="text-center py-8 hidden">Загрузка...</div>
 
   <!-- Видео -->
   <div id="video-grid" class="grid md:grid-cols-4 gap-4"></div>
 </section>
 
-<!-- Модальное окно -->
+<!-- Модалка -->
 <div id="video-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
   <div class="bg-black rounded-lg overflow-hidden max-w-3xl w-full relative">
     <button id="close-modal" class="absolute top-2 right-2 text-white text-2xl">&times;</button>
@@ -103,114 +160,215 @@ document.getElementById('menu-btn').addEventListener('click', () => {
   </div>
 </div>
 
-<!-- Скрипт YouTube -->
-<script>
-const API_KEY = "AIzaSyCNYHO2iBXdgd8Tc_sp2C1F9SqCkJ8n-68"; // твой ключ
-const loader = document.getElementById("loader");
-const grid = document.getElementById("video-grid");
+<!-- Firestore -->
+<script type="module">
+  import { firebaseConfig } from './firebase-config.js';
+  import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, query, where, orderBy, limit, startAfter, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-// ЗАГРУЗКА ВСЕХ ВИДЕО ИЗ ПЛЕЙЛИСТА (пагинация до конца)
-async function loadPlaylistVideos(playlistId, btn) {
-  loader.classList.remove("hidden");
-  grid.innerHTML = "";
+  const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
 
-  // Подсветка активной категории
-  document.querySelectorAll(".category-btn").forEach(b => {
-    b.classList.remove("bg-blue-100","text-blue-700");
-    b.classList.add("bg-gray-100");
-  });
-  if (btn) {
-    btn.classList.add("bg-blue-100","text-blue-700");
-    btn.classList.remove("bg-gray-100");
+  const grid   = document.getElementById('video-grid');
+  const btns   = Array.from(document.querySelectorAll('.category-btn'));
+  let currentCat = 'ПОСЛЕДНИЕ';
+  let lastCursor = null;
+  const PAGE_SIZE = 12;
+
+  function card(v){
+    return `
+      <article class="border rounded overflow-hidden shadow hover:shadow-lg transition">
+        <div class="aspect-video bg-black">
+          <iframe class="w-full h-full" src="${v.embed}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="p-3">
+          <h3 class="font-semibold text-sm mb-1">${v.title||''}</h3>
+          ${v.desc ? `<p class="text-xs text-gray-600 line-clamp-2">${v.desc}</p>` : ''}
+        </div>
+      </article>`;
   }
 
-  const base = "https://www.googleapis.com/youtube/v3/playlistItems";
-  const params = new URLSearchParams({
-    part: "snippet",
-    maxResults: "50", // максимум у YouTube
-    playlistId,
-    key: API_KEY
-  });
+  function setActive(cat){
+    btns.forEach(b=>{
+      b.classList.remove('bg-blue-100','text-blue-700'); b.classList.add('bg-gray-100');
+      if (b.dataset.cat===cat){ b.classList.add('bg-blue-100','text-blue-700'); b.classList.remove('bg-gray-100'); }
+    });
+  }
 
-  try {
-    let pageToken = "";
-    let total = 0;
+// ЗАМЕНИТЬ load(...) и renderMoreButton(...) ПОЛНОСТЬЮ НА ЭТО:
 
-    // Функция отрисовки одной страницы (чтобы не держать огромную строку в памяти)
-    const renderPage = (items) => {
-      const html = items.map(item => {
-        const v = item.snippet || {};
-        const vid = v.resourceId?.videoId || "";
-        const thumb = v.thumbnails?.medium?.url || v.thumbnails?.default?.url || "";
-        const title = (v.title || "").replace(/"/g, '&quot;');
-        return `
-          <div class="cursor-pointer border rounded overflow-hidden shadow hover:shadow-lg transition" onclick="openModal('${vid}')">
-            <img src="${thumb}" alt="${title}" class="w-full">
-            <p class="p-2 text-sm">${title}</p>
-          </div>
-        `;
-      }).join("");
-      grid.insertAdjacentHTML("beforeend", html);
-    };
+async function load(cat, reset = true){
+  try{
+    currentCat = cat;
+    setActive(cat);
 
-    // Тянем все страницы
-    do {
-      const url = `${base}?${params.toString()}${pageToken ? `&pageToken=${pageToken}` : ""}`;
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (!res.ok || data.error) {
-        console.error("YouTube API error:", data);
-        grid.innerHTML = `<p class="text-red-500">Ошибка загрузки: ${data?.error?.message || res.status}</p>`;
-        return;
-      }
-
-      const items = data.items || [];
-      if (items.length) {
-        total += items.length;
-        renderPage(items);
-      }
-
-      pageToken = data.nextPageToken || "";
-    } while (pageToken);
-
-    if (total === 0) {
-      grid.innerHTML = `<p class="text-gray-500">В этом плейлисте пока нет видео.</p>`;
+    if (reset){
+      grid.innerHTML = '<div class="col-span-full py-6 text-gray-500">Загрузка…</div>';
+      lastCursor = null; // сброс при смене категории
+      const oldMore = document.getElementById('videos-more');
+      if (oldMore) oldMore.style.display = 'none';
     }
-  } catch (err) {
-    console.error(err);
-    grid.innerHTML = `<p class="text-red-500">Сеть недоступна или CORS. Проверь ключ и домен.</p>`;
-  } finally {
-    loader.classList.add("hidden");
+
+    const NEED = PAGE_SIZE;  // сколько карточек хотим вывести за этот вызов
+    let added = 0;
+    let html  = '';
+
+    // Читаем ленту по createdAt и фильтруем на клиенте (без композитных индексов)
+    for (let safety = 0; added < NEED && safety < 6; safety++){
+      let q = query(
+        collection(db,'videos'),
+        orderBy('createdAt','desc'),
+        ...(lastCursor ? [startAfter(lastCursor)] : []),
+        limit(50) // берём крупными пачками, чтобы после фильтра собрать NEED
+      );
+
+      const snap = await getDocs(q);
+      if (snap.empty) break;
+
+      const docs = snap.docs;
+      lastCursor = docs[docs.length - 1];
+
+      const filtered = docs
+        .map(d => d.data())
+        .filter(v => v && v.status === 'published' && (cat === 'ПОСЛЕДНИЕ' || v.category === cat));
+
+      for (const v of filtered){
+        if (added >= NEED) break;
+        html += card(v);
+        added++;
+      }
+
+      // если меньше 50 доков — дальше страниц нет
+      if (docs.length < 50) break;
+    }
+
+    if (reset) grid.innerHTML = '';
+
+    if (added === 0 && reset){
+      grid.innerHTML = '<div class="col-span-full py-6 text-gray-500">Пока пусто</div>';
+    } else {
+      grid.insertAdjacentHTML('beforeend', html);
+    }
+
+    // Показать «Показать ещё», только если набрали полный PAGE_SIZE
+    renderMoreButton(added === PAGE_SIZE);
+
+  } catch(e){
+    console.error(e);
+    grid.innerHTML = `<div class="col-span-full py-6 text-red-600">Ошибка загрузки: ${e?.message || e}</div>`;
+    renderMoreButton(false);
   }
 }
 
-
-function openModal(videoId) {
-  document.getElementById("video-frame").src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-  document.getElementById("video-modal").classList.remove("hidden");
+function renderMoreButton(canMore){
+  let more = document.getElementById('videos-more');
+  if (!more){
+    more = document.createElement('div');
+    more.id = 'videos-more';
+    more.className = 'col-span-full flex justify-center my-6';
+    more.innerHTML = '<button class="px-4 py-2 border rounded-lg">Показать ещё</button>';
+    grid.after(more);
+    more.querySelector('button').onclick = ()=> load(currentCat, false);
+  }
+  more.style.display = canMore ? '' : 'none';
 }
 
-document.getElementById("close-modal").addEventListener("click", () => {
-  document.getElementById("video-modal").classList.add("hidden");
-  document.getElementById("video-frame").src = "";
-});
 
-document.getElementById("video-modal").addEventListener("click", (e) => {
-  if (e.target === document.getElementById("video-modal")) {
-    document.getElementById("close-modal").click();
-  }
-});
+  btns.forEach(b => b.addEventListener('click', ()=> { lastCursor=null; load(b.dataset.cat, true); }));
 
-// вешаем хэндлеры
-document.querySelectorAll(".category-btn").forEach(btn => {
-  btn.addEventListener("click", () => loadPlaylistVideos(btn.dataset.id, btn));
-});
+  // старт
+  await load('ПОСЛЕДНИЕ', true);
 
-// грузим по умолчанию ГЛАВНЫЙ плейлист (8 видео)
-loadPlaylistVideos("PLco-4nDrUoiBaCWSyGrw8ciGvqg3g6_cz", document.querySelector('.category-btn'));
+  // модалка
+  document.getElementById("close-modal").addEventListener("click", () => {
+    document.getElementById("video-modal").classList.add("hidden");
+    document.getElementById("video-frame").src = "";
+  });
 </script>
 
+
+<script>
+(function(){
+  ['terms-btn','support-btn','cooperation-btn','privacy-btn','menu-btn'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+  });
+  const modal=document.getElementById('modal-overlay');
+  const title=document.getElementById('modal-title');
+  const meta=document.getElementById('modal-meta');
+  const content=document.getElementById('modal-content');
+  const cover=document.getElementById('article-cover');
+  function show(t,html){
+    if(!modal||!title||!content) return;
+    title.textContent=t; if(meta) meta.textContent='';
+    if(cover){ cover.classList.add('hidden'); cover.src=''; }
+    content.innerHTML=html; modal.classList.remove('hidden');
+  }
+  const TERMS=`<p>Используя сайт «На ТОПчане», вы соглашаетесь с правилами:</p>
+  <ul class="list-disc pl-5 space-y-1">
+    <li>Не размещать незаконный или оскорбительный контент.</li>
+    <li>Не использовать сайт для рассылки спама или мошенничества.</li>
+    <li>Соблюдать авторские права на публикуемый материал.</li>
+    <li>Администрация может изменять условия без предварительного уведомления.</li>
+    <li>При несогласии с условиями прекратите использование сайта.</li>
+  </ul>`;
+  const SUPPORT=`<p>По любым вопросам и предложениям вы можете написать нам:</p>
+  <p class="flex items-center gap-2">
+    <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+    <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Написать в Telegram</a>
+  </p>`;
+  const COOP=`<p>По вопросам рекламы и совместных проектов свяжитесь с нами:</p>
+  <p class="flex items-center gap-2">
+    <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+    <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Telegram</a>
+  </p>
+  <p class="flex items-center gap-2">
+    <img src="/images/soc/gmail.svg" alt="Gmail" class="w-5 h-5">
+    <a href="mailto:natopchane@gmail.com" class="text-red-600 hover:underline">natopchane@gmail.com</a>
+  </p>`;
+  const PRIV=`<p>Мы уважаем вашу конфиденциальность. При использовании сайта «На ТОПчане» мы можем собирать минимальные данные: IP-адрес, cookie, email (при подписке на рассылку).</p>
+  <p>Данные используются для улучшения работы сайта, персонализации контента и статистики посещений.</p>
+  <p>Мы не передаём ваши данные третьим лицам, кроме случаев, предусмотренных законом.</p>
+  <p>Вы можете запросить удаление или изменение своих данных, написав нам на <a class="text-red-600 hover:underline" href="mailto:natopchane@gmail.com">natopchane@gmail.com</a>.</p>
+  <p>Изменения политики публикуются на этой странице.</p>`;
+  document.getElementById('terms-btn')?.addEventListener('click', ()=> show('Пользовательское соглашение', TERMS));
+  document.getElementById('support-btn')?.addEventListener('click', ()=> show('Поддержка', SUPPORT));
+  document.getElementById('cooperation-btn')?.addEventListener('click', ()=> show('Сотрудничество и реклама', COOP));
+  document.getElementById('privacy-btn')?.addEventListener('click', ()=> show('Политика конфиденциальности', PRIV));
+  document.getElementById('menu-btn')?.addEventListener('click', ()=>{
+    document.getElementById('menu')?.classList.toggle('hidden');
+  });
+})();
+</script>
+<!-- Левый боковой баннер -->
+<div class="ad-left">
+<script type="text/javascript">
+	atOptions = {
+		'key' : '4cfa40489284c0efa9eb342e77152cdc',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
+</div>
+
+<!-- Правый боковой баннер -->
+<div class="ad-right">
+<script type="text/javascript">
+	atOptions = {
+		'key' : '766301ab751df8665553f47e1f05709a',
+		'format' : 'iframe',
+		'height' : 600,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/766301ab751df8665553f47e1f05709a/invoke.js"></script>
+</div>
 
 </body>
 </html>

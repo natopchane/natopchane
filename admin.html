@@ -7,92 +7,176 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
   <style>
-    .list-item { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:8px 0; }
-    .pill { background:#cce5ff; padding:2px 6px; border-radius:9999px; font-size:0.75rem; }
+    :root {
+      --bg:#0b1220;
+      --card:#0f172a;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --primary:#6d28d9; /* violet-700 */
+      --primary-2:#7c3aed;
+      --ring:#1f2937;
+      --chip:#1e293b;
+      --chip-2:#0ea5e9;
+      --danger:#ef4444;
+    }
+    html,body{background:var(--bg); color:var(--text);}
+    .card{background:var(--card); border:1px solid #1f2937; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,.25);}
+    .section h2{letter-spacing:.2px}
+    .list-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed #22304a;padding:12px 0;}
+    .pill{background:var(--chip); color:var(--muted); padding:3px 10px;border-radius:999px;font-size:12px;}
+    .pill-orange{background:#3a2711;color:#fecba1;}
+    .input{background:#0b1220;border:1px solid #23314b;color:var(--text);padding:.65rem .8rem;border-radius:12px;width:100%;outline:none}
+    .input:focus{border-color:#334155;box-shadow:0 0 0 3px rgba(125,211,252,.12)}
+    .btn{padding:.55rem .95rem;border-radius:12px;border:1px solid transparent;transition:.15s}
+    .btn-primary{background:var(--primary);color:#fff;border-color:#4c1d95}
+    .btn-primary:hover{background:var(--primary-2);}
+    .btn-ghost{background:#0b1220;border-color:#23314b;color:var(--text)}
+    .btn-ghost:hover{background:#121a2b;border-color:#334155}
+    .btn-danger{background:var(--danger);color:#fff;border-color:#b91c1c}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .label{font-size:.9rem;color:var(--muted)}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+    @media (max-width:640px){.grid-3{grid-template-columns:1fr}}
+    .cats label{background:#0b1220;border:1px solid #23314b;border-radius:999px;padding:.35rem .7rem}
+    .cats input{accent-color:#8b5cf6}
+    .header{position:sticky;top:0;background:linear-gradient(180deg, rgba(11,18,32,.9), rgba(11,18,32,.6) 60%, transparent);backdrop-filter: blur(6px);z-index:10;padding:.75rem 0 1rem;border-bottom:1px solid #1f2937}
+    .link{color:#93c5fd}
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-  <!-- Вход -->
+  <!-- LOGIN -->
   <div id="view-login" class="max-w-sm mx-auto mt-20">
-    <h2 class="text-xl font-bold mb-4">Вход в админку</h2>
-    <form id="login-form" class="space-y-4">
-      <input type="email" name="login" placeholder="Email" class="w-full border p-2" required>
-      <input type="password" name="password" placeholder="Пароль" class="w-full border p-2" required>
-      <button class="w-full bg-blue-500 text-white p-2">Войти</button>
-      <div id="login-err" class="text-red-500 hidden">Ошибка входа</div>
-    </form>
+    <div class="card p-6">
+      <h2 class="text-2xl font-semibold mb-4">Вход в админку</h2>
+      <form id="login-form" class="space-y-3">
+        <input type="email" name="login" placeholder="Email" class="input" required>
+        <input type="password" name="password" placeholder="Пароль" class="input" required>
+        <button class="btn btn-primary w-full">Войти</button>
+        <div id="login-err" class="text-red-400 hidden text-sm">Ошибка входа</div>
+      
+  <div id="login-error" class="mt-3 text-sm text-red-600 hidden"></div>
+</form>
+    </div>
   </div>
 
-  <!-- Панель -->
-  <div id="view-dash" class="hidden max-w-5xl mx-auto p-4">
-    <div class="flex justify-between mb-6">
-      <div id="who" class="font-medium"></div>
-      <button id="logout" class="bg-gray-300 px-3 py-1 rounded">Выйти</button>
+  <!-- DASHBOARD -->
+  <div id="view-dash" class="hidden max-w-6xl mx-auto p-4 space-y-10">
+    <div class="header flex items-center justify-between">
+      <div id="who" class="text-sm text-slate-300"></div>
+      <button id="logout" class="btn btn-ghost">Выйти</button>
     </div>
 
     <!-- NEWS -->
-    <section>
-      <h2 class="text-lg font-bold mb-2">Новости</h2>
-      <form id="news-form" class="space-y-2 mb-4">
-        <input type="hidden" name="id">
-        <input type="text" name="title" placeholder="Заголовок" class="w-full border p-2">
-        <input type="text" name="cover" placeholder="Обложка (URL)" class="w-full border p-2">
-        <select name="status" class="w-full border p-2">
-          <option value="published">Опубликовано</option>
-          <option value="draft">Черновик</option>
-        </select>
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" name="pinned">
-          <span>Закрепить</span>
-        </label>
-        <div id="news-editor" class="bg-white border"></div>
-        <div class="flex space-x-2">
-          <button class="bg-blue-500 text-white px-3 py-1">Сохранить</button>
-          <button type="button" id="news-new" class="bg-gray-300 px-3 py-1">Новая</button>
-          <button type="button" id="news-cancel" class="bg-gray-300 px-3 py-1">Отмена</button>
-          <button type="button" id="news-delete" class="bg-red-500 text-white px-3 py-1">Удалить</button>
-        </div>
-      </form>
-      <input id="news-q" type="text" placeholder="Поиск..." class="w-full border p-2 mb-2">
-      <ul id="news-list"></ul>
+    <section class="section">
+      <h2 class="text-xl font-bold mb-3">Новости</h2>
+      <div class="card p-4">
+        <form id="news-form" class="space-y-3">
+          <input type="hidden" name="id">
+          <input type="text" name="title" placeholder="Заголовок" class="input">
+          <input type="url" name="cover" placeholder="Обложка (URL)" class="input">
+          <div class="grid-3">
+            <select name="status" class="input">
+              <option value="published">Опубликовано</option>
+              <option value="draft">Черновик</option>
+            </select>
+            <label class="flex items-center gap-2"><input type="checkbox" name="pinned"> <span class="label">Закрепить</span></label>
+          </div>
+          <div id="news-editor" class="bg-[#0b1220] border border-[#23314b] rounded-lg"></div>
+          <div class="toolbar">
+            <button class="btn btn-primary">Сохранить</button>
+            <button type="button" id="news-new" class="btn btn-ghost">Новая</button>
+            <button type="button" id="news-cancel" class="btn btn-ghost">Отмена</button>
+            <button type="button" id="news-delete" class="btn btn-danger">Удалить</button>
+          </div>
+        </form>
+        <input id="news-q" type="text" placeholder="Поиск..." class="input mt-4" />
+        <ul id="news-list" class="mt-2"></ul>
+        <div id="news-pager" class="mt-3 flex flex-wrap gap-2"></div>
+      </div>
     </section>
 
     <!-- ADS -->
-    <section class="mt-10">
-      <h2 class="text-lg font-bold mb-2">Реклама</h2>
-      <form id="ads-form" class="space-y-2 mb-4">
-        <input type="hidden" name="id">
-        <input type="text" name="title" placeholder="Заголовок" class="w-full border p-2">
-        <input type="text" name="cover" placeholder="Обложка (URL)" class="w-full border p-2">
-        <textarea name="desc" placeholder="Описание" class="w-full border p-2"></textarea>
-        <div class="flex space-x-2">
-          <button class="bg-blue-500 text-white px-3 py-1">Сохранить</button>
-          <button type="button" id="ads-new" class="bg-gray-300 px-3 py-1">Новая</button>
-          <button type="button" id="ads-cancel" class="bg-gray-300 px-3 py-1">Отмена</button>
-          <button type="button" id="ads-delete" class="bg-red-500 text-white px-3 py-1">Удалить</button>
-        </div>
-      </form>
-      <ul id="ads-list"></ul>
+    <section class="section">
+      <h2 class="text-xl font-bold mb-3">Реклама</h2>
+      <div class="card p-4">
+        <form id="ads-form" class="space-y-3">
+          <input type="hidden" name="id">
+          <input type="text" name="title" placeholder="Заголовок" class="input">
+          <input type="url" name="cover" placeholder="Обложка (URL)" class="input">
+          <textarea name="desc" placeholder="Описание" class="input" rows="3"></textarea>
+          <div class="toolbar">
+            <button class="btn btn-primary">Сохранить</button>
+            <button type="button" id="ads-new" class="btn btn-ghost">Новая</button>
+            <button type="button" id="ads-cancel" class="btn btn-ghost">Отмена</button>
+            <button type="button" id="ads-delete" class="btn btn-danger">Удалить</button>
+          </div>
+        </form>
+        <ul id="ads-list" class="mt-2"></ul>
+        <div id="ads-pager" class="mt-3 flex flex-wrap gap-2"></div>
+      </div>
     </section>
 
     <!-- BIOS -->
-    <section class="mt-10">
-      <h2 class="text-lg font-bold mb-2">Биографии</h2>
-      <form id="bios-form" class="space-y-2 mb-4">
-        <input type="hidden" name="id">
-        <input type="text" name="title" placeholder="Имя" class="w-full border p-2">
-        <input type="text" name="cover" placeholder="Фото (URL)" class="w-full border p-2">
-        <textarea name="desc" placeholder="Описание" class="w-full border p-2"></textarea>
-        <div class="flex space-x-2">
-          <button class="bg-blue-500 text-white px-3 py-1">Сохранить</button>
-          <button type="button" id="bios-new" class="bg-gray-300 px-3 py-1">Новая</button>
-          <button type="button" id="bios-cancel" class="bg-gray-300 px-3 py-1">Отмена</button>
-          <button type="button" id="bios-delete" class="bg-red-500 text-white px-3 py-1">Удалить</button>
-        </div>
-      </form>
-      <ul id="bios-list"></ul>
+    <section class="section">
+      <h2 class="text-xl font-bold mb-3">Биографии</h2>
+      <div class="card p-4">
+        <form id="bios-form" class="space-y-3">
+          <input type="hidden" name="id">
+          <input type="text" name="title" placeholder="Имя" class="input">
+          <input type="url" name="cover" placeholder="Фото (URL)" class="input">
+          <textarea name="desc" placeholder="Описание" class="input" rows="3"></textarea>
+          <div class="toolbar">
+            <button class="btn btn-primary">Сохранить</button>
+            <button type="button" id="bios-new" class="btn btn-ghost">Новая</button>
+            <button type="button" id="bios-cancel" class="btn btn-ghost">Отмена</button>
+            <button type="button" id="bios-delete" class="btn btn-danger">Удалить</button>
+          </div>
+        </form>
+        <ul id="bios-list" class="mt-2"></ul>
+        <div id="bios-pager" class="mt-3 flex flex-wrap gap-2"></div>
+      </div>
     </section>
+
+    <!-- VIDEOS -->
+    <section class="section">
+      <h2 class="text-xl font-bold mb-3">Видео</h2>
+      <div class="card p-4">
+        <form id="videos-form" class="space-y-3">
+          <input type="hidden" name="id">
+          <input type="url" name="url" placeholder="Ссылка на видео (YouTube / VK / RuTube / др.)" class="input" required>
+          <input type="text" name="title" placeholder="Название" class="input">
+          <textarea name="desc" placeholder="Описание" class="input" rows="3"></textarea>
+          <input type="text" name="tags" placeholder="Хэштеги: #music, #poetry или через запятую" class="input">
+
+          <div>
+            <div class="label mb-2">Категории (одна):</div>
+            <div id="video-cats" class="cats flex flex-wrap gap-2"></div>
+          </div>
+
+          <div class="grid-3">
+            <label class="flex items-center gap-2"><input type="checkbox" name="pinned"> <span class="label">Закрепить (макс. 3)</span></label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="featured"> <span class="label">На главную (index)</span></label>
+            <select name="status" class="input">
+              <option value="published">Опубликовано</option>
+              <option value="draft">Черновик</option>
+            </select>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn btn-primary">Сохранить</button>
+            <button type="button" id="videos-new" class="btn btn-ghost">Новая</button>
+            <button type="button" id="videos-cancel" class="btn btn-ghost">Отмена</button>
+            <button type="button" id="videos-delete" class="btn btn-danger">Удалить</button>
+          </div>
+        </form>
+
+        <input id="videos-q" type="text" placeholder="Поиск по названию..." class="input mt-4" />
+        <ul id="videos-list" class="mt-2"></ul>
+        <div id="videos-pager" class="mt-3 flex flex-wrap gap-2"></div>
+      </div>
+    </section>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
@@ -100,7 +184,10 @@
     import { firebaseConfig } from './firebase-config.js';
     import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, collection, query, orderBy, limit, getDocs, doc, getDoc, setDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import {
+      getFirestore, collection, query, orderBy, limit, getDocs, doc, getDoc,
+      setDoc, deleteDoc, serverTimestamp, where
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
     const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -113,19 +200,18 @@
     const errEl     = document.getElementById('login-err');
     const logoutBtn = document.getElementById('logout');
 
-onAuthStateChanged(auth, (user)=>{
-  if (user) {
-    who.textContent = 'Вошли как: ' + (user.email || '');
-    viewLogin.classList.add('hidden');
-    viewDash.classList.remove('hidden');
-    boot();
-  } else {
-    who.textContent = '';
-    viewDash.classList.add('hidden');
-    viewLogin.classList.remove('hidden');
-  }
-});
-
+    onAuthStateChanged(auth, (user)=>{
+      if (user) {
+        who.textContent = 'Вошли как: ' + (user.email || '');
+        viewLogin.classList.add('hidden');
+        viewDash.classList.remove('hidden');
+        boot();
+      } else {
+        who.textContent = '';
+        viewDash.classList.add('hidden');
+        viewLogin.classList.remove('hidden');
+      }
+    });
 
     loginForm.addEventListener('submit', async (e)=>{
       e.preventDefault();
@@ -139,232 +225,508 @@ onAuthStateChanged(auth, (user)=>{
 
     logoutBtn.addEventListener('click', async ()=>{ await signOut(auth); });
 
-    function makeQuill(sel){
-      return new Quill(sel, { theme: 'snow' });
-    }
+    function makeQuill(sel){ return new Quill(sel, { theme: 'snow' }); }
     function htmlGet(q){ return q.root.innerHTML; }
     function htmlSet(q, html){ q.root.innerHTML = html || ''; }
     function nowISO(){ return new Date().toISOString(); }
+    function $(sel){ return document.querySelector(sel); }
+
+    // ===== Helper: simple client-side pagination (stable, 2 items per page) =====
+    function makePager({listEl, pagerEl, pageSize = 2, fetchAll, renderItem}){
+      let current = 1;
+      async function load(page=1){
+        listEl.innerHTML = '<div class="text-sm text-slate-300 px-1">Загрузка...</div>';
+        current = page;
+        const docsAll = await fetchAll();
+        const totalPages = Math.max(1, Math.ceil(docsAll.length / pageSize));
+        const start = (page-1) * pageSize;
+        const docs = docsAll.slice(start, start + pageSize);
+        listEl.innerHTML = docs.length ? '' : '<div class="text-sm text-slate-400 px-1">Пока пусто</div>';
+        docs.forEach(d=> renderItem(d, listEl));
+        // pager
+        pagerEl.innerHTML='';
+        if (totalPages>1){
+          const btn = (label, page, active=false, disabled=false)=>{
+            const b = document.createElement('button');
+            b.textContent = label;
+            b.className = `px-3 py-1 rounded border text-sm ${active?'bg-indigo-600 text-white border-indigo-600':'bg-[#0b1220] text-slate-200 border-[#23314b]'} ${disabled?'opacity-50 cursor-not-allowed':''}`;
+            if (!disabled) b.onclick = ()=> load(page);
+            return b;
+          };
+          pagerEl.appendChild(btn('«', Math.max(1, current-1), false, current===1));
+          for(let i=1;i<=totalPages;i++) pagerEl.appendChild(btn(String(i), i, i===current));
+          pagerEl.appendChild(btn('»', Math.min(totalPages, current+1), false, current===totalPages));
+        }
+      }
+      return { load };
+    }
 
     async function boot(){
-      const qNews = makeQuill('#news-editor');
-      const newsForm = $('#news-form'), newsList = $('#news-list'), newsQ = $('#news-q');
+      // ---------- NEWS ----------
+      const qNews    = makeQuill('#news-editor');
+      const newsForm = $('#news-form');
+      const newsList = $('#news-list');
+      const newsQ    = $('#news-q');
+      const newsPager= $('#news-pager');
 
-      async function loadNewsList(){
-        const snap = await getDocs(query(collection(db,'news'), orderBy('createdAt','desc'), limit(200)));
-        newsList.innerHTML = snap.empty ? '<div class="text-sm text-gray-500 px-1">Пока пусто</div>' : '';
-        snap.forEach(d=>{
+      const newsPagerCtl = makePager({
+        listEl: newsList, pagerEl: newsPager, pageSize: 2,
+        fetchAll: async ()=>{
+          const snap = await getDocs(query(collection(db,'news'), orderBy('createdAt','desc')));
+          return snap.docs;
+        },
+        renderItem: (d, into)=>{
           const n={id:d.id, ...d.data()};
-          newsList.insertAdjacentHTML('beforeend',`
-            <li class="list-item ${n.pinned?'ring-2 ring-blue-200':''}">
+          into.insertAdjacentHTML('beforeend',`
+            <li class="list-item ${n.pinned?'ring-2 ring-[#334155]':''}">
               <div class="min-w-0">
                 <div class="font-medium truncate">${n.title||'Без названия'}</div>
-                <div class="text-xs text-gray-500 flex flex-wrap gap-1 mt-1">
+                <div class="text-xs text-slate-400 flex flex-wrap gap-1 mt-1">
                   ${n.pinned?'<span class="pill">закреп</span>':''}
-                  <span class="inline-block rounded-full bg-gray-100 px-2 py-0.5">${n.status||''}</span>
+                  <span class="pill">${n.status||''}</span>
+                  <span>${(n.createdAt||'').toString().slice(0,10)}</span>
                 </div>
               </div>
               <div class="flex gap-2">
-                <button data-edit="${n.id}">Редакт.</button>
-                <button data-del="${n.id}" class="text-red-600">Удалить</button>
+                <button data-edit="${n.id}" class="btn btn-ghost">Редакт.</button>
+                <button data-del="${n.id}" class="btn btn-danger">Удалить</button>
               </div>
             </li>`);
-        });
-      }
-      newsQ.oninput=()=>{ const q=(newsQ.value||'').toLowerCase();
+        }
+      });
+
+      newsQ.oninput=()=>{
+        const q=(newsQ.value||'').toLowerCase();
         Array.from(newsList.children).forEach(li=>{
           const t=li.querySelector('.font-medium')?.textContent?.toLowerCase()||'';
           li.style.display = t.includes(q)?'':'none';
         });
       };
+
       newsList.onclick=async e=>{
         const idEdit=e.target.dataset.edit, idDel=e.target.dataset.del;
         if(idEdit){
           const d=await getDoc(doc(db,'news',idEdit)); if(!d.exists()) return;
-          const n=d.data(); newsForm.id.value=idEdit;
-          newsForm.title.value=n.title||''; newsForm.cover.value=n.cover||'';
-          newsForm.status.value=n.status||'published'; newsForm.pinned.checked=!!n.pinned;
-          htmlSet(qNews, n.html||''); return;
+          const n=d.data();
+          newsForm.id.value=idEdit;
+          newsForm.title.value=n.title||'';
+          newsForm.cover.value=n.cover||'';
+          newsForm.status.value=n.status||'published';
+          newsForm.pinned.checked=!!n.pinned;
+          htmlSet(qNews, n.html||'');
+          return;
         }
-        if(idDel){ await deleteDoc(doc(db,'news',idDel)); await loadNewsList(); }
+        if(idDel){
+          await deleteDoc(doc(db,'news',idDel));
+          await newsPagerCtl.load(1);
+        }
       };
+
       newsForm.onsubmit=async e=>{
         e.preventDefault();
-        const d=Object.fromEntries(new FormData(newsForm).entries());
+        const f = new FormData(newsForm);
+        const d = Object.fromEntries(f.entries());
         const isEdit=!!d.id; const id=d.id || ('n_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
         const prev=isEdit ? (await getDoc(doc(db,'news',id))).data() : null;
         const base={
-          title:(d.title||'').trim(), html: htmlGet(qNews), cover:(d.cover||'').trim(),
-          pinned: !!d.pinned, status: d.status || 'published',
+          title:(d.title||'').trim(),
+          html: htmlGet(qNews),
+          cover:(d.cover||'').trim(),
+          pinned: !!newsForm.pinned.checked,
+          status: d.status || 'published',
           createdAt: isEdit ? (prev?.createdAt || nowISO()) : nowISO(),
-          createdAtTS: serverTimestamp(), updatedAt: nowISO(), updatedAtTS: serverTimestamp(),
-          likes: prev?.likes ?? 0, views: prev?.views ?? 0
+          createdAtTS: serverTimestamp(),
+          updatedAt: nowISO(),
+          updatedAtTS: serverTimestamp(),
+          likes: prev?.likes ?? 0,
+          views: prev?.views ?? 0
         };
         await setDoc(doc(db,'news',id), base, {merge:true});
-        await loadNewsList();
+        newsForm.reset(); newsForm.id.value=''; htmlSet(qNews,'');
+        await newsPagerCtl.load(1);
       };
-      await loadNewsList();
-      // === ADS ===
-const adsForm = document.getElementById('ads-form');
-const adsList = document.getElementById('ads-list');
 
-async function loadAdsList(){
-  const snap = await getDocs(query(collection(db,'ads'), orderBy('createdAt','desc'), limit(200)));
-  adsList.innerHTML = snap.empty ? '<div class="text-sm text-gray-500 px-1">Пока пусто</div>' : '';
-  snap.forEach(d=>{
-    const a = { id:d.id, ...d.data() };
-    adsList.insertAdjacentHTML('beforeend', `
-      <li class="list-item">
-        <div class="min-w-0">
-          <div class="font-medium truncate">${a.title || 'Без названия'}</div>
-          <div class="text-xs text-gray-500 flex gap-2 mt-1">
-            <span class="inline-block rounded-full bg-gray-100 px-2 py-0.5">${a.status || 'published'}</span>
-            <span>${(a.createdAt||'').toString().slice(0,10)}</span>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <button data-edit="${a.id}">Редакт.</button>
-          <button data-del="${a.id}" class="text-red-600">Удалить</button>
-        </div>
-      </li>`);
-  });
-}
+      $('#news-new').onclick = ()=>{ newsForm.reset(); newsForm.id.value=''; htmlSet(qNews,''); };
+      $('#news-cancel').onclick= ()=>{ newsForm.reset(); newsForm.id.value=''; htmlSet(qNews,''); };
+      $('#news-delete').onclick= async ()=>{
+        const id = newsForm.id.value; if(!id) return;
+        await deleteDoc(doc(db,'news', id));
+        newsForm.reset(); newsForm.id.value=''; htmlSet(qNews,'');
+        await newsPagerCtl.load(1);
+      };
 
-adsList.onclick = async (e)=>{
-  const idEdit = e.target.dataset.edit, idDel = e.target.dataset.del;
-  if(idEdit){
-    const d = await getDoc(doc(db,'ads', idEdit)); if(!d.exists()) return;
-    const a = d.data();
-    adsForm.id.value   = idEdit;
-    adsForm.title.value= a.title || '';
-    adsForm.cover.value= a.cover || '';
-    adsForm.desc.value = a.desc  || '';
-    return;
-  }
-  if(idDel){
-    await deleteDoc(doc(db,'ads', idDel));
-    await loadAdsList();
-  }
-};
+      await newsPagerCtl.load(1);
 
-adsForm.onsubmit = async (e)=>{
+      // ---------- ADS ----------
+      const adsForm = $('#ads-form');
+      const adsList = $('#ads-list');
+      const adsPager= $('#ads-pager');
+
+      const adsPagerCtl = makePager({
+        listEl: adsList, pagerEl: adsPager, pageSize: 2,
+        fetchAll: async ()=>{
+          const snap = await getDocs(query(collection(db,'ads'), orderBy('createdAt','desc')));
+          return snap.docs;
+        },
+        renderItem: (d, into)=>{
+          const a = { id:d.id, ...d.data() };
+          into.insertAdjacentHTML('beforeend', `
+            <li class="list-item">
+              <div class="min-w-0">
+                <div class="font-medium truncate">${a.title || 'Без названия'}</div>
+                <div class="text-xs text-slate-400 flex gap-2 mt-1">
+                  <span class="pill">${a.status || 'published'}</span>
+                  <span>${(a.createdAt||'').toString().slice(0,10)}</span>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button data-edit="${a.id}" class="btn btn-ghost">Редакт.</button>
+                <button data-del="${a.id}" class="btn btn-danger">Удалить</button>
+              </div>
+            </li>`);
+        }
+      });
+
+      adsList.onclick = async (e)=>{
+        const idEdit = e.target.dataset.edit, idDel = e.target.dataset.del;
+        if(idEdit){
+          const d = await getDoc(doc(db,'ads', idEdit)); if(!d.exists()) return;
+          const a = d.data();
+          adsForm.id.value   = idEdit;
+          adsForm.title.value= a.title || '';
+          adsForm.cover.value= a.cover || '';
+          adsForm.desc.value = a.desc  || '';
+          return;
+        }
+        if(idDel){
+          await deleteDoc(doc(db,'ads', idDel));
+          await adsPagerCtl.load(1);
+        }
+      };
+
+      adsForm.onsubmit = async (e)=>{
+        e.preventDefault();
+        const fd = new FormData(adsForm);
+        const d  = Object.fromEntries(fd.entries());
+        const isEdit = !!d.id;
+        const id = d.id || ('a_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
+        const prev = isEdit ? (await getDoc(doc(db,'ads',id))).data() : null;
+
+        const base = {
+          title: (d.title||'').trim(),
+          cover: (d.cover||'').trim(),
+          desc : (d.desc ||'').trim(),
+          status: 'published',
+          createdAt: isEdit ? (prev?.createdAt || nowISO()) : nowISO(),
+          createdAtTS: serverTimestamp(),
+          updatedAt: nowISO(),
+          updatedAtTS: serverTimestamp(),
+          likes: prev?.likes ?? 0,
+          views: prev?.views ?? 0
+        };
+        await setDoc(doc(db,'ads', id), base, { merge:true });
+        adsForm.reset(); adsForm.id.value='';
+        await adsPagerCtl.load(1);
+      };
+
+      $('#ads-new').onclick    = ()=>{ adsForm.reset(); adsForm.id.value=''; };
+      $('#ads-cancel').onclick = ()=>{ adsForm.reset(); adsForm.id.value=''; };
+      $('#ads-delete').onclick = async ()=>{
+        const id = adsForm.id.value; if(!id) return;
+        await deleteDoc(doc(db,'ads', id));
+        adsForm.reset(); adsForm.id.value='';
+        await adsPagerCtl.load(1);
+      };
+
+      await adsPagerCtl.load(1);
+
+      // ---------- BIOS ----------
+      const biosForm = $('#bios-form');
+      const biosList = $('#bios-list');
+      const biosPager= $('#bios-pager');
+
+      const biosPagerCtl = makePager({
+        listEl: biosList, pagerEl: biosPager, pageSize: 2,
+        fetchAll: async ()=>{
+          const snap = await getDocs(query(collection(db,'biographies'), orderBy('createdAt','desc')));
+          return snap.docs;
+        },
+        renderItem: (d, into)=>{
+          const b = { id:d.id, ...d.data() };
+          into.insertAdjacentHTML('beforeend', `
+            <li class="list-item">
+              <div class="min-w-0">
+                <div class="font-medium truncate">${b.title || 'Без названия'}</div>
+                <div class="text-xs text-slate-400 flex gap-2 mt-1">
+                  <span class="pill">${b.status || 'published'}</span>
+                  <span>${(b.createdAt||'').toString().slice(0,10)}</span>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button data-edit="${b.id}" class="btn btn-ghost">Редакт.</button>
+                <button data-del="${b.id}" class="btn btn-danger">Удалить</button>
+              </div>
+            </li>`);
+        }
+      });
+
+      biosList.onclick = async (e)=>{
+        const idEdit = e.target.dataset.edit, idDel = e.target.dataset.del;
+        if(idEdit){
+          const d = await getDoc(doc(db,'biographies', idEdit)); if(!d.exists()) return;
+          const b = d.data();
+          biosForm.id.value    = idEdit;
+          biosForm.title.value = b.title || '';
+          biosForm.cover.value = b.cover || '';
+          biosForm.desc.value  = b.desc  || '';
+          return;
+        }
+        if(idDel){
+          await deleteDoc(doc(db,'biographies', idDel));
+          await biosPagerCtl.load(1);
+        }
+      };
+
+      biosForm.onsubmit = async (e)=>{
+        e.preventDefault();
+        const fd = new FormData(biosForm);
+        const d  = Object.fromEntries(fd.entries());
+        const isEdit = !!d.id;
+        const id = d.id || ('b_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
+        const prev = isEdit ? (await getDoc(doc(db,'biographies',id))).data() : null;
+
+        const base = {
+          title: (d.title||'').trim(),
+          cover: (d.cover||'').trim(),
+          desc : (d.desc ||'').trim(),
+          status: 'published',
+          createdAt: isEdit ? (prev?.createdAt || nowISO()) : nowISO(),
+          createdAtTS: serverTimestamp(),
+          updatedAt: nowISO(),
+          updatedAtTS: serverTimestamp(),
+          likes: prev?.likes ?? 0,
+          views: prev?.views ?? 0
+        };
+        await setDoc(doc(db,'biographies', id), base, { merge:true });
+        biosForm.reset(); biosForm.id.value='';
+        await biosPagerCtl.load(1);
+      };
+
+      $('#bios-new').onclick    = ()=>{ biosForm.reset(); biosForm.id.value=''; };
+      $('#bios-cancel').onclick = ()=>{ biosForm.reset(); biosForm.id.value=''; };
+      $('#bios-delete').onclick = async ()=>{
+        const id = biosForm.id.value; if(!id) return;
+        await deleteDoc(doc(db,'biographies', id));
+        biosForm.reset(); biosForm.id.value='';
+        await biosPagerCtl.load(1);
+      };
+
+      await biosPagerCtl.load(1);
+
+      // ---------- VIDEOS ----------
+      const videoCategories = [
+        'ПОСЛЕДНИЕ','ПОЭЗИЯ','ДАСТАРХАН','ШЁЛКОВЫЙ ПУТЬ','БИОГРАФИИ','МУЗЫКА','PRO TJK','ENGLISH','МИСТИКА'
+      ];
+      const videoCatsWrap = document.getElementById('video-cats');
+      videoCatsWrap.innerHTML = videoCategories.map(c => `
+        <label class="inline-flex items-center gap-2 cursor-pointer">
+          <input type="radio" name="cat" value="${c}">
+          <span class="text-sm">${c}</span>
+        </label>
+      `).join('');
+
+      const videosForm = $('#videos-form');
+      const videosList = $('#videos-list');
+      const videosQ    = $('#videos-q');
+      const videosPager= $('#videos-pager');
+
+      function parseTags(s){
+        const raw = (s||'').replace(/\s+/g,' ').trim().split(/[,#]/g).map(t=>t.trim()).filter(Boolean);
+        const uniq = Array.from(new Set(raw.map(t=>t.toLowerCase())));
+        return uniq.map(t => t.startsWith('#') ? t : '#'+t);
+      }
+
+      function detectProvider(url){
+        try {
+          const u = new URL(url);
+          const h = u.hostname.replace(/^www\./,'');
+          if (h==='youtube.com' || h==='m.youtube.com' || h==='youtu.be') {
+            let id = '';
+            if (h==='youtu.be') id = u.pathname.slice(1);
+            else if (u.pathname==='/watch') id = u.searchParams.get('v')||'';
+            else if (u.pathname.startsWith('/shorts/')) id = u.pathname.split('/')[2]||'';
+            return {provider:'youtube', id, embed:`https://www.youtube.com/embed/${id}`};
+          }
+          if (h==='rutube.ru') {
+            const parts = u.pathname.split('/').filter(Boolean);
+            const id = parts[1] || '';
+            return {provider:'rutube', id, embed:`https://rutube.ru/play/embed/${id}`};
+          }
+          if (h.endsWith('vk.com')) {
+            const m = u.pathname.match(/video-?\d+_\d+/);
+            const id = m ? m[0] : u.href;
+            return {provider:'vk', id, embed:`https://vk.com/${id}`};
+          }
+          return {provider:'other', id:u.href, embed:u.href};
+        } catch { return {provider:'other', id:String(url||''), embed:String(url||'')}; }
+      }
+
+      async function ensurePinnedLimit(currentId){
+        const snap = await getDocs(query(collection(db,'videos'), where('pinned','==', true)));
+        const pinnedIds = []; snap.forEach(d=> pinnedIds.push(d.id));
+        const count = pinnedIds.length;
+        if (count < 3) return true;
+        if (currentId && pinnedIds.includes(currentId)) return true;
+        return false;
+      }
+
+      const videosPagerCtl = makePager({
+        listEl: videosList, pagerEl: videosPager, pageSize: 2,
+        fetchAll: async ()=>{
+          const snap = await getDocs(query(collection(db,'videos'), orderBy('createdAt','desc')));
+          return snap.docs;
+        },
+        renderItem: (d, into)=>{
+          const v = { id:d.id, ...d.data() };
+          into.insertAdjacentHTML('beforeend', `
+            <li class="list-item ${v.pinned?'ring-2 ring-[#334155]':''}">
+              <div class="min-w-0">
+                <div class="font-medium truncate">${v.title || 'Без названия'}</div>
+                <div class="text-xs text-slate-400 flex flex-wrap gap-1 mt-1">
+                  ${v.pinned ? '<span class="pill">закреп</span>' : ''}
+                  ${v.featured ? '<span class="pill pill-orange">на главной</span>' : ''}
+                  ${v.category ? `<span class="pill">${v.category}</span>` : ''}
+                  <span>${(v.createdAt||'').toString().slice(0,10)}</span>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button data-edit="${v.id}" class="btn btn-ghost">Редакт.</button>
+                <button data-del="${v.id}" class="btn btn-danger">Удалить</button>
+              </div>
+            </li>
+          `);
+        }
+      });
+
+      videosQ.oninput = () => {
+        const q = (videosQ.value||'').toLowerCase();
+        Array.from(videosList.children).forEach(li=>{
+          const t = li.querySelector('.font-medium')?.textContent?.toLowerCase() || '';
+          li.style.display = t.includes(q) ? '' : 'none';
+        });
+      };
+
+      videosList.onclick = async (e)=>{
+        const idEdit = e.target.dataset.edit, idDel = e.target.dataset.del;
+        if (idDel){
+          await deleteDoc(doc(db,'videos', idDel));
+          await videosPagerCtl.load(1);
+          return;
+        }
+        if (idEdit){
+          const d = await getDoc(doc(db,'videos', idEdit)); if(!d.exists()) return;
+          const v = d.data();
+          videosForm.id.value    = idEdit;
+          videosForm.url.value   = v.url || '';
+          videosForm.title.value = v.title || '';
+          videosForm.desc.value  = v.desc  || '';
+          videosForm.tags.value  = (v.tags||[]).join(', ');
+          videosForm.status.value= v.status || 'published';
+          videosForm.pinned.checked  = !!v.pinned;
+          videosForm.featured.checked= !!v.featured;
+          if (v.category) {
+            const r = videosForm.querySelector(`input[name="cat"][value="${v.category}"]`);
+            if (r) r.checked = true;
+          }
+        }
+      };
+
+      $('#videos-new').onclick = ()=>{ videosForm.reset(); videosForm.id.value=''; };
+      $('#videos-cancel').onclick = ()=>{ videosForm.reset(); videosForm.id.value=''; };
+      $('#videos-delete').onclick = async ()=>{
+        const id = videosForm.id.value; if(!id) return;
+        await deleteDoc(doc(db,'videos', id));
+        videosForm.reset(); videosForm.id.value='';
+        await videosPagerCtl.load(1);
+      };
+
+videosForm.onsubmit = async (e)=>{
   e.preventDefault();
-  const fd = new FormData(adsForm);
-  const d  = Object.fromEntries(fd.entries());
+
+  const f = new FormData(videosForm);
+  const d = Object.fromEntries(f.entries());
+
   const isEdit = !!d.id;
-  const id = d.id || ('a_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
-  const prev = isEdit ? (await getDoc(doc(db,'ads',id))).data() : null;
+  const id = d.id || ('v_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
 
-  const base = {
-    title: (d.title||'').trim(),
-    cover: (d.cover||'').trim(),
-    desc : (d.desc ||'').trim(),
-    status: 'published',
-    createdAt: isEdit ? (prev?.createdAt || new Date().toISOString()) : new Date().toISOString(),
-    createdAtTS: serverTimestamp(),
-    updatedAt: new Date().toISOString(),
-    updatedAtTS: serverTimestamp(),
-    likes: prev?.likes ?? 0,
-    views: prev?.views ?? 0
-  };
-  await setDoc(doc(db,'ads', id), base, { merge:true });
-  adsForm.reset(); adsForm.id.value='';
-  await loadAdsList();
-};
+  // категория по умолчанию
+  const category = (d.cat && d.cat.trim()) ? d.cat.trim() : 'ПОСЛЕДНИЕ';
 
-document.getElementById('ads-new').onclick    = ()=>{ adsForm.reset(); adsForm.id.value=''; };
-document.getElementById('ads-cancel').onclick = ()=>{ adsForm.reset(); adsForm.id.value=''; };
-document.getElementById('ads-delete').onclick = async ()=>{
-  const id = adsForm.id.value; if(!id) return;
-  await deleteDoc(doc(db,'ads', id));
-  adsForm.reset(); adsForm.id.value='';
-  await loadAdsList();
-};
-
-await loadAdsList();
-// === BIOGRAPHIES ===
-const biosForm = document.getElementById('bios-form');
-const biosList = document.getElementById('bios-list');
-
-async function loadBiosList(){
-  const snap = await getDocs(query(collection(db,'biographies'), orderBy('createdAt','desc'), limit(200)));
-  biosList.innerHTML = snap.empty ? '<div class="text-sm text-gray-500 px-1">Пока пусто</div>' : '';
-  snap.forEach(d=>{
-    const b = { id:d.id, ...d.data() };
-    biosList.insertAdjacentHTML('beforeend', `
-      <li class="list-item">
-        <div class="min-w-0">
-          <div class="font-medium truncate">${b.title || 'Без названия'}</div>
-          <div class="text-xs text-gray-500 flex gap-2 mt-1">
-            <span class="inline-block rounded-full bg-gray-100 px-2 py-0.5">${b.status || 'published'}</span>
-            <span>${(b.createdAt||'').toString().slice(0,10)}</span>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <button data-edit="${b.id}">Редакт.</button>
-          <button data-del="${b.id}" class="text-red-600">Удалить</button>
-        </div>
-      </li>`);
-  });
-}
-
-biosList.onclick = async (e)=>{
-  const idEdit = e.target.dataset.edit, idDel = e.target.dataset.del;
-  if(idEdit){
-    const d = await getDoc(doc(db,'biographies', idEdit)); if(!d.exists()) return;
-    const b = d.data();
-    biosForm.id.value    = idEdit;
-    biosForm.title.value = b.title || '';
-    biosForm.cover.value = b.cover || '';
-    biosForm.desc.value  = b.desc  || '';
-    return;
-  }
-  if(idDel){
-    await deleteDoc(doc(db,'biographies', idDel));
-    await loadBiosList();
-  }
-};
-
-biosForm.onsubmit = async (e)=>{
-  e.preventDefault();
-  const fd = new FormData(biosForm);
-  const d  = Object.fromEntries(fd.entries());
-  const isEdit = !!d.id;
-  const id = d.id || ('b_'+Math.random().toString(36).slice(2)+Date.now().toString(36));
-  const prev = isEdit ? (await getDoc(doc(db,'biographies',id))).data() : null;
-
-  const base = {
-    title: (d.title||'').trim(),
-    cover: (d.cover||'').trim(),
-    desc : (d.desc ||'').trim(),
-    status: 'published',
-    createdAt: isEdit ? (prev?.createdAt || new Date().toISOString()) : new Date().toISOString(),
-    createdAtTS: serverTimestamp(),
-    updatedAt: new Date().toISOString(),
-    updatedAtTS: serverTimestamp(),
-    likes: prev?.likes ?? 0,
-    views: prev?.views ?? 0
-  };
-  await setDoc(doc(db,'biographies', id), base, { merge:true });
-  biosForm.reset(); biosForm.id.value='';
-  await loadBiosList();
-};
-
-document.getElementById('bios-new').onclick    = ()=>{ biosForm.reset(); biosForm.id.value=''; };
-document.getElementById('bios-cancel').onclick = ()=>{ biosForm.reset(); biosForm.id.value=''; };
-document.getElementById('bios-delete').onclick = async ()=>{
-  const id = biosForm.id.value; if(!id) return;
-  await deleteDoc(doc(db,'biographies', id));
-  biosForm.reset(); biosForm.id.value='';
-  await loadBiosList();
-};
-
-// <<< ЭТУ СТРОКУ ТОЖЕ ДОБАВЬ СРАЗУ ПОСЛЕ await loadAdsList();
-await loadBiosList();
-
+  // простое извлечение embed для YouTube (не падаем, если не ютуб)
+  const url = (d.url||'').trim();
+  let embed = url;
+  try {
+    const U = new URL(url);
+    const host = U.hostname.replace(/^www\./,'');
+    if (host==='youtu.be') {
+      const vid = U.pathname.slice(1).split(/[/?#&]/)[0];
+      if (vid) embed = `https://www.youtube.com/embed/${vid}`;
+    } else if (host==='youtube.com' || host==='m.youtube.com') {
+      const vid = (U.searchParams.get('v')||'').split('&')[0] || (U.pathname.startsWith('/shorts/') ? U.pathname.split('/')[2] : '');
+      if (vid) embed = `https://www.youtube.com/embed/${vid}`;
     }
+  } catch(_) {}
 
-    function $(sel){ return document.querySelector(sel); }
+  // прошлые поля при редактировании (счётчики/даты)
+  const prev = isEdit ? (await getDoc(doc(db,'videos',id))).data() : null;
+
+  const base = {
+    url,
+    embed,
+    title: (d.title||'').trim(),
+    desc : (d.desc ||'').trim(),
+    tags : (d.tags||'').split(/[,#]/).map(t=>t.trim()).filter(Boolean).map(t=>t.startsWith('#')?t:('#'+t.toLowerCase())),
+    category,
+    pinned  : !!videosForm.pinned.checked,
+    featured: !!videosForm.featured.checked,
+    status  : d.status || 'published',
+    createdAt  : isEdit ? (prev?.createdAt || nowISO()) : nowISO(),
+    createdAtTS: serverTimestamp(),
+    updatedAt  : nowISO(),
+    updatedAtTS: serverTimestamp(),
+    likes: prev?.likes ?? 0,
+    views: prev?.views ?? 0
+  };
+
+  try {
+    await setDoc(doc(db,'videos', id), base, { merge:true });
+    videosForm.reset(); videosForm.id.value='';
+    // обновим список, если есть функции; если нет — тихо пропускаем
+    if (typeof videosPagerCtl?.load === 'function') await videosPagerCtl.load(1);
+    else if (typeof loadVideosList === 'function')  await loadVideosList();
+  } catch(err) {
+    alert('Ошибка сохранения: ' + (err?.message || err));
+    console.error(err);
+  }
+};
+
+      // ---------- END ----------
+    }
   </script>
+<script type="module">
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { firebaseConfig } from "/firebase-config.js";
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const box = document.createElement('div');
+box.id = 'auth-state-debug';
+box.style.cssText = 'position:fixed;right:8px;bottom:8px;padding:6px 10px;font:12px/1.2 sans-serif;background:#0009;color:#fff;border-radius:8px;z-index:99999';
+box.textContent = 'Auth: проверка…';
+document.body.appendChild(box);
+onAuthStateChanged(auth, (user)=>{
+  box.textContent = user ? ('Auth: ' + (user.email||'user')) : 'Auth: гость';
+});
+</script>
 </body>
 </html>

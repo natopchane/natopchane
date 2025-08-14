@@ -17,6 +17,7 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="images/news-reporters.svg"/>
+  <link rel="stylesheet" href="/css/style.css">
 
   <!-- TailwindCSS v2 -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -50,46 +51,97 @@
 </head>
 <body class="text-gray-900">
 
-  <!-- ШАПКА (как на главной по стилю) -->
-  <header class="border-b border-gray-200">
-    <div class="w-full px-2 flex justify-between items-center h-16">
-      <a href="index.html" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
-        <img src="images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
-        На ТОПчане
-      </a>
+<!-- ====== HEADER (универсальный) ====== -->
+<header class="border-b border-gray-200 bg-white">
+  <style>
+    /* Полоска под активным пунктом меню */
+    header nav a.active{
+      border-bottom: 2px solid currentColor;
+      padding-bottom: 2px;
+    }
+  </style>
 
-      <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
-        <a href="index.html">Главная</a>
-        <a href="news.html" class="active">Новости</a>
-        <a href="ads.html">Реклама</a>
-        <a href="gallery.html">Галерея</a>
-        <a href="biographies.html">Биографии</a>
-        <a href="music.html">Музыка</a>
-        <a href="fun.html">Развлечения</a>
-        <a href="products.html">Продукция</a>
-        <a href="about.html">О&nbsp;нас</a>
-        <a href="contacts.html">Контакты</a>
-      </nav>
+  <div class="w-full px-2 flex justify-between items-center h-16">
+    <a href="/" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
+      <img src="/images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
+      На ТОПчане
+    </a>
 
-      <div class="mobile-nav md:hidden">
-        <button id="menu-btn" class="p-2 text-gray-700 text-2xl">☰</button>
-      </div>
-    </div>
+    <!-- Десктоп-меню -->
+    <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+      <a href="/">Главная</a>
+      <a href="/news.html">Новости</a>
+      <a href="/ads.html">Реклама</a>
+      <a href="/videos.html">Видео</a>
+      <a href="/gallery.html">Галерея</a>
+      <a href="/biographies.html">Биографии</a>
+      <a href="/music.html">Музыка</a>
+      <a href="/entertainment.html">Развлечения</a>
+      <a href="/products.html">Продукция</a>
+      <a href="/about.html">О&nbsp;нас</a>
+      <a href="/contacts.html">Контакты</a>
+    </nav>
 
-    <!-- Мобильное меню -->
-    <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
-      <a href="index.html">Главная</a>
-      <a href="news.html" class="active">Новости</a>
-      <a href="ads.html">Реклама</a>
-      <a href="gallery.html">Галерея</a>
-      <a href="biographies.html">Биографии</a>
-      <a href="music.html">Музыка</a>
-      <a href="fun.html">Развлечения</a>
-      <a href="products.html">Продукция</a>
-      <a href="about.html">О нас</a>
-      <a href="contact.html">Контакты</a>
-    </div>
-  </header>
+    <!-- Бургер -->
+    <button id="menu-btn" class="md:hidden p-2 text-gray-700 text-2xl" aria-label="Меню">☰</button>
+  </div>
+
+  <!-- Мобильное меню -->
+  <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
+    <a href="/">Главная</a>
+    <a href="/news.html">Новости</a>
+    <a href="/ads.html">Реклама</a>
+    <a href="/videos.html">Видео</a>
+    <a href="/gallery.html">Галерея</a>
+    <a href="/biographies.html">Биографии</a>
+    <a href="/music.html">Музыка</a>
+    <a href="/entertainment.html">Развлечения</a>
+    <a href="/products.html">Продукция</a>
+    <a href="/about.html">О нас</a>
+    <a href="/contacts.html">Контакты</a>
+  </div>
+
+  <script>
+    // Бургер
+    document.getElementById('menu-btn')
+      ?.addEventListener('click', ()=> document.getElementById('menu')?.classList.toggle('hidden'));
+
+    // Авто-активный пункт (десктоп + мобилка)
+    (function(){
+      const norm = p => {
+        try { p = new URL(p, location.origin).pathname; } catch(e){}
+        if (p === '/index.html' || p === '') return '/';
+        // убираем завершающий слеш кроме корня
+        return p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
+      };
+      const cur = norm(location.pathname);
+      document.querySelectorAll('header nav a, #menu a').forEach(a=>{
+        const href = norm(a.getAttribute('href') || '');
+        if (href === cur) {
+          a.classList.add('active');
+          a.setAttribute('aria-current','page');
+        } else {
+          a.classList.remove('active');
+          a.removeAttribute('aria-current');
+        }
+      });
+    })();
+  </script>
+  <style>
+.ad-left, .ad-right {
+    position: fixed;
+    top: 100px;
+    z-index: 9999;
+}
+.ad-left {
+    left: 10px;
+}
+.ad-right {
+    right: 10px;
+}
+</style>
+
+</header>
 
   <!-- HERO -->
   <section class="bg-white border-b">
@@ -525,5 +577,33 @@ document.addEventListener('keydown', (e)=>{
     // START
     await loadMore();
   </script>
+  <!-- Левый боковой баннер -->
+<div class="ad-left">
+<script type="text/javascript">
+	atOptions = {
+		'key' : '4cfa40489284c0efa9eb342e77152cdc',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
+</div>
+
+<!-- Правый боковой баннер -->
+<div class="ad-right">
+<script type="text/javascript">
+	atOptions = {
+		'key' : '766301ab751df8665553f47e1f05709a',
+		'format' : 'iframe',
+		'height' : 600,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/766301ab751df8665553f47e1f05709a/invoke.js"></script>
+</div>
+
 </body>
 </html>

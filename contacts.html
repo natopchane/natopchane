@@ -8,271 +8,283 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script type="text/javascript" src="https://vk.com/js/api/openapi.js?168" charset="windows-1251"></script>
+
   <style>
-    html, body {
-      height: 100%;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-    main {
-      flex: 1;
-    }
-    .contacts-section {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; }
+    main { flex: 1; }
+
+    .contacts-section { max-width: 600px; margin: 40px auto; padding: 20px; }
     .contacts-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
-      margin-bottom: 12px;
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px; margin-bottom: 12px; background: #ffffff;
+      border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .contacts-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    .contacts-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+    .contacts-icon img { width: 26px; height: 26px; display: block; }
+    .contacts-link { font-size: 16px; font-weight: 500; color: #333; text-decoration: none; transition: color 0.2s ease; }
+    .contacts-link:hover { color: #0077ff; }
+
+    /* Боковые баннеры */
+    .ad-left, .ad-right {
+      position: fixed; top: 110px; z-index: 40; /* над контентом, под шапкой */
+      width: 160px; overflow: hidden; border-radius: 14px; background: #fff;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08); border: 1px solid #e5e7eb;
     }
-    .contacts-icon img {
-      width: 26px;
-      height: 26px;
-      display: block;
-    }
-    .contacts-link {
-      font-size: 16px;
-      font-weight: 500;
-      color: #333;
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    .contacts-link:hover {
-      color: #0077ff;
+    .ad-left { left: 10px; }
+    .ad-right { right: 10px; }
+    /* Прячем на узких экранах, чтобы не перекрывали контент */
+    @media (max-width: 1200px) {
+      .ad-left, .ad-right { display: none; }
     }
   </style>
-  <!-- свои стили ПОсЛЕ Tailwind -->
-<link rel="stylesheet" href="/css/style.css?v=3">
 
+  <!-- свои стили ПОСЛЕ Tailwind -->
+  <link rel="stylesheet" href="/css/style.css?v=3">
 </head>
+
 <body class="bg-gray-50 text-gray-800">
 
-  <!-- ШАПКА -->
-  <header class="border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-      <a href="index.html" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
-        <img src="images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
-        На ТОПчане
-      </a>
+<!-- ====== БОКОВЫЕ РЕКЛАМНЫЕ БЛОКИ ====== -->
+<div class="ad-left">
+  <!-- 160x300 -->
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '4cfa40489284c0efa9eb342e77152cdc',
+      'format' : 'iframe',
+      'height' : 300,
+      'width' : 160,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
+</div>
 
-      <!-- Десктоп меню -->
-      <nav class="hidden md:flex gap-6">
-        <a href="index.html" class="active">Главная</a>
-        <a href="news.html">Новости</a>
-        <a href="ads.html">Реклама</a>
-        <a href="videos.html">Видео</a>
-        <a href="gallery.html">Галерея</a>
-        <a href="biographies.html">Биографии</a>
-        <a href="music.html">Музыка</a>
-        <a href="entertainment.html">Развлечения</a>
-        <a href="products.html">Продукция</a>
-        <a href="about.html">О нас</a>
-        <a href="contact.html">Контакты</a>
-      </nav>
+<div class="ad-right">
+  <!-- 160x600 -->
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '766301ab751df8665553f47e1f05709a',
+      'format' : 'iframe',
+      'height' : 600,
+      'width' : 160,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/766301ab751df8665553f47e1f05709a/invoke.js"></script>
+</div>
+<!-- ====== /БОКОВЫЕ РЕКЛАМНЫЕ БЛОКИ ====== -->
 
-      <!-- Мобильный бургер -->
-      <div class="mobile-nav md:hidden">
-        <button id="menu-btn" class="p-2 text-gray-700 text-2xl">☰</button>
-      </div>
-    </div>
+<!-- ====== HEADER (универсальный) ====== -->
+<header class="border-b border-gray-200 bg-white">
+  <style>
+    /* Полоска под активным пунктом меню */
+    header nav a.active{ border-bottom: 2px solid currentColor; padding-bottom: 2px; }
+  </style>
 
-    <!-- Мобильное меню -->
-    <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
-      <a href="index.html" class="active">Главная</a>
-      <a href="news.html">Новости</a>
-      <a href="ads.html">Реклама</a>
-      <a href="videos.html">Видео</a>
-      <a href="gallery.html">Галерея</a>
-      <a href="biographies.html">Биографии</a>
-      <a href="music.html">Музыка</a>
-      <a href="entertainment.html">Развлечения</a>
-      <a href="products.html">Продукция</a>
-      <a href="about.html">О нас</a>
-      <a href="contact.html">Контакты</a>
-    </div>
-  </header>
+  <div class="w-full px-2 flex justify-between items-center h-16">
+    <a href="/" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
+      <img src="/images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
+      На ТОПчане
+    </a>
 
-  <!-- КОНТАКТЫ -->
-  <main class="container mx-auto px-6 py-10">
-    <h2 class="text-3xl font-bold mb-8 text-center">Свяжитесь с нами</h2>
+    <!-- Десктоп-меню -->
+    <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+      <a href="/">Главная</a>
+      <a href="/news.html">Новости</a>
+      <a href="/ads.html">Реклама</a>
+      <a href="/videos.html">Видео</a>
+      <a href="/gallery.html">Галерея</a>
+      <a href="/biographies.html">Биографии</a>
+      <a href="/music.html">Музыка</a>
+      <a href="/entertainment.html">Развлечения</a>
+      <a href="/products.html">Продукция</a>
+      <a href="/about.html">О&nbsp;нас</a>
+      <a href="/contacts.html">Контакты</a>
+    </nav>
 
-    <div class="max-w-2xl mx-auto space-y-4">
-      <div class="contacts-section">
-
-        <!-- Gmail -->
-        <div class="contacts-card">
-          <div class="contacts-icon">
-            <img src="images/gmail-svgrepo.svg" alt="Gmail">
-          </div>
-          <a href="mailto:natopchane@gmail.com" class="contacts-link">natopchane@gmail.com</a>
-        </div>
-
-        <!-- Telegram -->
-        <div class="contacts-card">
-          <div class="contacts-icon">
-            <img src="images/telegram-svgrepo.svg" alt="Telegram">
-          </div>
-          <a href="https://t.me/topchanistan" target="_blank" class="contacts-link">@topchanistan</a>
-        </div>
-
-        <!-- WhatsApp -->
-        <div class="contacts-card">
-          <div class="contacts-icon">
-            <img src="images/whatsapp.svg" alt="WhatsApp">
-          </div>
-          <a href="https://wa.me/79891099741" target="_blank" class="contacts-link">Написать в WhatsApp</a>
-        </div>
-
-      </div>
-    </div>
-  </main>
-
-  <!-- ПОДВАЛ -->
-  <footer class="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white">
-    <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
-<p>© 2025 На ТОПчане. Все права защищены.</p>
-
-<ul class="soc-row">
-  <li><a href="https://vk.com/natopchane" target="_blank" aria-label="VK">
-    <img src="images/soc/vk.svg" alt="VK">
-  </a></li>
-  <li><a href="https://t.me/na_topchane" target="_blank" aria-label="Telegram">
-    <img src="images/soc/telegram.svg" alt="Telegram">
-  </a></li>
-  <li><a href="https://www.instagram.com/natopchane/" target="_blank" aria-label="Instagram">
-    <img src="images/soc/instagram.svg" alt="Instagram">
-  </a></li>
-  <li><a href="https://www.tiktok.com/@natopchane" target="_blank" aria-label="TikTok">
-    <img src="images/soc/tik-tok.svg" alt="TikTok">
-  </a></li>
-  <li><a href="https://www.pinterest.com/natopchane/?invite_code=67d18b04667e4a56b03fb7432127235b&sender=1144266355231499314" target="_blank" aria-label="Pinterest">
-    <img src="images/soc/pinterest.svg" alt="Pinterest">
-  </a></li>
-  <li><a href="https://rutube.ru/channel/49549724/" target="_blank" aria-label="Rutube">
-    <img src="images/soc/rutube.svg" alt="Rutube">
-  </a></li>
-  <li><a href="https://www.facebook.com/groups/natopchane/" target="_blank" aria-label="Facebook">
-    <img src="images/soc/fb.svg" alt="Facebook">
-  </a></li>
-  <li><a href="https://dzen.ru/natopchane" target="_blank" aria-label="Dzen">
-    <img src="images/soc/yandex.svg" alt="Dzen">
-  </a></li>
-  <li><a href="https://www.youtube.com/@natopchane" target="_blank" aria-label="YouTube">
-    <img src="images/soc/youtube.svg" alt="YouTube">
-  </a></li>
-  <li><a href="https://ok.ru/group/70000013841187" target="_blank" aria-label="OK">
-    <img src="images/soc/ok.svg" alt="OK">
-  </a></li>
-</ul>
-
-      <div class="flex flex-wrap gap-3">
-        <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
-        <button id="support-btn" class="hover:underline">Поддержка</button>
-        <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
-        <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
-      </div>
-    </div>
-  </footer>
-  <!-- Модальное окно (твоя существующая универсальная модалка) -->
-  <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-40">
-    <div class="bg-white max-w-lg w-full mx-4 p-6 rounded-lg relative shadow-lg">
-      <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">&times;</button>
-      <h2 id="modal-title" class="text-xl font-semibold mb-4"></h2>
-      <div id="modal-content" class="text-sm text-gray-700 space-y-3 max-h-72 overflow-y-auto leading-relaxed"></div>
-    </div>
+    <!-- Бургер -->
+    <button id="menu-btn" class="md:hidden p-2 text-gray-700 text-2xl" aria-label="Меню">☰</button>
   </div>
 
-  <!-- Скрипты (твои существующие) -->
+  <!-- Мобильное меню -->
+  <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
+    <a href="/">Главная</a>
+    <a href="/news.html">Новости</a>
+    <a href="/ads.html">Реклама</a>
+    <a href="/videos.html">Видео</a>
+    <a href="/gallery.html">Галерея</a>
+    <a href="/biographies.html">Биографии</a>
+    <a href="/music.html">Музыка</a>
+    <a href="/entertainment.html">Развлечения</a>
+    <a href="/products.html">Продукция</a>
+    <a href="/about.html">О нас</a>
+    <a href="/contacts.html">Контакты</a>
+  </div>
+
   <script>
-    // Мобильное меню
-    document.getElementById('menu-btn').addEventListener('click', () => {
-      document.getElementById('menu').classList.toggle('hidden');
-    });
+    // Бургер
+    document.getElementById('menu-btn')
+      ?.addEventListener('click', ()=> document.getElementById('menu')?.classList.toggle('hidden'));
 
-    // Модалки (универсальная)
-    const modal = document.getElementById('modal-overlay');
-    const title = document.getElementById('modal-title');
-    const content = document.getElementById('modal-content');
-
-    document.getElementById('privacy-btn').onclick = () => {
-      title.textContent = 'Политика конфиденциальности';
-      content.innerHTML = `
-        <p>Мы уважаем вашу конфиденциальность. При использовании сайта «На ТОПчане» мы можем собирать минимальные данные: IP-адрес, cookie, email (при подписке на рассылку).</p>
-        <p>Данные используются для улучшения работы сайта, персонализации контента и статистики посещений.</p>
-        <p>Мы не передаём ваши данные третьим лицам, кроме случаев, предусмотренных законом.</p>
-        <p>Вы можете запросить удаление или изменение своих данных, написав нам на support@example.com.</p>
-        <p>Изменения политики публикуются на этой странице.</p>
-      `;
-      modal.classList.remove('hidden');
-    };
-
-    document.getElementById('terms-btn').onclick = () => {
-      title.textContent = 'Пользовательское соглашение';
-      content.innerHTML = `
-        <p>Используя сайт «На ТОПчане», вы соглашаетесь с правилами:</p>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Не размещать незаконный или оскорбительный контент.</li>
-          <li>Не использовать сайт для рассылки спама или мошенничества.</li>
-          <li>Соблюдать авторские права на публикуемый материал.</li>
-          <li>Администрация может изменять условия без предварительного уведомления.</li>
-        </ul>
-        <p>При несогласии с условиями прекратите использование сайта.</p>
-      `;
-      modal.classList.remove('hidden');
-    };
-
-    document.getElementById('support-btn').onclick = () => {
-      title.textContent = 'Поддержка';
-      content.innerHTML = `
-        <p>По любым вопросам и предложениям вы можете написать нам:</p>
-        <p class="flex items-center gap-2">
-          <img src="images/telegram.svg" alt="Telegram" class="w-5 h-5">
-          <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Написать в Telegram</a>
-        </p>
-      `;
-      modal.classList.remove('hidden');
-    };
-
-    document.getElementById('cooperation-btn').onclick = () => {
-      title.textContent = 'Сотрудничество и реклама';
-      content.innerHTML = `
-        <p>По вопросам рекламы и совместных проектов свяжитесь с нами:</p>
-        <p class="flex items-center gap-2">
-          <img src="images/telegram.svg" alt="Telegram" class="w-5 h-5">
-          <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Telegram</a>
-        </p>
-        <p class="flex items-center gap-2">
-          <img src="images/gmail.svg" alt="Gmail" class="w-5 h-5">
-          <a href="mailto:natopchane@gmail.com" class="text-red-600 hover:underline">natopchane@gmail.com</a>
-        </p>
-      `;
-      modal.classList.remove('hidden');
-    };
-
-    // Закрытие модалки (универсальной)
-    document.getElementById('modal-close').onclick = () => modal.classList.add('hidden');
-    modal.onclick = e => { if (e.target === modal) modal.classList.add('hidden'); };
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.add('hidden'); });
+    // Авто-активный пункт (десктоп + мобилка)
+    (function(){
+      const norm = p => {
+        try { p = new URL(p, location.origin).pathname; } catch(e){}
+        if (p === '/index.html' || p === '') return '/';
+        return p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
+      };
+      const cur = norm(location.pathname);
+      document.querySelectorAll('header nav a, #menu a').forEach(a=>{
+        const href = norm(a.getAttribute('href') || '');
+        if (href === cur) { a.classList.add('active'); a.setAttribute('aria-current','page'); }
+        else { a.classList.remove('active'); a.removeAttribute('aria-current'); }
+      });
+    })();
   </script>
+</header>
 
-  <!-- ИНИЦИАЛИЗАЦИЯ VK Contact Us -->
-  <script type="text/javascript">
+<!-- КОНТАКТЫ -->
+<main class="container mx-auto px-6 py-10">
+  <h2 class="text-3xl font-bold mb-8 text-center">Свяжитесь с нами</h2>
+
+  <div class="max-w-2xl mx-auto space-y-4">
+    <div class="contacts-section">
+      <!-- Gmail -->
+      <div class="contacts-card">
+        <div class="contacts-icon"><img src="images/gmail-svgrepo.svg" alt="Gmail"></div>
+        <a href="mailto:natopchane@gmail.com" class="contacts-link">natopchane@gmail.com</a>
+      </div>
+
+      <!-- Telegram -->
+      <div class="contacts-card">
+        <div class="contacts-icon"><img src="images/telegram-svgrepo.svg" alt="Telegram"></div>
+        <a href="https://t.me/topchanistan" target="_blank" class="contacts-link">@topchanistan</a>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="contacts-card">
+        <div class="contacts-icon"><img src="images/whatsapp.svg" alt="WhatsApp"></div>
+        <a href="https://wa.me/79891099741" target="_blank" class="contacts-link">Написать в WhatsApp</a>
+      </div>
+
+      <!-- VK Contact Us (контейнер для виджета) -->
+      <div id="vk_contact_us" class="mt-6"></div>
+    </div>
+  </div>
+</main>
+
+<!-- ПОДВАЛ -->
+<footer class="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white">
+  <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
+    <p>© 2025 На ТОПчане. Все права защищены.</p>
+
+    <ul class="soc-row">
+      <li><a href="https://vk.com/natopchane" target="_blank" aria-label="VK"><img src="/images/soc/vk.svg" alt="VK"></a></li>
+      <li><a href="https://t.me/na_topchane" target="_blank" aria-label="Telegram"><img src="/images/soc/telegram.svg" alt="Telegram"></a></li>
+      <li><a href="https://www.instagram.com/natopchane/" target="_blank" aria-label="Instagram"><img src="/images/soc/instagram.svg" alt="Instagram"></a></li>
+      <li><a href="https://www.tiktok.com/@natopchane" target="_blank" aria-label="TikTok"><img src="/images/soc/tik-tok.svg" alt="TikTok"></a></li>
+      <li><a href="https://www.pinterest.com/natopchane/?invite_code=67d18b04667e4a56b03fb7432127235b&sender=1144266355231499314" target="_blank" aria-label="Pinterest"><img src="/images/soc/pinterest.svg" alt="Pinterest"></a></li>
+      <li><a href="https://rutube.ru/channel/49549724/" target="_blank" aria-label="Rutube"><img src="/images/soc/rutube.svg" alt="Rutube"></a></li>
+      <li><a href="https://www.facebook.com/groups/natopchane/" target="_blank" aria-label="Facebook"><img src="/images/soc/fb.svg" alt="Facebook"></a></li>
+      <li><a href="https://dzen.ru/natopchane" target="_blank" aria-label="Dzen"><img src="/images/soc/yandex.svg" alt="Dzen"></a></li>
+      <li><a href="https://www.youtube.com/@natopchane" target="_blank" aria-label="YouTube"><img src="/images/soc/youtube.svg" alt="YouTube"></a></li>
+      <li><a href="https://ok.ru/group/70000013841187" target="_blank" aria-label="OK"><img src="/images/soc/ok.svg" alt="OK"></a></li>
+    </ul>
+
+    <div class="flex flex-wrap gap-3">
+      <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
+      <button id="support-btn" class="hover:underline">Поддержка</button>
+      <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
+      <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
+    </div>
+  </div>
+</footer>
+
+<!-- Модальное окно (универсальное) -->
+<div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-40">
+  <div class="bg-white max-w-lg w-full mx-4 p-6 rounded-lg relative shadow-lg">
+    <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg" aria-label="Закрыть">&times;</button>
+    <h2 id="modal-title" class="text-xl font-semibold mb-4"></h2>
+    <div id="modal-content" class="text-sm text-gray-700 space-y-3 max-h-72 overflow-y-auto leading-relaxed"></div>
+  </div>
+</div>
+
+<!-- Скрипты -->
+<script>
+  // Модалки (универсальная)
+  const modal  = document.getElementById('modal-overlay');
+  const title  = document.getElementById('modal-title');
+  const content= document.getElementById('modal-content');
+
+  document.getElementById('privacy-btn')?.addEventListener('click', ()=>{
+    title.textContent = 'Политика конфиденциальности';
+    content.innerHTML = `
+      <p>Мы уважаем вашу конфиденциальность. При использовании сайта «На ТОПчане» мы можем собирать минимальные данные: IP-адрес, cookie, email (при подписке на рассылку).</p>
+      <p>Данные используются для улучшения работы сайта, персонализации контента и статистики посещений.</p>
+      <p>Мы не передаём ваши данные третьим лицам, кроме случаев, предусмотренных законом.</p>
+      <p>Вы можете запросить удаление или изменение своих данных, написав нам на <a class="text-red-600 hover:underline" href="mailto:natopchane@gmail.com">natopchane@gmail.com</a>.</p>
+      <p>Изменения политики публикуются на этой странице.</p>
+    `;
+    modal.classList.remove('hidden');
+  });
+
+  document.getElementById('terms-btn')?.addEventListener('click', ()=>{
+    title.textContent = 'Пользовательское соглашение';
+    content.innerHTML = `
+      <p>Используя сайт «На ТОПчане», вы соглашаетесь с правилами:</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Не размещать незаконный или оскорбительный контент.</li>
+        <li>Не использовать сайт для рассылки спама или мошенничества.</li>
+        <li>Соблюдать авторские права на публикуемый материал.</li>
+        <li>Администрация может изменять условия без предварительного уведомления.</li>
+        <li>При несогласии с условиями прекратите использование сайта.</li>
+      </ul>
+    `;
+    modal.classList.remove('hidden');
+  });
+
+  document.getElementById('support-btn')?.addEventListener('click', ()=>{
+    title.textContent = 'Поддержка';
+    content.innerHTML = `
+      <p>По любым вопросам и предложениям вы можете написать нам:</p>
+      <p class="flex items-center gap-2">
+        <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+        <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Написать в Telegram</a>
+      </p>
+    `;
+    modal.classList.remove('hidden');
+  });
+
+  document.getElementById('cooperation-btn')?.addEventListener('click', ()=>{
+    title.textContent = 'Сотрудничество и реклама';
+    content.innerHTML = `
+      <p>По вопросам рекламы и совместных проектов свяжитесь с нами:</p>
+      <p class="flex items-center gap-2">
+        <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+        <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Telegram</a>
+      </p>
+      <p class="flex items-center gap-2">
+        <img src="/images/soc/gmail.svg" alt="Gmail" class="w-5 h-5">
+        <a href="mailto:natopchane@gmail.com" class="text-red-600 hover:underline">natopchane@gmail.com</a>
+      </p>
+    `;
+    modal.classList.remove('hidden');
+  });
+
+  // Закрытие модалки
+  document.getElementById('modal-close')?.addEventListener('click', ()=> modal.classList.add('hidden'));
+  modal?.addEventListener('click', (e)=>{ if(e.target === modal) modal.classList.add('hidden'); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') modal.classList.add('hidden'); });
+</script>
+
+<!-- ИНИЦИАЛИЗАЦИЯ VK Contact Us (только если контейнер есть) -->
+<script>
+  if (window.VK && document.getElementById('vk_contact_us')) {
     VK.Widgets.ContactUs("vk_contact_us", {text: "Напишите нам", height: 30}, -119372563);
-  </script>
+  }
+</script>
 
 </body>
 </html>

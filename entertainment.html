@@ -1,12 +1,466 @@
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Развлечения — На ТОПчане | Персидский Мир</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Развлечения На ТОПчане: наши сайты, приложения, игры и ИИ-демо. Современные интерактивы мирового уровня."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Развлечения — На ТОПчане"/>
+  <meta property="og:description" content="Наши сайты, приложения, игры и ИИ-демо."/>
+  <meta property="og:image" content="/images/preview.jpg"/>
+
+  <link rel="icon" type="image/svg+xml" href="/images/icon.svg"/>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { padding-bottom: 64px; }
+    a { transition: color .2s ease, opacity .2s ease; }
+    a:hover { opacity: .85; }
+
+    header nav a { font-weight: 500; }
+    header nav a.active { border-bottom: 2px solid currentColor; }
+    .mobile-nav { display: none; }
+    @media (max-width: 768px) { nav { display:none; } .mobile-nav { display:block; } }
+
+    .btn { padding: 10px 14px; border-radius: 10px; border: 1px solid #e5e7eb; }
+    .btn-primary { background:#2563eb; color:#fff; border-color:#2563eb; }
+    .btn-ghost { background:#fff; }
+    .input { width:100%; border:1px solid #e5e7eb; border-radius:10px; padding:10px 12px; }
+
+    /* Сетка карточек */
+    .cards{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px}
+    @media(min-width:768px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(min-width:1180px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.06);overflow:hidden}
+    .card .cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-bottom:1px solid #eef2f7}
+    .badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;border:1px solid #c7d2fe;background:#eef2ff;color:#3730a3;font-size:12px}
+
+    /* Табы и пагинация */
+    .tab{padding:.5rem .9rem;border:1px solid #e5e7eb;border-radius:999px;background:#f8fafc;font-size:.9rem;white-space:nowrap}
+    .tab.active{background:#e0ecff;border-color:#bcd6ff;color:#0f3d9e}
+    .pager{display:flex;gap:6px;justify-content:center;margin:18px 0}
+    .pager button{border:1px solid #e5e7eb;border-radius:10px;padding:6px 10px}
+    .pager button.active{background:#111827;color:#fff;border-color:#111827}
+
+    /* Подвал */
+    .soc-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+    .soc-row img{width:18px;height:18px;display:block}
+    .footer-search{width:220px;border:1px solid #e5e7eb;border-radius:10px;padding:8px 10px}
+  </style>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+<!-- ====== HEADER (универсальный) ====== -->
+<header class="border-b border-gray-200 bg-white">
+  <style>
+    /* Полоска под активным пунктом меню */
+    header nav a.active{
+      border-bottom: 2px solid currentColor;
+      padding-bottom: 2px;
+    }
+  </style>
+
+  <div class="w-full px-2 flex justify-between items-center h-16">
+    <a href="/" class="flex items-center gap-2 text-xl font-semibold tracking-tight">
+      <img src="/images/logo.png" alt="На ТОПчане" class="h-8 w-8 object-contain">
+      На ТОПчане
+    </a>
+
+    <!-- Десктоп-меню -->
+    <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+      <a href="/">Главная</a>
+      <a href="/news.html">Новости</a>
+      <a href="/ads.html">Реклама</a>
+      <a href="/videos.html">Видео</a>
+      <a href="/gallery.html">Галерея</a>
+      <a href="/biographies.html">Биографии</a>
+      <a href="/music.html">Музыка</a>
+      <a href="/entertainment.html">Развлечения</a>
+      <a href="/products.html">Продукция</a>
+      <a href="/about.html">О&nbsp;нас</a>
+      <a href="/contacts.html">Контакты</a>
+    </nav>
+
+    <!-- Бургер -->
+    <button id="menu-btn" class="md:hidden p-2 text-gray-700 text-2xl" aria-label="Меню">☰</button>
+  </div>
+
+  <!-- Мобильное меню -->
+  <div id="menu" class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden">
+    <a href="/">Главная</a>
+    <a href="/news.html">Новости</a>
+    <a href="/ads.html">Реклама</a>
+    <a href="/videos.html">Видео</a>
+    <a href="/gallery.html">Галерея</a>
+    <a href="/biographies.html">Биографии</a>
+    <a href="/music.html">Музыка</a>
+    <a href="/entertainment.html">Развлечения</a>
+    <a href="/products.html">Продукция</a>
+    <a href="/about.html">О нас</a>
+    <a href="/contacts.html">Контакты</a>
+  </div>
+
+  <script>
+    // Бургер
+    document.getElementById('menu-btn')
+      ?.addEventListener('click', ()=> document.getElementById('menu')?.classList.toggle('hidden'));
+
+    // Авто-активный пункт (десктоп + мобилка)
+    (function(){
+      const norm = p => {
+        try { p = new URL(p, location.origin).pathname; } catch(e){}
+        if (p === '/index.html' || p === '') return '/';
+        // убираем завершающий слеш кроме корня
+        return p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
+      };
+      const cur = norm(location.pathname);
+      document.querySelectorAll('header nav a, #menu a').forEach(a=>{
+        const href = norm(a.getAttribute('href') || '');
+        if (href === cur) {
+          a.classList.add('active');
+          a.setAttribute('aria-current','page');
+        } else {
+          a.classList.remove('active');
+          a.removeAttribute('aria-current');
         }
+      });
+    })();
+  </script>
+  <style>
+.ad-left, .ad-right {
+    position: fixed;
+    top: 100px;
+    z-index: 9999;
+}
+.ad-left {
+    left: 10px;
+}
+.ad-right {
+    right: 10px;
+}
+</style>
+
+</header>
+
+
+  <!-- HERO -->
+  <section class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row md:items-center gap-4">
+      <div class="flex items-center gap-3">
+        <img src="/images/joystick.svg" class="w-8 h-8" alt="">
+        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">РАЗВЛЕЧЕНИЯ</h1>
+      </div>
+      <p class="text-gray-600 md:ml-auto max-w-2xl">
+        Здесь будут наши <b>сайты</b>, <b>приложения</b>, мини-<b>игры</b>, интерактивные <b>ИИ-демо</b> и другие эксперименты.
+      </p>
+    </div>
+  </section>
+
+  <!-- КАТЕГОРИИ + ПОИСК -->
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <div class="flex flex-col md:flex-row md:items-center gap-3 mb-5">
+      <div id="fun-tabs" class="flex gap-8 overflow-x-auto">
+        <button class="tab active" data-cat="ALL">Все</button>
+        <button class="tab" data-cat="APPS">Приложения</button>
+        <button class="tab" data-cat="SITES">Сайты</button>
+        <button class="tab" data-cat="GAMES">Игры</button>
+        <button class="tab" data-cat="AI">ИИ-демо</button>
+        <button class="tab" data-cat="TOOLS">Инструменты</button>
+      </div>
+      <div class="md:ml-auto w-full md:w-80">
+        <input id="q" class="input" placeholder="Поиск по названию…">
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <section>
+      <div id="fun-grid" class="cards"></div>
+      <div id="empty" class="hidden text-sm text-gray-500 mt-3">Пока пусто</div>
+      <div id="pager" class="pager"></div>
+    </section>
+  </main>
+
+  <!-- ПОДВАЛ (полный) -->
+  <footer class="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white">
+  <div class="max-w-7xl mx-auto px-4 py-2 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
+    <p>© 2025 На ТОПчане. Все права защищены.</p>
+
+    <ul class="soc-row">
+      <li><a href="https://vk.com/natopchane" target="_blank" aria-label="VK"><img src="/images/soc/vk.svg" alt="VK"></a></li>
+      <li><a href="https://t.me/na_topchane" target="_blank" aria-label="Telegram"><img src="/images/soc/telegram.svg" alt="Telegram"></a></li>
+      <li><a href="https://www.instagram.com/natopchane/" target="_blank" aria-label="Instagram"><img src="/images/soc/instagram.svg" alt="Instagram"></a></li>
+      <li><a href="https://www.tiktok.com/@natopchane" target="_blank" aria-label="TikTok"><img src="/images/soc/tik-tok.svg" alt="TikTok"></a></li>
+      <li><a href="https://www.pinterest.com/natopchane/?invite_code=67d18b04667e4a56b03fb7432127235b&sender=1144266355231499314" target="_blank" aria-label="Pinterest"><img src="/images/soc/pinterest.svg" alt="Pinterest"></a></li>
+      <li><a href="https://rutube.ru/channel/49549724/" target="_blank" aria-label="Rutube"><img src="/images/soc/rutube.svg" alt="Rutube"></a></li>
+      <li><a href="https://www.facebook.com/groups/natopchane/" target="_blank" aria-label="Facebook"><img src="/images/soc/fb.svg" alt="Facebook"></a></li>
+      <li><a href="https://dzen.ru/natopchane" target="_blank" aria-label="Dzen"><img src="/images/soc/yandex.svg" alt="Dzen"></a></li>
+      <li><a href="https://www.youtube.com/@natopchane" target="_blank" aria-label="YouTube"><img src="/images/soc/youtube.svg" alt="YouTube"></a></li>
+      <li><a href="https://ok.ru/group/70000013841187" target="_blank" aria-label="OK"><img src="/images/soc/ok.svg" alt="OK"></a></li>
+    </ul>
+
+    <div class="flex flex-wrap gap-3">
+      <button id="terms-btn" class="hover:underline">Пользовательское соглашение</button>
+      <button id="support-btn" class="hover:underline">Поддержка</button>
+      <button id="cooperation-btn" class="hover:underline">Сотрудничество</button>
+      <button id="privacy-btn" class="hover:underline">Политика конфиденциальности</button>
+    </div>
+  </div>
+</footer>
+
+  <!-- Универсальная модалка (как на остальных страницах) -->
+  <div id="modal-overlay" class="fixed inset-0 bg-black/50 hidden z-40">
+    <div class="bg-white max-w-lg w-full mx-auto mt-24 p-6 rounded-lg relative shadow-lg">
+      <button id="modal-close" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg" aria-label="Закрыть">&times;</button>
+      <h2 id="modal-title" class="text-xl font-semibold mb-4"></h2>
+      <div id="modal-content" class="text-sm text-gray-700 space-y-3 max-h-72 overflow-y-auto leading-relaxed"></div>
+    </div>
+  </div>
+
+  <!-- Скрипты UI -->
+  <script>
+    // Мобильное меню
+    document.getElementById('menu-btn')?.addEventListener('click', () => {
+      document.getElementById('menu')?.classList.toggle('hidden');
+    });
+
+    // Универсальная модалка
+    const modal = document.getElementById('modal-overlay');
+    const title = document.getElementById('modal-title');
+    const content = document.getElementById('modal-content');
+    document.getElementById('modal-close').onclick = () => modal.classList.add('hidden');
+    modal.onclick = e => { if (e.target === modal) modal.classList.add('hidden'); };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.add('hidden'); });
+
+    document.getElementById('privacy-btn').onclick = () => {
+      title.textContent = 'Политика конфиденциальности';
+      content.innerHTML = `
+        <p>Мы уважаем вашу конфиденциальность. При использовании сайта «На ТОПчане» мы можем собирать минимальные данные: IP-адрес, cookie, email (при подписке на рассылку).</p>
+        <p>Данные используются для улучшения работы сайта, персонализации контента и статистики посещений.</p>
+        <p>Мы не передаём ваши данные третьим лицам, кроме случаев, предусмотренных законом.</p>
+        <p>Вы можете запросить удаление или изменение своих данных, написав нам на support@example.com.</p>
+        <p>Изменения политики публикуются на этой странице.</p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    document.getElementById('terms-btn').onclick = () => {
+      title.textContent = 'Пользовательское соглашение';
+      content.innerHTML = `
+        <p>Используя сайт «На ТОПчане», вы соглашаетесь с правилами:</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Не размещать незаконный или оскорбительный контент.</li>
+          <li>Не использовать сайт для рассылки спама или мошенничества.</li>
+          <li>Соблюдать авторские права на публикуемый материал.</li>
+          <li>Администрация может изменять условия без предварительного уведомления.</li>
+        </ul>
+        <p>При несогласии с условиями прекратите использование сайта.</p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    document.getElementById('support-btn').onclick = () => {
+      title.textContent = 'Поддержка';
+      content.innerHTML = `
+        <p>По любым вопросам и предложениям вы можете написать нам:</p>
+        <p class="flex items-center gap-2">
+          <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+          <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Написать в Telegram</a>
+        </p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    document.getElementById('cooperation-btn').onclick = () => {
+      title.textContent = 'Сотрудничество и реклама';
+      content.innerHTML = `
+        <p>По вопросам рекламы и совместных проектов свяжитесь с нами:</p>
+        <p class="flex items-center gap-2">
+          <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+          <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Telegram</a>
+        </p>
+        <p class="flex items-center gap-2">
+          <img src="/images/soc/gmail.svg" alt="Gmail" class="w-5 h-5">
+          <a href="mailto:natopchane@gmail.com" class="text-red-600 hover:underline">natopchane@gmail.com</a>
+        </p>
+      `;
+      modal.classList.remove('hidden');
+    };
+
+    // Поиск по карточкам в подвале (универсальный)
+    (function(){
+      const input = document.getElementById('footer-search');
+      const grid = document.getElementById('fun-grid');
+      input?.addEventListener('input', ()=>{
+        const q=(input.value||'').toLowerCase();
+        Array.from(grid.children).forEach(card=>{
+          const txt=(card.textContent||'').toLowerCase();
+          card.style.display = txt.includes(q)?'':'none';
+        });
+      });
+    })();
+  </script>
+
+  <!-- Временные демо-данные (позже подключим БД/реальный источник) -->
+  <script>
+    const SEED = [
+      {title:'Мини-игра «Desert Runner»', desc:'Аркада в пустыне, раннер на WebGL.', cover:'/images/sample1.jpg', cat:'GAMES', link:'#'},
+      {title:'Генератор обложек', desc:'Автосборка обложек для выпусков.', cover:'/images/sample2.jpg', cat:'TOOLS', link:'#'},
+      {title:'Визуализатор музыки', desc:'Аудиореактивные шейдеры + эффекты.', cover:'/images/sample3.jpg', cat:'APPS', link:'#'},
+      {title:'Сайт «Шёлковый путь»', desc:'Интерактивная карта + таймлайны.', cover:'/images/sample1.jpg', cat:'SITES', link:'#'},
+      {title:'ИИ-пересказ', desc:'Сжатие длинных текстов с факт-чеками.', cover:'/images/sample2.jpg', cat:'AI', link:'#'},
+      {title:'Видеоредактор-клипы', desc:'Набор пресетов для коротких клипов.', cover:'/images/sample3.jpg', cat:'APPS', link:'#'},
+    ];
+
+    const grid = document.getElementById('fun-grid');
+    const empty = document.getElementById('empty');
+    const pager = document.getElementById('pager');
+    const tabs = Array.from(document.querySelectorAll('#fun-tabs .tab'));
+
+    const PAGE = 6;
+    let page = 1;
+    let cat = 'ALL';
+    let view = [];
+
+    function card(it){
+      return `
+        <article class="card">
+          ${it.cover ? `<img src="${it.cover}" alt="" class="cover">` : ''}
+          <div class="p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-semibold text-lg">${it.title}</h3>
+              <span class="badge">${it.cat}</span>
+            </div>
+            <p class="text-sm text-gray-700">${it.desc||''}</p>
+            ${it.link ? `<a href="${it.link}" class="btn btn-ghost text-sm">Открыть</a>` : ''}
+          </div>
+        </article>`;
+    }
+
+    function apply(){
+      const base = cat==='ALL' ? SEED : SEED.filter(x=>x.cat===cat);
+      view = base;
+      page = 1;
+      render();
+    }
+
+    function render(){
+      grid.innerHTML = '';
+      const start = (page-1)*PAGE;
+      const items = view.slice(start, start+PAGE);
+      items.forEach(x=> grid.insertAdjacentHTML('beforeend', card(x)));
+      empty.classList.toggle('hidden', items.length>0);
+
+      const pages = Math.max(1, Math.ceil(view.length/PAGE));
+      pager.innerHTML='';
+      for(let i=1;i<=pages;i++){
+        const b=document.createElement('button');
+        b.textContent=i;
+        if(i===page) b.classList.add('active');
+        b.onclick=()=>{page=i; render(); window.scrollTo({top:0,behavior:'smooth'});};
+        pager.appendChild(b);
       }
     }
+
+    tabs.forEach(b=>{
+      b.addEventListener('click', ()=>{
+        tabs.forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        cat = b.dataset.cat || 'ALL';
+        apply();
+      });
+    });
+
+    // старт
+    apply();
+  </script>
+
+<script>
+(function(){
+  ['terms-btn','support-btn','cooperation-btn','privacy-btn','menu-btn'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+  });
+  const modal=document.getElementById('modal-overlay');
+  const title=document.getElementById('modal-title');
+  const meta=document.getElementById('modal-meta');
+  const content=document.getElementById('modal-content');
+  const cover=document.getElementById('article-cover');
+  function show(t,html){
+    if(!modal||!title||!content) return;
+    title.textContent=t; if(meta) meta.textContent='';
+    if(cover){ cover.classList.add('hidden'); cover.src=''; }
+    content.innerHTML=html; modal.classList.remove('hidden');
   }
+  const TERMS=`<p>Используя сайт «На ТОПчане», вы соглашаетесь с правилами:</p>
+  <ul class="list-disc pl-5 space-y-1">
+    <li>Не размещать незаконный или оскорбительный контент.</li>
+    <li>Не использовать сайт для рассылки спама или мошенничества.</li>
+    <li>Соблюдать авторские права на публикуемый материал.</li>
+    <li>Администрация может изменять условия без предварительного уведомления.</li>
+    <li>При несогласии с условиями прекратите использование сайта.</li>
+  </ul>`;
+  const SUPPORT=`<p>По любым вопросам и предложениям вы можете написать нам:</p>
+  <p class="flex items-center gap-2">
+    <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+    <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Написать в Telegram</a>
+  </p>`;
+  const COOP=`<p>По вопросам рекламы и совместных проектов свяжитесь с нами:</p>
+  <p class="flex items-center gap-2">
+    <img src="/images/soc/telegram.svg" alt="Telegram" class="w-5 h-5">
+    <a href="https://t.me/levakand_pro" target="_blank" class="text-blue-600 hover:underline">Telegram</a>
+  </p>
+  <p class="flex items-center gap-2">
+    <img src="/images/soc/gmail.svg" alt="Gmail" class="w-5 h-5">
+    <a href="mailto:natopchane@gmail.com" class="text-red-600 hover:underline">natopchane@gmail.com</a>
+  </p>`;
+  const PRIV=`<p>Мы уважаем вашу конфиденциальность. При использовании сайта «На ТОПчане» мы можем собирать минимальные данные: IP-адрес, cookie, email (при подписке на рассылку).</p>
+  <p>Данные используются для улучшения работы сайта, персонализации контента и статистики посещений.</p>
+  <p>Мы не передаём ваши данные третьим лицам, кроме случаев, предусмотренных законом.</p>
+  <p>Вы можете запросить удаление или изменение своих данных, написав нам на <a class="text-red-600 hover:underline" href="mailto:natopchane@gmail.com">natopchane@gmail.com</a>.</p>
+  <p>Изменения политики публикуются на этой странице.</p>`;
+  document.getElementById('terms-btn')?.addEventListener('click', ()=> show('Пользовательское соглашение', TERMS));
+  document.getElementById('support-btn')?.addEventListener('click', ()=> show('Поддержка', SUPPORT));
+  document.getElementById('cooperation-btn')?.addEventListener('click', ()=> show('Сотрудничество и реклама', COOP));
+  document.getElementById('privacy-btn')?.addEventListener('click', ()=> show('Политика конфиденциальности', PRIV));
+  document.getElementById('menu-btn')?.addEventListener('click', ()=>{
+    document.getElementById('menu')?.classList.toggle('hidden');
+  });
+})();
 </script>
+<!-- Левый боковой баннер -->
+<div class="ad-left">
+<script type="text/javascript">
+	atOptions = {
+		'key' : '4cfa40489284c0efa9eb342e77152cdc',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
+</div>
+
+<!-- Правый боковой баннер -->
+<div class="ad-right">
+<script type="text/javascript">
+	atOptions = {
+		'key' : '766301ab751df8665553f47e1f05709a',
+		'format' : 'iframe',
+		'height' : 600,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/766301ab751df8665553f47e1f05709a/invoke.js"></script>
+</div>
+
+</body>
+</html>
