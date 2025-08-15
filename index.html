@@ -6,6 +6,7 @@
   <!-- End Google Tag Manager -->
 
   <meta charset="utf-8"/>
+  <meta name="google-site-verification" content="REPLACE_WITH_GSC_TOKEN"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <!-- Шрифты -->
   <link crossorigin="true" href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -17,20 +18,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Neucha&family=Great+Vibes&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Philosopher&display=swap" rel="stylesheet"/>
   <link href="css/style.css" rel="stylesheet"/>
-  <title>На ТОПчане — Персидский Мир</title>
+  <title>На ТОПчане - Персидский Мир</title>
   <meta content="Новости, культура, музыка и жизнь Персии — всё в одном месте. Персидский Мир на ТОПчане." name="description"/>
   <meta content="website" property="og:type"/>
-  <meta content="На ТОПчане — Персидский Мир" property="og:title"/>
-  <meta content="Новости, культура, музыка и жизнь Персии — всё в одном месте." property="og:description"/>
-  <meta content="https://natopchane.github.io/natopchane/images/preview.jpg" property="og:image"/>
-  <meta content="https://natopchane.github.io/natopchane/" property="og:url"/>
+  <meta content="На ТОПчане - Персидский Мир" property="og:title"/>
+  <meta content="Новости, культура, музыка и жизнь Персии - всё в одном месте." property="og:description"/>
+  <meta content="https://natopchane.ddns.net/images/preview.jpg" property="og:image"/>
+  <meta content="https://natopchane.ddns.net/" property="og:url"/>
   <meta content="summary_large_image" name="twitter:card"/>
-  <meta content="На ТОПчане — Персидский Мир" name="twitter:title"/>
+  <meta content="На ТОПчане - Персидский Мир" name="twitter:title"/>
   <meta content="Новости, культура, музыка и жизнь Персии — всё в одном месте." name="twitter:description"/>
-  <meta content="https://natopchane.github.io/natopchane/images/preview.jpg" name="twitter:image"/>
+  <meta content="https://natopchane.ddns.net/images/preview.jpg" name="twitter:image"/>
   <meta content="#0ea5e9" name="theme-color"/>
   <link href="images/icon.svg" rel="icon" type="image/svg+xml">
-  <link href="https://natopchane.github.io/natopchane/" rel="canonical">
+  <link href="https://natopchane.ddns.net/" rel="canonical">
   <link href="manifest.webmanifest" rel="manifest">
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -135,10 +136,10 @@
 
   <!-- Schema.org -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Organization","name":"На ТОПчане","url":"https://natopchane.example","logo":"https://natopchane.example/images/logo.png","sameAs":["https://www.youtube.com/@natopchane","https://t.me/na_topchane"]}
+  {"@context":"https://schema.org","@type":"Organization","name":"На ТОПчане","url":"https://natopchane.ddns.net","logo":"https://natopchane.ddns.net/images/logo.png","sameAs":["https://www.youtube.com/@natopchane","https://t.me/na_topchane"]}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","url":"https://natopchane.example","potentialAction":{"@type":"SearchAction","target":"https://natopchane.example/search?q={query}","query-input":"required name=query"}}
+  {"@context":"https://schema.org","@type":"WebSite","url":"https://natopchane.ddns.net","potentialAction":{"@type":"SearchAction","target":"https://natopchane.ddns.net/search?q={query}","query-input":"required name=query"}}
   </script>
 
   <style>
@@ -750,5 +751,24 @@
       document.getElementById('mobileAd').style.display = 'none';
     });
   </script>
+
+<!-- Minimal GA4 dataLayer events -->
+<script>
+window.dataLayer = window.dataLayer || [];
+document.addEventListener('click', function(e){
+  var a = e.target.closest('a');
+  if(!a) return;
+  var ext = a.host && a.host !== location.host;
+  var isFile = /\.(zip|rar|7z|mp3|wav|flac|pdf|docx?|xlsx?|pptx?)$/i.test(a.pathname||'');
+  if(ext) dataLayer.push({event:'outbound_click', link_url:a.href});
+  if(isFile) dataLayer.push({event:'file_download', file_url:a.href});
+});
+window.addEventListener('load', function(){
+  document.querySelectorAll('iframe[src*="highperformanceformat.com"]').forEach(function(f){
+    f.addEventListener('load', function(){ dataLayer.push({event:'ad_iframe_load', ad_slot: f.src}); }, {once:true});
+  });
+});
+</script>
+
 </body>
 </html>
