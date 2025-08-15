@@ -2,6 +2,8 @@
 
 <html lang="ru">
 <head>
+  <link rel="stylesheet" href="css/mobile-fixes.css?v=1">
+
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Новости — На ТОПчане</title>
@@ -47,89 +49,55 @@
 <body class="text-gray-900">
 <!-- ====== HEADER (универсальный) ====== -->
 <header class="border-b border-gray-200 bg-white">
-<style>
-    /* Полоска под активным пунктом меню */
-    header nav a.active{
-      border-bottom: 2px solid currentColor;
-      padding-bottom: 2px;
-    }
-  </style>
-<div class="w-full px-2 flex justify-between items-center h-16">
-<a class="flex items-center gap-2 text-xl font-semibold tracking-tight" href="index.html">
-<img alt="На ТОПчане" class="h-8 w-8 object-contain" src="images/logo.png"/>
-      На ТОПчане
-    </a>
-<!-- Десктоп-меню -->
-<nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
-<a href="index.html">Главная</a>
-<a href="news.html">Новости</a>
-<a href="ads.html">Реклама</a>
-<a href="videos.html">Видео</a>
-<a href="gallery.html">Галерея</a>
-<a href="biographies.html">Биографии</a>
-<a href="music.html">Музыка</a>
-<a href="entertainment.html">Развлечения</a>
-<a href="products.html">Продукция</a>
-<a href="about.html">О нас</a>
-<a href="contacts.html">Контакты</a>
-</nav>
-<!-- Бургер -->
-<button aria-label="Меню" class="md:hidden p-2 text-gray-700 text-2xl" id="menu-btn">☰</button>
-</div>
-<!-- Мобильное меню -->
-<div class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden" id="menu">
-<a href="index.html">Главная</a>
-<a href="news.html">Новости</a>
-<a href="ads.html">Реклама</a>
-<a href="videos.html">Видео</a>
-<a href="gallery.html">Галерея</a>
-<a href="biographies.html">Биографии</a>
-<a href="music.html">Музыка</a>
-<a href="entertainment.html">Развлечения</a>
-<a href="products.html">Продукция</a>
-<a href="about.html">О нас</a>
-<a href="contacts.html">Контакты</a>
-</div>
-<script>
-    // Бургер
-    document.getElementById('menu-btn')
-      ?.addEventListener('click', ()=> document.getElementById('menu')?.classList.toggle('hidden'));
+    <style>header nav a.active{border-bottom: 2px solid currentColor;padding-bottom: 2px}</style>
+    <div class="w-full px-2 flex justify-between items-center h-16">
+      <a class="flex items-center gap-2 text-xl font-semibold tracking-tight" href="">
+        <img alt="На ТОПчане" class="shrink-0 w-8 align-middle h-8 object-contain inline-block" decoding="async" height="32" loading="eager" src="images/logo.png" style="display:block;max-width:100%" width="32"/> На ТОПчане
+      </a>
 
-    // Авто-активный пункт (десктоп + мобилка)
-    (function(){
-      const norm = p => {
-        try { p = new URL(p, location.origin).pathname; } catch(e){}
-        if (p === '/index.html' || p === '') return '/';
-        // убираем завершающий слеш кроме корня
-        return p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
-      };
-      const cur = norm(location.pathname);
-      document.querySelectorAll('header nav a, #menu a').forEach(a=>{
-        const href = norm(a.getAttribute('href') || '');
-        if (href === cur) {
-          a.classList.add('active');
-          a.setAttribute('aria-current','page');
-        } else {
-          a.classList.remove('active');
-          a.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
-<style>
-.ad-left, .ad-right {
-    position: fixed;
-    top: 100px;
-    z-index: 9999;
-}
-.ad-left {
-    left: 10px;
-}
-.ad-right {
-    right: 10px;
-}
-</style>
-</header>
+      <!-- Десктоп-меню -->
+      <nav class="hidden md:flex md:flex-1 justify-center items-center gap-8 whitespace-nowrap">
+        <a href="">Главная</a>
+        <a href="news.html">Новости</a>
+        <a href="ads.html">Реклама</a>
+        <a href="videos.html">Видео</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="biographies.html">Биографии</a>
+        <a href="music.html">Музыка</a>
+        <a href="entertainment.html">Развлечения</a>
+        <a href="products.html">Продукция</a>
+        <a href="about.html">О нас</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+
+      <!-- Бургер -->
+      <button aria-label="Меню" class="md:hidden p-2 text-gray-700 text-2xl" id="menu-btn">☰</button>
+    </div>
+
+    <!-- Фон для моб-меню -->
+    <div class="hidden" id="menu-backdrop"></div>
+
+    <!-- Мобильное меню (офф-канвас) -->
+    <div class="hidden bg-white md:hidden" id="menu">
+      <div class="m-menu-head">
+        Меню
+        <button class="m-menu-close" id="menuClose" aria-label="Закрыть">×</button>
+      </div>
+      <ul class="m-menu">
+        <li><a href="">Главная</a></li>
+        <li><a href="news.html">Новости</a></li>
+        <li><a href="ads.html">Реклама</a></li>
+        <li><a href="videos.html">Видео</a></li>
+        <li><a href="gallery.html">Галерея</a></li>
+        <li><a href="biographies.html">Биографии</a></li>
+        <li><a href="music.html">Музыка</a></li>
+        <li><a href="entertainment.html">Развлечения</a></li>
+        <li><a href="products.html">Продукция</a></li>
+        <li><a href="about.html">О нас</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+      </ul>
+    </div>
+  </header>
 <!-- HERO -->
 <section class="bg-white border-b">
 <div class="max-w-7xl mx-auto px-4 py-6 flex items-center gap-3">
