@@ -2,7 +2,7 @@
 
 <html lang="ru">
 <head>
-  <style>
+<style>
 @media (max-width:768px){
   .back-home{
     position:fixed;
@@ -23,12 +23,11 @@
   }
 }
 </style>
-  <link rel="stylesheet" href="css/mobile-fixes.css?v=1">
-
+<link href="css/mobile-fixes.css?v=1" rel="stylesheet"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Контакты — На ТОПчане</title>
-<link href="images/contacts.svg" rel="icon" type="image/svg+xml"/>
+<link href="images/contacts.svg" rel="icon" type="image/svg+xml">
 <link href="style.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com"></script>
 <script charset="windows-1251" src="https://vk.com/js/api/openapi.js?168" type="text/javascript"></script>
@@ -64,7 +63,6 @@
   </style>
 <!-- свои стили ПОСЛЕ Tailwind -->
 <link href="css/style.css?v=3" rel="stylesheet"/>
-
 <!-- injected: mobile-menu sitewide CSS -->
 <style id="mobile-menu-css">
 @media (max-width:768px){
@@ -100,7 +98,24 @@
   #menu-btn{ display:none !important; }
 }
 </style>
-
+</link>
+<script>
+(function(){
+  try{
+    var parts = location.pathname.replace(/^\//,'').split('/').filter(Boolean);
+    if(!parts.length) return;
+    var items = [];
+    var accum = 'https://natopchane.ddns.net/';
+    parts.forEach(function(p, i){
+      accum += (i===0? '' : '/') + p;
+      items.push({"@type":"ListItem","position":i+1,"name":p.replace(/\.html$/,''),"item":accum});
+    });
+    var ld = {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":items};
+    var s = document.createElement('script'); s.type='application/ld+json'; s.textContent = JSON.stringify(ld);
+    document.head.appendChild(s);
+  }catch(e){}
+})();
+</script>
 </head>
 <body class="bg-gray-50 text-gray-800">
 <!-- ====== БОКОВЫЕ РЕКЛАМНЫЕ БЛОКИ ====== -->
@@ -324,7 +339,6 @@
     VK.Widgets.ContactUs("vk_contact_us", {text: "Напишите нам", height: 30}, -119372563);
   }
 </script>
-
 <!-- injected: mobile-menu sitewide bootstrap -->
 <script id="mobile-menu-init">
 (function(){
@@ -412,8 +426,7 @@
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') setOpen(false); });
 })();
 </script>
-<a href="index.html" class="back-home">На главную</a>
-
+<a class="back-home" href="index.html">На главную</a>
 <style>
 @media (max-width:768px){
   .back-home{
@@ -442,6 +455,5 @@
   }
 }
 </style>
-
 </body>
 </html>
