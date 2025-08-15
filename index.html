@@ -156,10 +156,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .ad-right {
     right: 10px;
 }
-@media (max-width: 768px) {
-    .ad-left, .ad-right { display: none !important; }
+@media (max-width: 1024px) {
+    .ad-left, .ad-right { display: none; }
 }
-
 
 </style>
 </link></link></link><style>
@@ -699,63 +698,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if(bd) bd.addEventListener('click', function(){ setOpen(false); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') setOpen(false); });
 })();
-</script><!-- Mobile ad block -->
-<div class="mobile-ad" id="mobileAd">
-  <button class="mobile-ad-close" id="closeMobileAd">×</button>
-  <div class="mobile-ad-content">
-    <!-- Вставь сюда код баннера -->
-    <script type="text/javascript">
-      atOptions = {
-        'key' : '4cfa40489284c0efa9eb342e77152cdc',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
-  </div>
-</div>
-
-<style>
-@media (max-width: 768px) {
-  .mobile-ad {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
-    padding: 6px;
-    border-top: 2px solid #ccc;
-    box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
-    z-index: 99999;
-    max-width: 100%;
-    width: 100%;
-  }
-  .mobile-ad-close {
-    position: absolute;
-    top: 4px;
-    right: 8px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #666;
-  }
-  .mobile-ad iframe {
-    display: block;
-    margin: 0 auto;
-  }
-}
-</style>
-
-<script>
-document.getElementById('closeMobileAd')?.addEventListener('click', function(){
-  document.getElementById('mobileAd').style.display = 'none';
-});
-</script>
-
-<!-- === MOBILE AD (compact bar + drawer) === -->
+</script><!-- === MOBILE AD (compact bar + drawer) === -->
 <div id="mAd" class="m-ad">
   <button class="m-ad__close" aria-label="Закрыть рекламу">×</button>
   <button class="m-ad__open" id="mAdOpen" aria-expanded="false">Реклама • Открыть</button>
@@ -771,18 +714,17 @@ document.getElementById('closeMobileAd')?.addEventListener('click', function(){
 <style>
 @media (max-width:768px){
   .ad-left, .ad-right { display:none !important; }
-  .m-ad{position:fixed;left:0;right:0;bottom:0;z-index:100000;pointer-events:none;}
-  .m-ad__open{pointer-events:auto;display:block;margin:0 auto;height:48px;width:calc(100% - 16px);
+  .m-ad{position:fixed;left:0;right:0;bottom:0;z-index:100000;}
+  .m-ad__open{display:block;margin:0 auto;height:48px;width:calc(100% - 16px);
     background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 -6px 20px rgba(0,0,0,.08);
     font:600 14px/48px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;
     position:relative;bottom:max(8px, env(safe-area-inset-bottom));}
-  .m-ad__close{pointer-events:auto;position:absolute;right:12px;bottom:max(12px, calc(env(safe-area-inset-bottom) + 12px));
+  .m-ad__close{position:absolute;right:12px;bottom:max(12px, calc(env(safe-area-inset-bottom) + 12px));
     width:28px;height:28px;line-height:26px;border-radius:9999px;border:1px solid #e5e7eb;background:#fff;font-size:18px;color:#666;}
-  .m-ad__sheet{position:fixed;left:0;right:0;bottom:0;pointer-events:auto;}
+  .m-ad__sheet{position:fixed;left:0;right:0;bottom:0;}
   .m-ad__sheet-inner{margin:0 auto;width:100%;max-width:360px;background:#fff;border-top-left-radius:14px;border-top-right-radius:14px;
     box-shadow:0 -16px 40px rgba(0,0,0,.18);padding:12px 12px max(12px, env(safe-area-inset-bottom));border:1px solid #e5e7eb;border-bottom:none;}
-  .m-ad__sheet-close{position:absolute;right:10px;top:6px;width:28px;height:28px;line-height:26px;border-radius:9999px;
-    border:1px solid #e5e7eb;background:#fff;color:#666;}
+  .m-ad__sheet-close{position:absolute;right:10px;top:6px;width:28px;height:28px;line-height:26px;border-radius:9999px;border:1px solid #e5e7eb;background:#fff;color:#666;}
   .m-ad__slot{display:flex;justify-content:center;align-items:center;min-height:260px;}
 }
 body.m-ad-pad{padding-bottom:64px !important;}
@@ -791,8 +733,7 @@ body.m-ad-pad{padding-bottom:64px !important;}
 <script>
 (function(){
   if(!window.matchMedia('(max-width: 768px)').matches) return;
-  var root=document.getElementById('mAd');
-  if(!root) return;
+  var root=document.getElementById('mAd'); if(!root) return;
   if(sessionStorage.getItem('mAdClosed')==='1'){root.remove();return;}
   document.body.classList.add('m-ad-pad');
   var openBtn=document.getElementById('mAdOpen');
@@ -802,13 +743,10 @@ body.m-ad-pad{padding-bottom:64px !important;}
   var xSheet=document.getElementById('mAdSheetClose');
   function loadAdOnce(){
     if(slot.dataset.loaded==='1')return;
-    var s1=document.createElement('script');
-    s1.type='text/javascript';
+    var s1=document.createElement('script'); s1.type='text/javascript';
     s1.text="atOptions={key:'4cfa40489284c0efa9eb342e77152cdc',format:'iframe',height:250,width:300,params:{}};";
-    var s2=document.createElement('script');
-    s2.src='//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js';
-    slot.appendChild(s1);slot.appendChild(s2);
-    slot.dataset.loaded='1';
+    var s2=document.createElement('script'); s2.src='//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js';
+    slot.appendChild(s1); slot.appendChild(s2); slot.dataset.loaded='1';
   }
   openBtn.addEventListener('click',function(){loadAdOnce();sheet.hidden=false;openBtn.setAttribute('aria-expanded','true');});
   xSheet.addEventListener('click',function(){sheet.hidden=true;openBtn.setAttribute('aria-expanded','false');});
@@ -816,6 +754,5 @@ body.m-ad-pad{padding-bottom:64px !important;}
 })();
 </script>
 <!-- === /MOBILE AD === -->
-
 </body>
 </html>
