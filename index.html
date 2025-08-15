@@ -172,8 +172,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 #menu{ max-height: 0; opacity: 0; overflow: hidden; transition: max-height .3s ease, opacity .2s ease; }
 #menu.open{ max-height: 70vh; opacity: 1; }
 
-#menu-backdrop{ position: fixed; inset: 0; background: rgba(0,0,0,.4); }
-@media (min-width: 768px){ #menu-backdrop{ display: none !important; } }
+#menu-backdrop{ position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index:99990; }
+@media (min-width: 768px){ #menu-backdrop{ position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index:99990; } }
 </style></link></head>
 <body class="bg-white text-gray-900 font-sans">
   <body>
@@ -714,7 +714,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <style>
 @media (max-width:768px){
   .ad-left, .ad-right { display:none !important; }
-  .m-ad{position:fixed;left:0;right:0;bottom:0;z-index:100000;}
+  .m-ad{position:fixed;left:0;right:0;bottom:0;z-index:99990;}
   .m-ad__open{display:block;margin:0 auto;height:48px;width:calc(100% - 16px);
     background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 -6px 20px rgba(0,0,0,.08);
     font:600 14px/48px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;
@@ -754,5 +754,40 @@ body.m-ad-pad{padding-bottom:64px !important;}
 })();
 </script>
 <!-- === /MOBILE AD === -->
+
+<script>
+// Unified off-canvas mobile menu controller (id: menu, menu-btn, menu-backdrop)
+(function(){
+  var btn = document.getElementById('menu-btn');
+  var menu = document.getElementById('menu');
+  var bd   = document.getElementById('menu-backdrop');
+  if(!btn || !menu) return;
+
+  function setOpen(state){
+    if(state){
+      menu.classList.add('open');
+      menu.classList.remove('hidden');
+      if(bd){ bd.classList.remove('hidden'); }
+      document.body.style.overflow = 'hidden';
+      btn.setAttribute('aria-expanded','true');
+    }else{
+      menu.classList.remove('open');
+      setTimeout(function(){ menu.classList.add('hidden'); }, 300);
+      if(bd){ bd.classList.add('hidden'); }
+      document.body.style.overflow = '';
+      btn.setAttribute('aria-expanded','false');
+    }
+  }
+  function toggle(){ setOpen(!menu.classList.contains('open')); }
+
+  // Reset old listeners safely
+  try{ var clone = btn.cloneNode(true); btn.parentNode.replaceChild(clone, btn); btn = document.getElementById('menu-btn'); }catch(e){}
+
+  btn.addEventListener('click', toggle);
+  if(bd) bd.addEventListener('click', function(){ setOpen(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') setOpen(false); });
+})();
+</script>
+
 </body>
 </html>
