@@ -46,43 +46,7 @@
   </style>
 
   <!-- injected: mobile-menu sitewide CSS -->
-  <style id="mobile-menu-css">
-  @media (max-width:768px){
-    /* Off-canvas mobile menu */
-    #menu{
-      position:fixed!important; top:0; left:0;
-      height:100vh; width:86vw; max-width:360px;
-      background:#fff; box-shadow:2px 0 24px rgba(0,0,0,.18);
-      transform:translateX(-100%); transition:transform .3s ease;
-      z-index:100001; overflow-y:auto; padding:0;
-    }
-    #menu.open{ transform:translateX(0); }
-
-    /* Backdrop */
-    #menu-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:100000; }
-
-    /* Menu header + list styling */
-    #menu .m-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;font:700 16px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;border-bottom:1px solid #e5e7eb}
-    #menu .m-menu-close{width:32px;height:32px;border-radius:10px;border:1px solid #e5e7eB;background:#fff;font-size:18px;line-height:30px;color:#475569}
-    #menu .m-menu{list-style:none;margin:0;padding:8px 0}
-    #menu .m-menu a{display:block;padding:14px 16px;text-decoration:none;color:#0f172a;font-weight:600;border-bottom:1px solid #e5e7eb}
-    #menu .m-menu li:last-child a{border-bottom:none}
-
-    /* Hide side ads on mobile */
-    .ad-left, .ad-right, .side-ad, .ad-sticky, .ad-sidebar { display:none!important; }
-    iframe[src*="highperformanceformat.com"] { display:none!important; }
-
-    /* Show burger on mobile only */
-    #menu-btn{ display:inline-flex !important; }
-  }
-  @media (min-width:768px){
-    #menu-backdrop{ display:none!important; }
-    #menu-btn{ display:none !important; }
-  }
-  </style>
-
-
-<style id="mobile-only-hides">
+  <style id="mobile-only-hides">
 @media (max-width:768px){
   /* hide menu & footer only on mobile */
   header nav, #menu-btn, #menu, footer { display:none !important; }
@@ -107,6 +71,43 @@
   }
 }
 @media (min-width:769px){
+  #mobile-ad { display:none !important; }
+}
+</style>
+
+
+<style id="mobile-enforce-hides">
+@media (max-width:768px){
+  /* Hide menu + burger + off-canvas + footer only on mobile */
+  header nav, #menu-btn, #menu, footer { display:none !important; }
+
+  /* Hide side ads on mobile */
+  .ad-left, .ad-right, .ad-sticky, .ad-sidebar, .side-ad { display:none !important; }
+
+  /* Make sure ad iframes from provider are hidden if they appear */
+  iframe[src*="highperformanceformat.com"]{ display:none !important; }
+
+  /* Back to home button style (if present) */
+  .back-home{
+    position:fixed; bottom:20px; right:20px; z-index:99999;
+    background:#0ea5e9; color:#fff; font-weight:600;
+    padding:10px 14px; border-radius:12px; text-decoration:none;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+  }
+
+  /* Mobile bottom ad styling (closable) */
+  #mobile-ad {
+    position: fixed; left: 0; right: 0; bottom: 10px;
+    margin: 0 auto; width: min(96vw, 360px);
+    background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18); padding:10px 12px 12px;
+    z-index: 99998;
+  }
+  #mobile-ad .ad-head{display:flex;align-items:center;justify-content:space-between;font:600 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#0f172a;margin-bottom:8px}
+  #mobile-ad .ad-close{width:28px;height:28px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
+}
+@media (min-width:769px){
+  /* Hide the mobile ad on desktop */
   #mobile-ad { display:none !important; }
 }
 </style>
@@ -618,91 +619,6 @@
 </div>
 
 <!-- injected: mobile-menu sitewide bootstrap -->
-<script id="mobile-menu-init">
-(function(){
-  if (window.__mobileMenuBootstrapped) return;
-  window.__mobileMenuBootstrapped = true;
-
-  function $(sel, root){ return (root||document).querySelector(sel); }
-  function ce(tag, attrs){ var el=document.createElement(tag); if(attrs){ for(var k in attrs){ if(k==='class') el.className=attrs[k]; else el.setAttribute(k, attrs[k]); } } return el; }
-
-  var header = $('header') || document.body;
-
-  // Ensure backdrop
-  var backdrop = $('#menu-backdrop'); 
-  if(!backdrop){
-    backdrop = ce('div', { id:'menu-backdrop', class:'hidden' });
-    header.appendChild(backdrop);
-  }
-
-  // Ensure menu container
-  var menu = $('#menu');
-  if(!menu){
-    menu = ce('div', { id:'menu', class:'hidden bg-white md:hidden' });
-    var head = ce('div', { class:'m-menu-head' });
-    head.appendChild(document.createTextNode('Меню'));
-    var closeBtn = ce('button', { id:'menuClose', class:'m-menu-close', 'aria-label':'Закрыть' });
-    closeBtn.textContent = '×';
-    head.appendChild(closeBtn);
-    var ul = ce('ul', { class:'m-menu' });
-
-    // Try to mirror desktop nav links
-    var navLinks = header.querySelectorAll('nav a');
-    if (navLinks && navLinks.length){
-      navLinks.forEach(function(a){
-        var li = ce('li'); 
-        var link = ce('a', { href: a.getAttribute('href')||'#' });
-        link.textContent = (a.textContent||'').trim() || a.getAttribute('href')||'#';
-        li.appendChild(link); ul.appendChild(li);
-      });
-    } else {
-      // fallback minimal menu
-      ['index.html','news.html','videos.html','music.html','gallery.html','contacts.html'].forEach(function(href){
-        var li = ce('li'); var link = ce('a', { href: href }); link.textContent = href.replace('.html','');
-        li.appendChild(link); ul.appendChild(li);
-      });
-    }
-
-    menu.appendChild(head); menu.appendChild(ul);
-    header.appendChild(menu);
-  }
-
-  // Ensure burger
-  var btn = $('#menu-btn');
-  if(!btn){
-    btn = ce('button', { id:'menu-btn', 'aria-label':'Меню' });
-    btn.textContent = '☰';
-    header.appendChild(btn);
-  }
-
-  var closeBtnEl = $('#menuClose');
-  var bd = $('#menu-backdrop');
-
-  function setOpen(state){
-    if(state){
-      menu.classList.add('open'); menu.classList.remove('hidden');
-      if(bd){ bd.classList.remove('hidden'); bd.classList.remove('md:hidden'); }
-      document.body.style.overflow='hidden';
-      btn.setAttribute('aria-expanded','true');
-      try{ btn.textContent='✕'; }catch(e){}
-    }else{
-      menu.classList.remove('open'); setTimeout(function(){ menu.classList.add('hidden'); }, 300);
-      if(bd){ bd.classList.add('hidden'); }
-      document.body.style.overflow='';
-      btn.setAttribute('aria-expanded','false');
-      try{ btn.textContent='☰'; }catch(e){}
-    }
-  }
-  function toggle(){ setOpen(!menu.classList.contains('open')); }
-
-  try{ var clone = btn.cloneNode(true); btn.parentNode.replaceChild(clone, btn); btn = $('#menu-btn'); }catch(e){}
-
-  btn.addEventListener('click', toggle);
-  if(bd) bd.addEventListener('click', function(){ setOpen(false); });
-  if(closeBtnEl) closeBtnEl.addEventListener('click', function(){ setOpen(false); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') setOpen(false); });
-})();
-</script>
 <a href="index.html" class="back-home">На главную</a>
 
 <style>
