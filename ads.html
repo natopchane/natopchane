@@ -52,25 +52,30 @@
 
 <!-- injected: mobile-menu sitewide CSS -->
 
-<style id="mobile-hide-menu-footer">
+
+<style id="mobile-hard-hide">
 @media (max-width:768px){
-  header nav { display:none !important; }
-  footer      { display:none !important; }
-}
-</style>
-<style>
-@media (max-width:768px){
+  /* hide header nav, burger, mobile menu, footer */
   header nav,
   header #menu-btn,
   header #menu,
   footer {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    display:none !important;
+    visibility:hidden !important;
+    height:0 !important;
+    overflow:hidden !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
   }
+  /* hide all sidebar/network ads */
+  .ad-left, .ad-right, .ad-sticky, .ad-sidebar { 
+    display:none !important; 
+    visibility:hidden !important;
+    width:0 !important; 
+  }
+  /* hide direct ad iframes by domain */
+  iframe[src*="highperformanceformat.com"]{ display:none !important; visibility:hidden !important; }
 }
 </style>
 
