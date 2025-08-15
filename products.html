@@ -102,10 +102,11 @@
   .side-ad.right{ right: max(10px, calc((100vw - 1280px)/2 - 200px)); }
 </style>
 
-<style>
-/* === Mobile off-canvas menu + ad hide (inject) === */
+
+<!-- injected: mobile-menu sitewide CSS -->
+<style id="mobile-menu-css">
 @media (max-width:768px){
-  /* Off-canvas menu */
+  /* Off-canvas mobile menu */
   #menu{
     position:fixed!important; top:0; left:0;
     height:100vh; width:86vw; max-width:360px;
@@ -118,9 +119,9 @@
   /* Backdrop */
   #menu-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:100000; }
 
-  /* Menu header + list styling (safe if not present) */
+  /* Menu header + list styling */
   #menu .m-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;font:700 16px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;border-bottom:1px solid #e5e7eb}
-  #menu .m-menu-close{width:32px;height:32px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;font-size:18px;line-height:30px;color:#475569}
+  #menu .m-menu-close{width:32px;height:32px;border-radius:10px;border:1px solid #e5e7eB;background:#fff;font-size:18px;line-height:30px;color:#475569}
   #menu .m-menu{list-style:none;margin:0;padding:8px 0}
   #menu .m-menu a{display:block;padding:14px 16px;text-decoration:none;color:#0f172a;font-weight:600;border-bottom:1px solid #e5e7eb}
   #menu .m-menu li:last-child a{border-bottom:none}
@@ -128,16 +129,20 @@
   /* Hide side ads on mobile */
   .ad-left, .ad-right, .side-ad, .ad-sticky, .ad-sidebar { display:none!important; }
   iframe[src*="highperformanceformat.com"] { display:none!important; }
+
+  /* Show burger on mobile only */
+  #menu-btn{ display:inline-flex !important; }
 }
 @media (min-width:768px){
   #menu-backdrop{ display:none!important; }
+  #menu-btn{ display:none !important; }
 }
 </style>
+
 </head>
 <body class="text-gray-900">
 <!-- ====== HEADER ====== -->
 <header class="border-b border-gray-200 bg-white">
-<div id=\"menu-backdrop\" class=\"hidden\"></div>
 <div class="w-full px-2 flex justify-between items-center h-16">
 <a class="flex items-center gap-2 text-xl font-semibold tracking-tight" href="index.html">
 <img alt="На ТОПчане" class="h-8 w-8 object-contain" src="images/logo.png"/>
@@ -158,9 +163,7 @@
 </nav>
 <button aria-label="Меню" class="md:hidden p-2 text-gray-700 text-2xl" id="menu-btn">☰</button>
 </div>
-\1
-  <div class="m-menu-head">Меню <button id="menuClose" class="m-menu-close" aria-label="Закрыть">×</button></div>
-
+<div class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden" id="menu">
 <a href="index.html">Главная</a>
 <a href="news.html">Новости</a>
 <a href="ads.html">Реклама</a>
@@ -811,14 +814,68 @@
     window.addEventListener('load', recalcTop);
   })();
 </script>
-<!-- injected: mobile menu controller -->
-<script>
+
+<!-- injected: mobile-menu sitewide bootstrap -->
+<script id="mobile-menu-init">
 (function(){
-  var btn = document.getElementById('menu-btn');
-  var menu = document.getElementById('menu');
-  var bd   = document.getElementById('menu-backdrop');
-  var closeBtn = document.getElementById('menuClose');
-  if(!btn || !menu){ return; }
+  if (window.__mobileMenuBootstrapped) return;
+  window.__mobileMenuBootstrapped = true;
+
+  function $(sel, root){ return (root||document).querySelector(sel); }
+  function ce(tag, attrs){ var el=document.createElement(tag); if(attrs){ for(var k in attrs){ if(k==='class') el.className=attrs[k]; else el.setAttribute(k, attrs[k]); } } return el; }
+
+  var header = $('header') || document.body;
+
+  // Ensure backdrop
+  var backdrop = $('#menu-backdrop'); 
+  if(!backdrop){
+    backdrop = ce('div', { id:'menu-backdrop', class:'hidden' });
+    header.appendChild(backdrop);
+  }
+
+  // Ensure menu container
+  var menu = $('#menu');
+  if(!menu){
+    menu = ce('div', { id:'menu', class:'hidden bg-white md:hidden' });
+    var head = ce('div', { class:'m-menu-head' });
+    head.appendChild(document.createTextNode('Меню'));
+    var closeBtn = ce('button', { id:'menuClose', class:'m-menu-close', 'aria-label':'Закрыть' });
+    closeBtn.textContent = '×';
+    head.appendChild(closeBtn);
+    var ul = ce('ul', { class:'m-menu' });
+
+    // Try to mirror desktop nav links
+    var navLinks = header.querySelectorAll('nav a');
+    if (navLinks && navLinks.length){
+      navLinks.forEach(function(a){
+        var li = ce('li'); 
+        var link = ce('a', { href: a.getAttribute('href')||'#' });
+        link.textContent = (a.textContent||'').trim() || a.getAttribute('href')||'#';
+        li.appendChild(link); ul.appendChild(li);
+      });
+    } else {
+      // fallback minimal menu
+      ['index.html','news.html','videos.html','music.html','gallery.html','contacts.html'].forEach(function(href){
+        var li = ce('li'); var link = ce('a', { href: href }); link.textContent = href.replace('.html','');
+        li.appendChild(link); ul.appendChild(li);
+      });
+    }
+
+    menu.appendChild(head); menu.appendChild(ul);
+    header.appendChild(menu);
+  }
+
+  // Ensure burger
+  var btn = $('#menu-btn');
+  if(!btn){
+    btn = ce('button', { id:'menu-btn', 'aria-label':'Меню' });
+    btn.textContent = '☰';
+    // Try to place at end of header first row
+    header.appendChild(btn);
+  }
+
+  var closeBtnEl = $('#menuClose');
+  var bd = $('#menu-backdrop');
 
   function setOpen(state){
     if(state){
@@ -828,7 +885,7 @@
       btn.setAttribute('aria-expanded','true');
       try{ btn.textContent='✕'; }catch(e){}
     }else{
-      menu.classList.remove('open'); setTimeout(function(){ menu.classList.add('hidden'); },300);
+      menu.classList.remove('open'); setTimeout(function(){ menu.classList.add('hidden'); }, 300);
       if(bd){ bd.classList.add('hidden'); }
       document.body.style.overflow='';
       btn.setAttribute('aria-expanded','false');
@@ -837,14 +894,14 @@
   }
   function toggle(){ setOpen(!menu.classList.contains('open')); }
 
-  // neutralize only old listeners on the button, not touching other scripts
-  try{ var clone = btn.cloneNode(true); btn.parentNode.replaceChild(clone, btn); btn = document.getElementById('menu-btn'); }catch(e){}
+  try{ var clone = btn.cloneNode(true); btn.parentNode.replaceChild(clone, btn); btn = $('#menu-btn'); }catch(e){}
 
   btn.addEventListener('click', toggle);
   if(bd) bd.addEventListener('click', function(){ setOpen(false); });
-  if(closeBtn) closeBtn.addEventListener('click', function(){ setOpen(false); });
+  if(closeBtnEl) closeBtnEl.addEventListener('click', function(){ setOpen(false); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') setOpen(false); });
 })();
 </script>
+
 </body>
 </html>
