@@ -2,6 +2,27 @@
 
 <html lang="ru">
 <head>
+  <style>
+@media (max-width:768px){
+  .back-home{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:99999;
+    background:#0ea5e9;
+    color:#fff;
+    font-weight:600;
+    padding:10px 14px;
+    border-radius:12px;
+    text-decoration:none;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    transition:background 0.2s;
+  }
+  .back-home:hover{
+    background:#0284c7;
+  }
+}
+</style>
   <link rel="stylesheet" href="css/mobile-fixes.css?v=1">
 
 <meta charset="utf-8"/>
@@ -105,9 +126,66 @@
     background:#0284c7;
   }
 }
-</style>
+@media (max-width:768px){
+  /* скрыть меню и подвал */
+  header nav, #menu, footer, #menu-btn { display:none !important; }
 
+  /* скрыть боковую рекламу */
+  .ad-left, .ad-right, .side-ad, .ad-sticky, .ad-sidebar {
+    display:none !important;
+  }
+  iframe[src*="highperformanceformat.com"] {
+    display:none !important;
+  }
+
+  /* скрыть мобильную рекламу с крестиком */
+  #mobile-ad { display:none !important; }
+}
+
+</style>
+<style>
+@media (max-width:768px){
+  .back-home{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:99999;
+    background:#0ea5e9;
+    color:#fff;
+    font-weight:600;
+    padding:10px 14px;
+    border-radius:12px;
+    text-decoration:none;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    transition:background 0.2s;
+  }
+  .back-home:hover{
+    background:#0284c7;
+  }
+}
+</style>
 </head>
+<head>
+  <link rel="stylesheet" href="css/mobile-fixes.css?v=1">
+  <style>
+    @media (max-width: 768px) {
+      /* Убираем меню и подвал */
+      header nav,
+      #menu,
+      footer { display: none !important; }
+
+      /* Прячем рекламные блоки */
+      .ad-left,
+      .ad-right,
+      .ad-sticky,
+      .ad-sidebar,
+      iframe[src*="highperformanceformat.com"] {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
 <body class="text-gray-900">
 <header class="border-b border-gray-200 bg-white">
 <style>
