@@ -34,9 +34,7 @@
     .article-modal{max-width:880px;width:100%}
     .article-scroll{max-height:80vh;overflow:auto}
     .article-cover{width:100%;height:340px;object-fit:cover;border-bottom:1px solid #e5e7eb;border-top-left-radius:16px;border-top-right-radius:16px}
-  
-@media (min-width:769px){ .back-home{ display:none !important; } }
-</style>
+  </style>
 <style>header nav a.active{border-bottom:2px solid currentColor}</style>
 <style>
 .ad-left, .ad-right {
@@ -52,53 +50,39 @@
 }
 </style>
 
-<!-- injected: mobile-menu sitewide CSS -->
-
-<style id="mobile-hide-menu-footer">
+<style id="mobile-only-hides">
 @media (max-width:768px){
-  header nav { display:none !important; }
-  footer      { display:none !important; }
-}
-</style>
-
-<style id="mobile-kill">
-@media (max-width:768px){
-  header nav, header #menu-btn, header #menu, footer,
-  .ad-left, .ad-right, .ad-sticky, .ad-sidebar,
-  iframe[src*="highperformanceformat.com"] {
-    display:none !important; visibility:hidden !important;
-    height:0 !important; overflow:hidden !important;
-    padding:0 !important; margin:0 !important; border:0 !important;
+  /* hide menu and footer only on mobile */
+  header nav,
+  #menu-btn,
+  #menu,
+  footer {
+    display:none !important;
+  }
+  /* hide side banners on mobile */
+  .ad-left, .ad-right { display:none !important; }
+  /* mobile closeable ad */
+  #mobile-ad {
+    position: fixed; left: 0; right: 0; bottom: 10px;
+    margin: 0 auto; width: min(96vw, 360px);
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    padding: 10px 12px 12px; z-index: 99999;
+  }
+  #mobile-ad .ad-head {
+    display:flex; align-items:center; justify-content:space-between;
+    font: 600 12px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color:#0f172a; margin-bottom:8px;
+  }
+  #mobile-ad .ad-close {
+    width: 28px; height: 28px; border-radius: 8px;
+    border: 1px solid #e5e7eb; background:#fff; cursor:pointer;
   }
 }
+@media (min-width:769px){
+  #mobile-ad { display:none !important; }
+}
 </style>
-
-<script id="mobile-kill-js">
-(function(){
-  function kill(){
-    if (window.innerWidth > 768) return;
-    var sels = [
-      'header nav', '#menu-btn', '#menu', 'footer',
-      '.ad-left', '.ad-right', '.ad-sticky', '.ad-sidebar',
-      'iframe[src*="highperformanceformat.com"]'
-    ];
-    sels.forEach(function(sel){
-      document.querySelectorAll(sel).forEach(function(el){
-        el.style.setProperty('display','none','important');
-        el.style.setProperty('visibility','hidden','important');
-        el.style.setProperty('height','0','important');
-        el.style.setProperty('overflow','hidden','important');
-        el.style.setProperty('padding','0','important');
-        el.style.setProperty('margin','0','important');
-        el.style.setProperty('border','0','important');
-      });
-    });
-  }
-  kill();
-  window.addEventListener('resize', kill);
-  document.addEventListener('DOMContentLoaded', kill);
-})();
-</script>
 
 </head>
 <body class="text-gray-900">
@@ -123,6 +107,7 @@
 <a href="about.html">О нас</a>
 <a href="contacts.html">Контакты</a>
 </nav>
+<button aria-label="Меню" class="md:hidden p-2 text-gray-700 text-2xl" id="menu-btn">☰</button>
 </div>
 <div class="hidden flex-col gap-4 p-4 bg-gray-100 md:hidden" id="menu">
 <a href="index.html">Главная</a>
@@ -568,30 +553,26 @@ const arr = snap.docs
 <script src="//www.highperformanceformat.com/766301ab751df8665553f47e1f05709a/invoke.js" type="text/javascript"></script>
 </div>
 
-<!-- injected: mobile-menu sitewide bootstrap -->
-<a href="index.html" class="back-home">На главную</a>
-
-<style>
-@media (max-width:768px){
-  .back-home{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    z-index:99999;
-    background:#0ea5e9;
-    color:#fff;
-    font-weight:600;
-    padding:10px 14px;
-    border-radius:12px;
-    text-decoration:none;
-    box-shadow:0 4px 10px rgba(0,0,0,0.15);
-    transition:background 0.2s;
-  }
-  .back-home:hover{
-    background:#0284c7;
-  }
-}
-</style>
+<!-- Mobile closeable ad (shown only ≤768px) -->
+<div id="mobile-ad" role="region" aria-label="Реклама">
+  <div class="ad-head">
+    <span>Реклама</span>
+    <button class="ad-close" aria-label="Закрыть рекламу" onclick="(function(el){ el.style.display='none'; })(document.getElementById('mobile-ad'))">×</button>
+  </div>
+  <div class="ad-slot" style="display:block; width:100%; text-align:center;">
+    <script type="text/javascript">
+      /* reuse sidebar key — renders inside this box */
+      atOptions = {
+        'key' : '4cfa40489284c0efa9eb342e77152cdc',
+        'format' : 'iframe',
+        'height' : 300,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/4cfa40489284c0efa9eb342e77152cdc/invoke.js"></script>
+  </div>
+</div>
 
 </body>
 </html>
