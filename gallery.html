@@ -734,6 +734,29 @@ function initLikesUI(container){
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') setOpen(false); });
 })();
 </script>
+<a href="index.html" class="back-home">На главную</a>
+
+<style>
+@media (max-width:768px){
+  .back-home{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:99999;
+    background:#0ea5e9;
+    color:#fff;
+    font-weight:600;
+    padding:10px 14px;
+    border-radius:12px;
+    text-decoration:none;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    transition:background 0.2s;
+  }
+  .back-home:hover{
+    background:#0284c7;
+  }
+}
+</style>
 
 </body>
 </html>
