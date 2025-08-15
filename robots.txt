@@ -1,5 +1,26 @@
+# robots.txt for natopchane.ddns.net
+# Last updated: 2025-08-15
+
+# Default policy: allow everything necessary for indexing
 User-agent: *
 Allow: /
 Disallow: /admin.html
+Disallow: /admin/
 
+# Explicitly allow static assets (not strictly required, but clarifies intent)
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# Bing/Yandex crawl throttling (Google ignores Crawl-delay)
+User-agent: Bingbot
+Crawl-delay: 2
+
+User-agent: Yandex
+Crawl-delay: 2
+
+# Primary sitemap
 Sitemap: https://natopchane.ddns.net/sitemap.xml
+
+# Yandex-specific host directive (ignored by Google/Bing, harmless elsewhere)
+Host: natopchane.ddns.net
