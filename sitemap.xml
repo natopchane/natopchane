@@ -1,57 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://natopchane.ddns.net/</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://natopchane.github.io/natopchane/images/preview.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/soc/vk.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/news.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://natopchane.github.io/natopchane/images/news.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/news.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/ads.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://natopchane.github.io/natopchane/images/rec%20ic.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/rec ic.svg logo.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/biographies.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://natopchane.github.io/natopchane/images/og/biographies-cover.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/poet%20logo.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/contacts.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/gmail-svgrepo.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/telegram-svgrepo.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/entertainment.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://natopchane.github.io/natopchane/images/preview.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/joystick.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/gallery.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/image-sv.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/soc/vk.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/music.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/preview-music.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo_white.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/music-notes.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://natopchane.ddns.net/products.html</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/og/products.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://natopchane.ddns.net/images/products.svg</image:loc>
+    </image:image>
   </url>
 </urlset>
